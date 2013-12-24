@@ -52,7 +52,7 @@
       <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="44" selection-start="247" selection-end="247" vertical-scroll-proportion="0.21336207" vertical-offset="0" max-vertical-offset="928">
+            <state line="10" column="14" selection-start="202" selection-end="202" vertical-scroll-proportion="0.19396552" vertical-offset="0" max-vertical-offset="928">
               <folding />
             </state>
           </provider>
@@ -100,12 +100,12 @@
         <option value="$PROJECT_DIR$/app/models/friend.coffee" />
         <option value="$PROJECT_DIR$/node_modules/brunch/setup.js" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/app/controllers/home-controller.coffee" />
         <option value="$PROJECT_DIR$/node_modules/brunch/node_modules/pushserve/index.js" />
         <option value="$PROJECT_DIR$/app/models/friends.coffee" />
         <option value="$PROJECT_DIR$/node_modules/brunch/lib/watch.js" />
         <option value="$PROJECT_DIR$/bower.json" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -750,7 +750,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="44" selection-start="247" selection-end="247" vertical-scroll-proportion="0.21336207" vertical-offset="0" max-vertical-offset="928">
+        <state line="10" column="14" selection-start="202" selection-end="202" vertical-scroll-proportion="0.19396552" vertical-offset="0" max-vertical-offset="928">
           <folding />
         </state>
       </provider>

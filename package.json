@@ -9,7 +9,7 @@
     "url": ""
   },
   "scripts": {
-    "postinstall": "brunch build --optimize"
+    "postinstall": "brunch build -P"
   },
   "dependencies": {
     "javascript-brunch": ">= 1.0 < 1.8",
