@@ -70,7 +70,7 @@
       <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="4" selection-start="717" selection-end="717" vertical-scroll-proportion="0.54310346" vertical-offset="0" max-vertical-offset="928">
+            <state line="13" column="70" selection-start="349" selection-end="349" vertical-scroll-proportion="0.25215518" vertical-offset="0" max-vertical-offset="928">
               <folding />
             </state>
           </provider>
@@ -88,7 +88,7 @@
       <file leaf-file-name="Procfile" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="30" selection-start="5" selection-end="19" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="108">
+            <state line="1" column="77" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="126">
               <folding />
             </state>
           </provider>
@@ -140,9 +140,9 @@
         <option value="$PROJECT_DIR$/brunch-config.coffee" />
         <option value="$PROJECT_DIR$/public/index.html" />
         <option value="$PROJECT_DIR$/app/views/home/home-friends-view.coffee" />
-        <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/app/models/friends.coffee" />
         <option value="$PROJECT_DIR$/app/models/friend.coffee" />
+        <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
@@ -746,23 +746,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/home/home-friends-view.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="21" selection-start="120" selection-end="120" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="396">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/brunch/lib/watch.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="91" column="32" selection-start="2735" selection-end="2735" vertical-scroll-proportion="157.86667" vertical-offset="6374" max-vertical-offset="10206">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Procfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="30" selection-start="5" selection-end="19" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="955">
           <folding />
         </state>
       </provider>
@@ -793,23 +779,9 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/home/home-friend-view.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="39" selection-start="139" selection-end="139" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/friends.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="82" selection-start="190" selection-end="190" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/friend.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="51" selection-start="127" selection-end="127" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
           <folding />
         </state>
       </provider>
@@ -821,9 +793,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/friend.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="51" selection-start="127" selection-end="127" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/home/home-friend-view.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="39" selection-start="139" selection-end="139" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/statik/examples/public/scripts/jquery-1.10.2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="808" column="4" selection-start="19890" selection-end="19890" vertical-scroll-proportion="0.33277026" vertical-offset="14131" max-vertical-offset="176094">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/home/home-friends-view.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="21" selection-start="120" selection-end="120" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="396">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Procfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="77" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="126">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="4" selection-start="717" selection-end="717" vertical-scroll-proportion="0.54310346" vertical-offset="0" max-vertical-offset="928">
+        <state line="13" column="70" selection-start="349" selection-end="349" vertical-scroll-proportion="0.25215518" vertical-offset="0" max-vertical-offset="928">
           <folding />
         </state>
       </provider>
