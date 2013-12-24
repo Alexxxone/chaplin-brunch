@@ -13,7 +13,7 @@ module.exports = class HomeController extends Controller
 
   friends: ->
     friends = new Collection
-    friends.fetch()
+    friends.fetch({header: "asd", type: "get",dataType:"json"})
     friends.fetch success: () ->
 
       @view = new HomeFriendsView region: 'main', collection: friends

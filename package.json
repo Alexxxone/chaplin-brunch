@@ -10,8 +10,7 @@
   },
   "scripts": {
     "start": "brunch watch --server",
-    "postinstall": "brunch build -P",
-    "postinstall": "npm config set registry http://registry.npmjs.org/"
+    "postinstall": "brunch build -P"
   },
   "dependencies": {
     "javascript-brunch": ">= 1.0 < 1.8",

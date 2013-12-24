@@ -52,25 +52,16 @@
       <file leaf-file-name="friends.coffee" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/friends.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="82" selection-start="190" selection-end="190" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
+            <state line="5" column="8" selection-start="143" selection-end="150" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="watch.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/brunch/lib/watch.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="91" column="32" selection-start="2735" selection-end="2735" vertical-scroll-proportion="157.86667" vertical-offset="6374" max-vertical-offset="10206">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="package.json" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="70" selection-start="349" selection-end="349" vertical-scroll-proportion="0.25215518" vertical-offset="0" max-vertical-offset="928">
+            <state line="12" column="36" selection-start="277" selection-end="277" vertical-scroll-proportion="-8.0" vertical-offset="0" max-vertical-offset="684">
               <folding />
             </state>
           </provider>
@@ -79,28 +70,35 @@
       <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="0" selection-start="984" selection-end="984" vertical-scroll-proportion="-10.666667" vertical-offset="0" max-vertical-offset="612">
+            <state line="22" column="38" selection-start="1143" selection-end="1143" vertical-scroll-proportion="-14.666667" vertical-offset="0" max-vertical-offset="612">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Procfile" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Procfile">
+      <file leaf-file-name="server.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="77" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="126">
+            <state line="1" column="7" selection-start="39" selection-end="55" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="144">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="proto.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/statik/node_modules/connect/lib/proto.js">
+      <file leaf-file-name="statik.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/node_modules/statik/lib/statik.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4302">
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
+            <state line="5" column="30" selection-start="161" selection-end="161" vertical-scroll-proportion="0.09424084" vertical-offset="0" max-vertical-offset="955">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/statik/README.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="23" selection-start="444" selection-end="444" vertical-scroll-proportion="-0.0" vertical-offset="378" max-vertical-offset="2088">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -132,9 +130,7 @@
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/node_modules/brunch/setup.js" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/app/controllers/home-controller.coffee" />
         <option value="$PROJECT_DIR$/node_modules/brunch/node_modules/pushserve/index.js" />
-        <option value="$PROJECT_DIR$/node_modules/brunch/lib/watch.js" />
         <option value="$PROJECT_DIR$/bower.json" />
         <option value="$PROJECT_DIR$/app/assets/index.html" />
         <option value="$PROJECT_DIR$/brunch-config.coffee" />
@@ -142,8 +138,11 @@
         <option value="$PROJECT_DIR$/app/views/home/home-friends-view.coffee" />
         <option value="$PROJECT_DIR$/app/models/friends.coffee" />
         <option value="$PROJECT_DIR$/app/models/friend.coffee" />
-        <option value="$PROJECT_DIR$/Procfile" />
+        <option value="$PROJECT_DIR$/node_modules/brunch/lib/watch.js" />
+        <option value="$PROJECT_DIR$/app/controllers/home-controller.coffee" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/Procfile" />
+        <option value="$PROJECT_DIR$/node_modules/statik/lib/statik.js" />
       </list>
     </option>
   </component>
@@ -225,7 +224,29 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value=".bin" />
+              <option name="myItemId" value="statik" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="heroku_brunch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="heroku_brunch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="node_modules" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="statik" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -346,6 +367,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="base" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="heroku_brunch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="heroku_brunch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -676,23 +715,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/home-controller.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="4" selection-start="655" selection-end="655" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="486">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/brunch/node_modules/pushserve/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="28" column="59" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.5277487" vertical-offset="0" max-vertical-offset="1188">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bower.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="28" selection-start="272" selection-end="272" vertical-scroll-proportion="0.19396552" vertical-offset="0" max-vertical-offset="928">
           <folding />
         </state>
       </provider>
@@ -725,13 +750,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="0" selection-start="984" selection-end="984" vertical-scroll-proportion="-10.666667" vertical-offset="0" max-vertical-offset="612">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/home/home-page-view.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="4" selection-start="188" selection-end="188" vertical-scroll-proportion="0.15483871" vertical-offset="0" max-vertical-offset="930">
@@ -742,13 +760,6 @@
     <entry file="file://$PROJECT_DIR$/app/views/home/header-view.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="26" selection-start="141" selection-end="141" vertical-scroll-proportion="0.09424084" vertical-offset="0" max-vertical-offset="955">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/brunch/lib/watch.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="32" selection-start="2735" selection-end="2735" vertical-scroll-proportion="157.86667" vertical-offset="6374" max-vertical-offset="10206">
           <folding />
         </state>
       </provider>
@@ -779,16 +790,72 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/friends.coffee">
+    <entry file="file://$PROJECT_DIR$/node_modules/statik/examples/public/scripts/jquery-1.10.2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="82" selection-start="190" selection-end="190" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
+        <state line="808" column="4" selection-start="19890" selection-end="19890" vertical-scroll-proportion="0.33277026" vertical-offset="14131" max-vertical-offset="176094">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/brunch/lib/watch.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="17" selection-start="66" selection-end="66" vertical-scroll-proportion="0.038709678" vertical-offset="0" max-vertical-offset="930">
+        <state line="91" column="10" selection-start="2713" selection-end="2713" vertical-scroll-proportion="0.49122807" vertical-offset="1190" max-vertical-offset="10206">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/home-controller.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="47" selection-start="438" selection-end="438" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="486">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bower.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="28" selection-start="272" selection-end="272" vertical-scroll-proportion="0.19933555" vertical-offset="0" max-vertical-offset="903">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="36" selection-start="277" selection-end="277" vertical-scroll-proportion="-8.0" vertical-offset="0" max-vertical-offset="684">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="38" selection-start="1143" selection-end="1143" vertical-scroll-proportion="-14.666667" vertical-offset="0" max-vertical-offset="612">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Procfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="930">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/statik/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="23" selection-start="444" selection-end="444" vertical-scroll-proportion="0.0" vertical-offset="378" max-vertical-offset="2088">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/statik/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="930">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/friends.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="8" selection-start="143" selection-end="150" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
           <folding />
         </state>
       </provider>
@@ -807,13 +874,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/statik/examples/public/scripts/jquery-1.10.2.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="808" column="4" selection-start="19890" selection-end="19890" vertical-scroll-proportion="0.33277026" vertical-offset="14131" max-vertical-offset="176094">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/home/home-friends-view.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2" column="21" selection-start="120" selection-end="120" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="396">
@@ -821,16 +881,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Procfile">
+    <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="77" selection-start="70" selection-end="70" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="126">
+        <state line="1" column="7" selection-start="39" selection-end="55" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="144">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
+    <entry file="file://$PROJECT_DIR$/node_modules/statik/lib/statik.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="70" selection-start="349" selection-end="349" vertical-scroll-proportion="0.25215518" vertical-offset="0" max-vertical-offset="928">
+        <state line="5" column="30" selection-start="161" selection-end="161" vertical-scroll-proportion="0.09424084" vertical-offset="0" max-vertical-offset="955">
           <folding />
         </state>
       </provider>
