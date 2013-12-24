@@ -9,6 +9,7 @@
     "url": ""
   },
   "scripts": {
+    "start": "brunch watch --server",
     "postinstall": "brunch build -P"
   },
   "dependencies": {
