@@ -1,6 +1,6 @@
 CollectionView = require 'views/base/collection-view'
 View = require 'views/home/home-friend-view'
-template = require 'views/home/templates/friends'
+template = require './templates/friends'
 module.exports = class HomeFriendsView extends CollectionView
 
   itemView: View
