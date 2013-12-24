@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "brunch watch --server",
-    "preinstall": "brunch build -P"
+    "postinstall": "brunch build -P"
   },
   "dependencies": {
     "javascript-brunch": ">= 1.0 < 1.8",
