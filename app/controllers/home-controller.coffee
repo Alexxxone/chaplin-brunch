@@ -18,4 +18,4 @@ module.exports = class HomeController extends Controller
 
       @view = new HomeFriendsView region: 'main', collection: friends
       console.log('friends HomeController');
-      console.log(friends);
+    console.log(friends);

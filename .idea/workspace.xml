@@ -25,12 +25,8 @@
       <file leaf-file-name="home-controller.coffee" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/home-controller.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="27" selection-start="612" selection-end="678" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="486">
-              <folding>
-                <marker date="1387887451216" expanded="true" signature="302:678" placeholder="beforeAction: -&gt;&#10;    super&#10;    @compose 'header', HeaderView, region: 'header'..." />
-                <marker date="1387887451216" expanded="true" signature="457:678" placeholder="..." />
-                <marker date="1387887451216" expanded="true" signature="520:678" placeholder="success: () -&gt;&#10;&#10;      @view = new HomeFriendsView region: 'main', collection: friends&#10;      console.log('friends HomeController');&#10;      console.log(friends);..." />
-              </folding>
+            <state line="20" column="4" selection-start="655" selection-end="655" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="486">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -44,37 +40,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="friends.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/models/friends.coffee">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="53" selection-start="188" selection-end="188" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="watch.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="watch.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/node_modules/brunch/lib/watch.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="37" selection-start="1105" selection-end="1106" vertical-scroll-proportion="-10.133333" vertical-offset="200" max-vertical-offset="10206">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/node_modules/brunch/node_modules/pushserve/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="99" selection-start="1234" selection-end="1234" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1224">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="package.json" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="45" selection-start="248" selection-end="248" vertical-scroll-proportion="0.21336207" vertical-offset="0" max-vertical-offset="928">
+            <state line="91" column="32" selection-start="2735" selection-end="2735" vertical-scroll-proportion="0.49122807" vertical-offset="1190" max-vertical-offset="10206">
               <folding />
             </state>
           </provider>
@@ -102,7 +71,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/public/javascripts/custom.coffee" />
         <option value="$PROJECT_DIR$/public/index.html" />
@@ -119,14 +87,16 @@
         <option value="$PROJECT_DIR$/app/views/home/home-friend-view.coffee" />
         <option value="$PROJECT_DIR$/app/views/home/templates/friends.hbs" />
         <option value="$PROJECT_DIR$/app/views/home/home-friends-view.coffee" />
-        <option value="$PROJECT_DIR$/app/controllers/home-controller.coffee" />
         <option value="$PROJECT_DIR$/bower.json" />
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/app/models/friend.coffee" />
-        <option value="$PROJECT_DIR$/app/models/friends.coffee" />
         <option value="$PROJECT_DIR$/node_modules/brunch/setup.js" />
-        <option value="$PROJECT_DIR$/node_modules/brunch/node_modules/pushserve/index.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/app/controllers/home-controller.coffee" />
+        <option value="$PROJECT_DIR$/node_modules/brunch/node_modules/pushserve/index.js" />
+        <option value="$PROJECT_DIR$/app/models/friends.coffee" />
+        <option value="$PROJECT_DIR$/node_modules/brunch/lib/watch.js" />
       </list>
     </option>
   </component>
@@ -209,28 +179,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="brunch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="heroku_brunch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="heroku_brunch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="node_modules" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="brunch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -504,11 +452,7 @@
     <entry file="file://$PROJECT_DIR$/app/controllers/home-controller.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
-          <folding>
-            <marker date="1387887451216" expanded="true" signature="302:678" placeholder="beforeAction: -&gt;&#10;    super&#10;    @compose 'header', HeaderView, region: 'header'..." />
-            <marker date="1387887451216" expanded="true" signature="457:678" placeholder="..." />
-            <marker date="1387887451216" expanded="true" signature="520:678" placeholder="success: () -&gt;&#10;&#10;      @view = new HomeFriendsView region: 'main', collection: friends&#10;      console.log('friends HomeController');&#10;      console.log(friends);..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -531,11 +475,6 @@
         <state line="18" column="79" selection-start="953" selection-end="953" vertical-scroll-proportion="0.34913793" vertical-offset="0" max-vertical-offset="928" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="7" selection-start="358" selection-end="358" vertical-scroll-proportion="0.63870966" vertical-offset="0" max-vertical-offset="930" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/site-view.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="955" />
@@ -546,16 +485,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="930">
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/npm-debug.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.92440605" vertical-offset="856" max-vertical-offset="1782">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/javascripts/vendor.js.map">
@@ -677,27 +606,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/home-controller.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="27" selection-start="612" selection-end="678" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="486">
-          <folding>
-            <marker date="1387887451216" expanded="true" signature="302:678" placeholder="beforeAction: -&gt;&#10;    super&#10;    @compose 'header', HeaderView, region: 'header'..." />
-            <marker date="1387887451216" expanded="true" signature="457:678" placeholder="..." />
-            <marker date="1387887451216" expanded="true" signature="520:678" placeholder="success: () -&gt;&#10;&#10;      @view = new HomeFriendsView region: 'main', collection: friends&#10;      console.log('friends HomeController');&#10;      console.log(friends);..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="19" selection-start="19" selection-end="19" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="955">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/home/home-friends-view.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="9" selection-start="409" selection-end="409" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="396">
           <folding />
         </state>
       </provider>
@@ -786,30 +697,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/friends.coffee">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="53" selection-start="188" selection-end="188" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
+        <state line="29" column="48" selection-start="303" selection-end="303" vertical-scroll-proportion="0.5612903" vertical-offset="0" max-vertical-offset="930">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/brunch/lib/watch.js">
+    <entry file="file://$PROJECT_DIR$/app/controllers/home-controller.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="37" selection-start="1105" selection-end="1106" vertical-scroll-proportion="-10.133333" vertical-offset="200" max-vertical-offset="10206">
+        <state line="20" column="4" selection-start="655" selection-end="655" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="486">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/brunch/node_modules/pushserve/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="99" selection-start="1234" selection-end="1234" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1224">
+        <state line="28" column="59" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.5277487" vertical-offset="0" max-vertical-offset="1188">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="45" selection-start="248" selection-end="248" vertical-scroll-proportion="0.21336207" vertical-offset="0" max-vertical-offset="928">
+        <state line="11" column="44" selection-start="247" selection-end="247" vertical-scroll-proportion="0.21336207" vertical-offset="0" max-vertical-offset="928">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/friends.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="40" selection-start="190" selection-end="190" vertical-scroll-proportion="0.113089" vertical-offset="0" max-vertical-offset="955">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/home/home-friends-view.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="9" selection-start="409" selection-end="409" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="396">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/brunch/lib/watch.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="91" column="32" selection-start="2735" selection-end="2735" vertical-scroll-proportion="0.49122807" vertical-offset="1190" max-vertical-offset="10206">
           <folding />
         </state>
       </provider>

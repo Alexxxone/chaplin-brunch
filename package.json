@@ -9,8 +9,7 @@
     "url": ""
   },
   "scripts": {
-    "postinstall": "brunch build --optimize",
-    "test": "brunch test"
+    "postinstall": "brunch build --optimize"
   },
   "dependencies": {
     "javascript-brunch": ">= 1.0 < 1.8",
@@ -27,6 +26,6 @@
   "devDependencies": {},
   "engines": {
     "node": "~0.8.14",
-    "npm": "~1.1"
+    "npm": ">= 1.1"
    }
 }
