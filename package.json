@@ -10,7 +10,6 @@
   },
   "scripts": {
     "postinstall": "brunch build --optimize",
-    "start": "brunch watch --server",
     "test": "brunch test"
   },
   "dependencies": {
