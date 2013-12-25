@@ -1,5 +1,5 @@
 Model = require './base/model'
 
-module.exports = class Friend extends Model
+module.exports = class User extends Model
   urlRoot: "/"
 

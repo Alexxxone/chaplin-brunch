@@ -1,7 +1,7 @@
 CollectionView = require 'views/base/collection-view'
 View = require 'views/home/home-friend-view'
 template = require './templates/friends'
-module.exports = class HomeFriendsView extends CollectionView
+module.exports = class HomeUsersView extends CollectionView
 
   itemView: View
   container: '#container'
@@ -13,9 +13,8 @@ module.exports = class HomeFriendsView extends CollectionView
 
   initialize: ->
     super
-
     @collection.fetch
       success: (response) ->
         console.log response
-    console.log 'asdaasdasdsd'
-    $('.menu_friends').addClass('active');
+    console.log $('.menu_users')
+    $('.menu_users').addClass('active');

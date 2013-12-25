@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "brunch watch --server",
-    "postinstall": "brunch build -P"
+    "postinstall": "brunch build -c brunch-config.coffee"
   },
   "dependencies": {
     "request": "*",

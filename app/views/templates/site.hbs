@@ -1,25 +1,118 @@
-<div class="header-container" id="header-container"></div>
+<div class="navbar navbar-default navbar-fixed-top navbar-collapse collapse navbar-inverse-collapse">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../" class="navbar-brand">Bootswatch</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="themes">
+                        <li><a tabindex="-1" href="../default/">Default</a></li>
+                        <li class="divider"></li>
+                        <li><a tabindex="-1" href="../amelia/">Amelia</a></li>
+                        <li><a tabindex="-1" href="../cerulean/">Cerulean</a></li>
+                        <li><a tabindex="-1" href="../cosmo/">Cosmo</a></li>
+                        <li><a tabindex="-1" href="../cyborg/">Cyborg</a></li>
+                        <li><a tabindex="-1" href="../flatly/">Flatly</a></li>
+                        <li><a tabindex="-1" href="../journal/">Journal</a></li>
+                        <li><a tabindex="-1" href="../readable/">Readable</a></li>
+                        <li><a tabindex="-1" href="../simplex/">Simplex</a></li>
+                        <li><a tabindex="-1" href="../slate/">Slate</a></li>
+                        <li><a tabindex="-1" href="../spacelab/">Spacelab</a></li>
+                        <li><a tabindex="-1" href="../united/">United</a></li>
+                        <li><a tabindex="-1" href="../yeti/">Yeti</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../help/">Help</a>
+                </li>
+                <li>
+                    <a href="http://news.bootswatch.com">Blog</a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Download <span class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="download">
+                        <li><a tabindex="-1" href="./bootstrap.min.css">bootstrap.min.css</a></li>
+                        <li><a tabindex="-1" href="./bootstrap.css">bootstrap.css</a></li>
+                        <li class="divider"></li>
+                        <li><a tabindex="-1" href="./variables.less">variables.less</a></li>
+                        <li><a tabindex="-1" href="./bootswatch.less">bootswatch.less</a></li>
+                    </ul>
+                </li>
+            </ul>
 
-<div class="row">
-    <div class="col-xs-8 col-md-8">
-        <div class="container">
-            <div class='row'>
-                <div class='col-md-3'>
-                        <ul class="nav nav-pills nav-stacked">
-                            <li class="menu_main_page"><a href="#"><i class="fa fa-home fa-fw"></i> My page</a></li>
-                            <li class="menu_friends"><a href="#"><i class="fa fa-user fa-fw"></i> Fiends</a></li>
-                            <li class="menu_messages"><a href="#"><i class="fa fa-envelope-o fa-fw"></i>Messages</a></li>
-                            <li class="menu_settings"><a href="#"><i class="fa fa-cogs fa-fw"></i> Settings</a></li>
-                        </ul>
-                </div>
-                <div class='col-md-6' id="container">
-                    <div class="outer-page-container">
-                      <div class="page-container" id="page-container">
-                      </div>
-                    </div>
-                </div>
-                <div class='col-md-3'><a href="javascript:;">Skip to main content</a></div>
-            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://builtwithbootstrap.com/" target="_blank">Built With Bootstrap</a></li>
+                <li><a href="https://wrapbootstrap.com/?ref=bsw" target="_blank">WrapBootstrap</a></li>
+            </ul>
+
         </div>
     </div>
 </div>
+
+<div class="main_site">
+    <div class="header-container" id="header-container"></div>
+    <div class="main_chat"></div>
+    <div class="row">
+        <div class="clearfix col-xs-8 col-md-8">
+                <div class='row'>
+                    <div class='col-md-3'>
+                            <ul class="nav nav-pills nav-stacked left_menu">
+                                <li class="menu_main_page"><a href="#"><i class="fa fa-home fa-fw"></i> My page</a></li>
+                                <li class="menu_friends"><a href="#"><i class="fa fa-user fa-fw"></i> Fiends<span class="badge pull-right new_friend_badge">1</span></a></li>
+                                <li class="menu_messages"><a href="#"><i class="fa fa-envelope-o fa-fw"></i>Messages<span class="badge pull-right new_messages_badge">2</span></a>
+                                <li class="menu_users"><a href="#"><i class="fa fa-user fa-fw"></i> All People<span class="badge pull-right new_friend_badge">1</span></a></li></li>
+                                <li class="menu_settings"><a href="#"><i class="fa fa-cogs fa-fw"></i> Settings</a></li>
+                            </ul>
+                    </div>
+                    <div class="outer-page-container">
+                      <div class="page-container container" >
+                          <div class='col-md-6 col-lg-offset-1'  id="page-container">
+                          </div>
+                      </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+ <a href="#top" class="arrow_up"><i class="fa fa-chevron-up fa-3x"></i></a>
+</div>
+
+<script type="text/javascript">
+    var elem = $('.left_menu');
+    var elem_heigth = elem.offset().top+ elem.height() ;
+    var arrow = $(".arrow_up");
+    $(document).on('scroll', function(){
+       if(window.pageYOffset > elem_heigth ){
+           if(arrow.is( ":hidden" )){
+             arrow.clearQueue();
+             arrow.stop();
+             arrow.css('display','block');
+             arrow.css('left','0');
+             arrow.animate({
+                   opacity: 1,
+                   left: "+=50"
+               }, 200);
+           }
+       }else{
+           if(arrow.is( ":visible" )){
+               arrow.clearQueue();
+               arrow.stop();
+               arrow.css('left','0');
+               arrow.animate({
+                   opacity: 0.25,
+                   left: "-=50"
+
+               }, 200,function(){
+                   arrow.css('display','none');
+               });
+           }
+       }
+    })
+
+</script>

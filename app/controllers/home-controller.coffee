@@ -2,7 +2,12 @@ Controller = require 'controllers/base/controller'
 HeaderView = require 'views/home/header-view'
 HomePageView = require 'views/home/home-page-view'
 HomeFriendsView = require 'views/home/home-friends-view'
-Collection = require 'models/friends'
+HomeFriendView = require 'views/home/home-friend-view'
+HomeUsersView = require 'views/home/home-users-view'
+Friends = require 'models/friends'
+Friend = require 'models/friend'
+Users = require 'models/users'
+
 module.exports = class HomeController extends Controller
   beforeAction: ->
     super
@@ -12,9 +17,15 @@ module.exports = class HomeController extends Controller
     @view = new HomePageView region: 'main'
 
   friends: ->
-    friends = new Collection
-
-    friends.fetch
-    console.log(friends)
+    console.log 'friends HomeController'
+    friends = new Friends
     @view = new HomeFriendsView region: 'main', collection: friends
 
+#  show: ->
+#    console.log 'show method in HomeController '
+#    friend = new Friend
+#    @view = new HomeFriendView region: 'main', model: friend
+  users: ->
+    console.log 'users HomeController'
+    users = new Users
+    @view = new HomeUsersView region: 'main', collection: users
