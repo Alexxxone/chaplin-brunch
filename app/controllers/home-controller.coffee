@@ -12,6 +12,7 @@ module.exports = class HomeController extends Controller
   beforeAction: ->
     super
     @compose 'header', HeaderView, region: 'header'
+    $('.left_menu li').removeClass('active');
 
   index: ->
     @view = new HomePageView region: 'main'

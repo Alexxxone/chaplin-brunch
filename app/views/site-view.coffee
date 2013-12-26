@@ -9,14 +9,19 @@ module.exports = class SiteView extends View
     main: '#page-container'
   template: require './templates/site'
   initialize: ->
+    @delegate 'click', '.menu_main_page', @home
     @delegate 'click', '.menu_friends', @friends
     @delegate 'click', '.menu_users', @users
     @delegate 'click', '.menu_settings', @show
+
+  home: ->
+    utils.redirectTo url: '/'
+
   friends: ->
-    utils.redirectTo controller: 'friends', action: 'index'
+    utils.redirectTo url: '/friends'
 
   users: ->
-    utils.redirectTo controller: 'friends', action: 'users'
+    utils.redirectTo url: '/users'
 
   show: ->
     utils.redirectTo url: '/settings'

@@ -165,9 +165,10 @@ module.exports = HomeController = (function(_super) {
 
   HomeController.prototype.beforeAction = function() {
     HomeController.__super__.beforeAction.apply(this, arguments);
-    return this.compose('header', HeaderView, {
+    this.compose('header', HeaderView, {
       region: 'header'
     });
+    return $('.left_menu li').removeClass('active');
   };
 
   HomeController.prototype.index = function() {
@@ -451,11 +452,11 @@ module.exports = function(match) {
   match('', 'home#index');
   match('friends', 'home#friends');
   match('friends/:id', 'home#show');
-  match('friends/users', 'home#users');
+  match('users', 'home#users');
   match('settings', 'home#settings');
   return {
     urlPath: function() {
-      return "friends/" + (this.get('id').get('users')) + "    /friends/    /users/    /settings/    //";
+      return "friends/" + (this.get('id')) + "    /friends/    /users/    /settings/    //";
     }
   };
 };
@@ -860,22 +861,27 @@ module.exports = SiteView = (function(_super) {
   SiteView.prototype.template = require('./templates/site');
 
   SiteView.prototype.initialize = function() {
+    this.delegate('click', '.menu_main_page', this.home);
     this.delegate('click', '.menu_friends', this.friends);
     this.delegate('click', '.menu_users', this.users);
     return this.delegate('click', '.menu_settings', this.show);
   };
 
+  SiteView.prototype.home = function() {
+    return utils.redirectTo({
+      url: '/'
+    });
+  };
+
   SiteView.prototype.friends = function() {
     return utils.redirectTo({
-      controller: 'friends',
-      action: 'index'
+      url: '/friends'
     });
   };
 
   SiteView.prototype.users = function() {
     return utils.redirectTo({
-      controller: 'friends',
-      action: 'users'
+      url: '/users'
     });
   };
 
