@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "brunch watch --server",
-    "postinstall": "brunch build -c brunch-config.coffee"
+    "postinstall": "brunch build --optimize ulimit -n 10000"
   },
   "dependencies": {
     "request": "*",
