@@ -133,7 +133,7 @@ module.exports = Controller = (function(_super) {
 });
 
 ;require.register("controllers/home-controller", function(exports, require, module) {
-var Controller, Friend, Friends, HeaderView, HomeController, HomeFriendView, HomeFriendsView, HomePageView, HomeUsersView, Users, _ref,
+var Controller, Friend, Friends, HeaderView, HomeController, HomeFriendView, HomeFriendsView, HomeMessageView, HomeMessagesView, HomePageView, HomeUsersView, Message, Messages, Users, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -154,6 +154,14 @@ Friends = require('models/friends');
 Friend = require('models/friend');
 
 Users = require('models/users');
+
+Message = require('models/message');
+
+Messages = require('models/messages');
+
+HomeMessageView = require('views/home/home-message-view');
+
+HomeMessagesView = require('views/home/home-messages-view');
 
 module.exports = HomeController = (function(_super) {
   __extends(HomeController, _super);
@@ -179,12 +187,12 @@ module.exports = HomeController = (function(_super) {
 
   HomeController.prototype.friends = function() {
     var friends;
-    console.log('friends HomeController');
     friends = new Friends;
-    return this.view = new HomeFriendsView({
+    this.view = new HomeFriendsView({
       region: 'main',
       collection: friends
     });
+    return friends.fetch();
   };
 
   HomeController.prototype.show = function(params) {
@@ -193,12 +201,23 @@ module.exports = HomeController = (function(_super) {
 
   HomeController.prototype.users = function() {
     var users;
-    console.log('users HomeController');
     users = new Users;
-    return this.view = new HomeUsersView({
+    this.view = new HomeUsersView({
       region: 'main',
       collection: users
     });
+    return users.fetch();
+  };
+
+  HomeController.prototype.messages = function() {
+    var messages;
+    messages = new Messages;
+    this.view = new HomeMessagesView({
+      region: 'main',
+      collection: messages
+    });
+    messages.fetch();
+    return $('.menu_messages').addClass('active');
   };
 
   HomeController.prototype.settings = function() {
@@ -372,12 +391,74 @@ module.exports = Friends = (function(_super) {
       return this.unsync;
     }).success(function(data) {
       collection.add(data);
-      console.log(collection);
       return this.finishSync;
     });
   };
 
   return Friends;
+
+})(Collection);
+});
+
+;require.register("models/message", function(exports, require, module) {
+var Message, Model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('./base/model');
+
+module.exports = Message = (function(_super) {
+  __extends(Message, _super);
+
+  function Message() {
+    _ref = Message.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Message.prototype.urlRoot = "/";
+
+  return Message;
+
+})(Model);
+});
+
+;require.register("models/messages", function(exports, require, module) {
+var Collection, Messages, Model, _ref,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Collection = require('./base/collection');
+
+Model = require('./message');
+
+module.exports = Messages = (function(_super) {
+  __extends(Messages, _super);
+
+  function Messages() {
+    this.fetch = __bind(this.fetch, this);
+    _ref = Messages.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  _.extend(Messages.prototype, Chaplin.SyncMachine);
+
+  Messages.prototype.model = Model;
+
+  Messages.prototype.fetch = function() {
+    var api, collection;
+    this.beginSync;
+    collection = this;
+    api = "http://localhost:3000/messages.json";
+    return $.getJSON(api).error(function(a, b) {
+      return this.unsync;
+    }).success(function(data) {
+      collection.add(data);
+      return this.finishSync;
+    });
+  };
+
+  return Messages;
 
 })(Collection);
 });
@@ -454,9 +535,10 @@ module.exports = function(match) {
   match('friends/:id', 'home#show');
   match('users', 'home#users');
   match('settings', 'home#settings');
+  match('messages', 'home#messages');
   return {
     urlPath: function() {
-      return "friends/" + (this.get('id')) + "    /friends/    /users/    /settings/    //";
+      return "friends/" + (this.get('id')) + "    /friends/    /users/    /settings/    /messages/    //";
     }
   };
 };
@@ -595,18 +677,18 @@ module.exports = FriendView = (function(_super) {
 
   FriendView.prototype.initialize = function() {
     FriendView.__super__.initialize.apply(this, arguments);
-    this.model.fetch({
-      success: function(response) {
-        return console.log(response);
-      }
-    });
-    return this.delegate("click", ".start_chat", this.start_chat);
+    this.delegate("click", ".start_chat", this.start_chat);
+    return this.delegate('click', '.friend_image', this.info);
   };
 
   FriendView.prototype.start_chat = function() {
     return new Chat({
       model: this.model
     });
+  };
+
+  FriendView.prototype.info = function() {
+    return console.log(this.model.get('email'));
   };
 
   return FriendView;
@@ -649,15 +731,90 @@ module.exports = HomeFriendsView = (function(_super) {
 
   HomeFriendsView.prototype.initialize = function() {
     HomeFriendsView.__super__.initialize.apply(this, arguments);
-    this.collection.fetch({
-      success: function(response) {
-        return console.log(response);
-      }
-    });
     return $('.menu_friends').addClass('active');
   };
 
   return HomeFriendsView;
+
+})(CollectionView);
+});
+
+;require.register("views/home/home-message-view", function(exports, require, module) {
+var MessageView, View, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+module.exports = MessageView = (function(_super) {
+  __extends(MessageView, _super);
+
+  function MessageView() {
+    _ref = MessageView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MessageView.prototype.autoRender = true;
+
+  MessageView.prototype.template = require('./templates/message');
+
+  MessageView.prototype.initialize = function() {
+    MessageView.__super__.initialize.apply(this, arguments);
+    this.model.fetch({
+      success: function(response) {
+        return console.log(response);
+      }
+    });
+    return this.model.set({
+      created_at: moment(this.model.get('created_at')).fromNow()
+    });
+  };
+
+  return MessageView;
+
+})(View);
+});
+
+;require.register("views/home/home-messages-view", function(exports, require, module) {
+var CollectionView, HomeMessagesView, View, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CollectionView = require('views/base/collection-view');
+
+View = require('views/home/home-message-view');
+
+template = require('./templates/messages');
+
+module.exports = HomeMessagesView = (function(_super) {
+  __extends(HomeMessagesView, _super);
+
+  function HomeMessagesView() {
+    _ref = HomeMessagesView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  HomeMessagesView.prototype.itemView = View;
+
+  HomeMessagesView.prototype.container = '#container';
+
+  HomeMessagesView.prototype.autoRender = true;
+
+  HomeMessagesView.prototype.className = 'messages-page';
+
+  HomeMessagesView.prototype.containerMethod = 'html';
+
+  HomeMessagesView.prototype.template = template;
+
+  HomeMessagesView.prototype.listSelector = '#messages_content';
+
+  HomeMessagesView.prototype.initialize = function() {
+    HomeMessagesView.__super__.initialize.apply(this, arguments);
+    console.log(this.collection);
+    return $('.menu_messages').addClass('active');
+  };
+
+  return HomeMessagesView;
 
 })(CollectionView);
 });
@@ -727,11 +884,6 @@ module.exports = HomeUsersView = (function(_super) {
 
   HomeUsersView.prototype.initialize = function() {
     HomeUsersView.__super__.initialize.apply(this, arguments);
-    this.collection.fetch({
-      success: function(response) {
-        return console.log(response);
-      }
-    });
     return $('.menu_users').addClass('active');
   };
 
@@ -755,7 +907,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</p>\n    </div>\n    <div class=\"friend_actions\">\n\n        <p> <a href=\"javascript:;\" >Write message</a></p>\n        <p> <a href=\"javascript:;\" >Look at friends</a></p>\n        <p><a href=\"javascript:;\" >Remove from friends</a></p>\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n\n    </div>\n</li>";
+    + "</p>\n    </div>\n    <div class=\"friend_actions\">\n\n        <p> <a href=\"javascript:;\" >Write message</a></p>\n        <p> <a href=\"javascript:;\" >Look at friends</a></p>\n        <p><a href=\"javascript:;\" >Remove from friends</a></p>\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n\n    </div>\n</li>\n<script type=\"x/template\" id=\"user_info_panel\">\n    <div class=\"panel panel-default\">\n        <div class=\"panel-body\">\n            ";
+  if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\n        </div>\n    </div>\n</script>";
   return buffer;
   });
 if (typeof define === 'function' && define.amd) {
@@ -819,7 +975,56 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<a href=\"http://brunch.io/\">\n  <div class=\"icon-brunch-logo-napkin\"></div>\n</a>\n";
+  return "<a href=\"http://brunch.io/\">\n  <div class=\"icon-brunch-logo-napkin\"></div>\n</ul>";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/home/templates/message", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "\n<li class=\"each_friend_in_list\">\n    <div class=\"friend_image\">\n        <img src=\"images/deactivated_100.gif\" alt=\"image\"/>\n    </div>\n    <div class=\"friend_info\">\n        <p> ";
+  if (stack1 = helpers.body) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.body); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n        <p class=\"created_at\">";
+  if (stack1 = helpers.created_at) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.created_at); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n    </div>\n\n</li>\n";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/home/templates/messages", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<h4>Messages</h4>\n<ul id='messages_content'  class=\"friends_list\">\n</ul>\n\n";
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -864,7 +1069,8 @@ module.exports = SiteView = (function(_super) {
     this.delegate('click', '.menu_main_page', this.home);
     this.delegate('click', '.menu_friends', this.friends);
     this.delegate('click', '.menu_users', this.users);
-    return this.delegate('click', '.menu_settings', this.show);
+    this.delegate('click', '.menu_settings', this.show);
+    return this.delegate('click', '.menu_messages', this.messages);
   };
 
   SiteView.prototype.home = function() {
@@ -888,6 +1094,12 @@ module.exports = SiteView = (function(_super) {
   SiteView.prototype.show = function() {
     return utils.redirectTo({
       url: '/settings'
+    });
+  };
+
+  SiteView.prototype.messages = function() {
+    return utils.redirectTo({
+      url: '/messages'
     });
   };
 
@@ -936,7 +1148,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<div class=\"navbar navbar-default navbar-fixed-top navbar-collapse collapse navbar-inverse-collapse\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n            <a href=\"../\" class=\"navbar-brand\">Bootswatch</a>\n            <button class=\"navbar-toggle\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbar-main\">\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n        </div>\n        <div class=\"navbar-collapse collapse\" id=\"navbar-main\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"themes\">Themes <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"themes\">\n                        <li><a tabindex=\"-1\" href=\"../default/\">Default</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"../amelia/\">Amelia</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cerulean/\">Cerulean</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cosmo/\">Cosmo</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cyborg/\">Cyborg</a></li>\n                        <li><a tabindex=\"-1\" href=\"../flatly/\">Flatly</a></li>\n                        <li><a tabindex=\"-1\" href=\"../journal/\">Journal</a></li>\n                        <li><a tabindex=\"-1\" href=\"../readable/\">Readable</a></li>\n                        <li><a tabindex=\"-1\" href=\"../simplex/\">Simplex</a></li>\n                        <li><a tabindex=\"-1\" href=\"../slate/\">Slate</a></li>\n                        <li><a tabindex=\"-1\" href=\"../spacelab/\">Spacelab</a></li>\n                        <li><a tabindex=\"-1\" href=\"../united/\">United</a></li>\n                        <li><a tabindex=\"-1\" href=\"../yeti/\">Yeti</a></li>\n                    </ul>\n                </li>\n                <li>\n                    <a href=\"../help/\">Help</a>\n                </li>\n                <li>\n                    <a href=\"http://news.bootswatch.com\">Blog</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"download\">Download <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"download\">\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.min.css\">bootstrap.min.css</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.css\">bootstrap.css</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"./variables.less\">variables.less</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootswatch.less\">bootswatch.less</a></li>\n                    </ul>\n                </li>\n            </ul>\n\n            <ul class=\"nav navbar-nav navbar-right\">\n                <li><a href=\"http://builtwithbootstrap.com/\" target=\"_blank\">Built With Bootstrap</a></li>\n                <li><a href=\"https://wrapbootstrap.com/?ref=bsw\" target=\"_blank\">WrapBootstrap</a></li>\n            </ul>\n\n        </div>\n    </div>\n</div>\n\n<div class=\"main_site\">\n    <div class=\"header-container\" id=\"header-container\"></div>\n    <div class=\"main_chat\"></div>\n    <div class=\"row\">\n        <div class='col-md-3'>\n                <ul class=\"nav nav-pills nav-stacked left_menu\">\n                    <li class=\"menu_main_page\"><a href=\"javascript:;\"><i class=\"fa fa-home fa-fw\"></i> My page</a></li>\n                    <li class=\"menu_friends\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> Fiends<span class=\"badge pull-right new_friend_badge\">1</span></a></li>\n                    <li class=\"menu_messages\"><a href=\"javascript:;\"><i class=\"fa fa-envelope-o fa-fw\"></i>Messages<span class=\"badge pull-right new_messages_badge\">2</span></a>\n                    <li class=\"menu_users\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> All People<span class=\"badge pull-right new_friend_badge\">1</span></a></li></li>\n                    <li class=\"menu_settings\"><a href=\"javascript:;\"><i class=\"fa fa-cogs fa-fw\"></i> Settings</a></li>\n                </ul>\n        </div>\n\n        <div class=\"\" >\n          <div class='col-md-6'  id=\"page-container\">\n          </div>\n        </div>\n        <div class=\"col-md-2\">\n\n            <div class=\"panel panel-primary\">\n                <div class=\"panel-heading\">News</div>\n                <div class=\"panel-body\">\n                    <img src=\"http://asset2.cbsistatic.com/cnwk.1d/i/tim/2010/09/28/0927LazaridisPlayBook_270x203.jpg\" alt=\"news\" class=\"img-thumbnail\" >\n                    Mike Lazaridis, a BlackBerry co-founder and former co-CEO, has officially ditched his plans to acquire the company through a joint bid with a fellow co-founder.\n                    In dissolving the plan, Lazaridis' stake in the sagging company is now 4.99 percent.\n                    Lazaridis made his decision public in a Securities and Exchange Commission filing on Tuesday. Under the now-defunct plan, which was announced in October, Lazaridis and fellow co-founder Douglas Fregin had combined stakes to reach 8 percent total ownership and said they were considering a purchase of the company. Last month, however, BlackBerry took itself off the market, and new management is trying to turn the company around.\n                </div>\n            </div>\n            <div class=\"panel panel-default\">\n                <div class=\"panel-body\">\n                    Panel content\n                </div>\n                <div class=\"panel-footer\">Panel footer</div>\n            </div>\n        </div>\n        <a href=\"#top\" class=\"arrow_up\"><i class=\"fa fa-chevron-up fa-3x\"></i></a>\n</div>\n\n<script type=\"text/javascript\">\n    var elem = $('.left_menu');\n    var elem_heigth = elem.offset().top+ elem.height() ;\n    var arrow = $(\".arrow_up\");\n    $(document).on('scroll', function(){\n       if(window.pageYOffset > elem_heigth ){\n           if(arrow.is( \":hidden\" )){\n             arrow.clearQueue();\n             arrow.stop();\n             arrow.css('display','block');\n             arrow.css('left','0');\n             arrow.animate({\n                   opacity: 1,\n                   left: \"+=50\"\n               }, 200);\n           }\n       }else{\n           if(arrow.is( \":visible\" )){\n               arrow.clearQueue();\n               arrow.stop();\n               arrow.css('left','0');\n               arrow.animate({\n                   opacity: 0.25,\n                   left: \"-=50\"\n\n               }, 200,function(){\n                   arrow.css('display','none');\n               });\n           }\n       }\n    })\n\n</script>";
+  return "<div class=\"navbar navbar-default navbar-fixed-top navbar-collapse collapse navbar-inverse-collapse\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n            <a href=\"../\" class=\"navbar-brand\">Bootswatch</a>\n            <button class=\"navbar-toggle\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbar-main\">\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n        </div>\n        <div class=\"navbar-collapse collapse\" id=\"navbar-main\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"themes\">Themes <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"themes\">\n                        <li><a tabindex=\"-1\" href=\"../default/\">Default</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"../amelia/\">Amelia</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cerulean/\">Cerulean</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cosmo/\">Cosmo</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cyborg/\">Cyborg</a></li>\n                        <li><a tabindex=\"-1\" href=\"../flatly/\">Flatly</a></li>\n                        <li><a tabindex=\"-1\" href=\"../journal/\">Journal</a></li>\n                        <li><a tabindex=\"-1\" href=\"../readable/\">Readable</a></li>\n                        <li><a tabindex=\"-1\" href=\"../simplex/\">Simplex</a></li>\n                        <li><a tabindex=\"-1\" href=\"../slate/\">Slate</a></li>\n                        <li><a tabindex=\"-1\" href=\"../spacelab/\">Spacelab</a></li>\n                        <li><a tabindex=\"-1\" href=\"../united/\">United</a></li>\n                        <li><a tabindex=\"-1\" href=\"../yeti/\">Yeti</a></li>\n                    </ul>\n                </li>\n                <li>\n                    <a href=\"../help/\">Help</a>\n                </li>\n                <li>\n                    <a href=\"http://news.bootswatch.com\">Blog</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"download\">Download <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"download\">\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.min.css\">bootstrap.min.css</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.css\">bootstrap.css</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"./variables.less\">variables.less</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootswatch.less\">bootswatch.less</a></li>\n                    </ul>\n                </li>\n            </ul>\n\n            <ul class=\"nav navbar-nav navbar-right\">\n                <li><a href=\"http://builtwithbootstrap.com/\" target=\"_blank\">Built With Bootstrap</a></li>\n                <li><a href=\"https://wrapbootstrap.com/?ref=bsw\" target=\"_blank\">WrapBootstrap</a></li>\n            </ul>\n\n        </div>\n    </div>\n</div>\n\n<div class=\"main_site\">\n    <div class=\"header-container\" id=\"header-container\"></div>\n    <div class=\"main_chat\"></div>\n    <div class=\"row\">\n        <div class='col-md-3'>\n                <ul class=\"nav nav-pills nav-stacked left_menu\">\n                    <li class=\"menu_main_page\"><a href=\"javascript:;\"><i class=\"fa fa-home fa-fw\"></i> My page</a></li>\n                    <li class=\"menu_friends\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> Fiends<span class=\"badge pull-right new_friend_badge\">1</span></a></li>\n                    <li class=\"menu_messages\"><a href=\"javascript:;\"><i class=\"fa fa-envelope-o fa-fw\"></i>Messages<span class=\"badge pull-right new_messages_badge\">2</span></a>\n                    <li class=\"menu_users\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> All People<span class=\"badge pull-right new_friend_badge\">1</span></a></li></li>\n                    <li class=\"menu_settings\"><a href=\"javascript:;\"><i class=\"fa fa-cogs fa-fw\"></i> Settings</a></li>\n                </ul>\n        </div>\n\n        <div class=\"\" >\n          <div class='col-md-6'  id=\"page-container\">\n          </div>\n        </div>\n        <div class=\"col-md-2\">\n\n            <div class=\"panel panel-primary\">\n                <div class=\"panel-heading\">News</div>\n                <div class=\"panel-body\">\n                    <img src=\"http://asset2.cbsistatic.com/cnwk.1d/i/tim/2010/09/28/0927LazaridisPlayBook_270x203.jpg\" alt=\"news\" class=\"img-thumbnail\" >\n                    Mike Lazaridis, a BlackBerry co-founder and former co-CEO, has officially ditched his plans to acquire the company through a joint bid with a fellow co-founder.\n                    In dissolving the plan, Lazaridis' stake in the sagging company is now 4.99 percent.\n                    Lazaridis made his decision public in a Securities and Exchange Commission filing on Tuesday. Under the now-defunct plan, which was announced in October, Lazaridis and fellow co-founder Douglas Fregin had combined stakes to reach 8 percent total ownership and said they were considering a purchase of the company. Last month, however, BlackBerry took itself off the market, and new management is trying to turn the company around.\n                </div>\n            </div>\n            <div class=\"panel panel-default\">\n                <div class=\"panel-body\">\n                    Panel content\n                </div>\n                <div class=\"panel-footer\">Panel footer</div>\n            </div>\n        </div>\n        <a href=\"#top\" class=\"arrow_up\"><i class=\"fa fa-chevron-up fa-3x\"></i></a>\n    </div>\n</div>\n\n<script type=\"text/javascript\">\n    var elem = $('.left_menu');\n    var elem_heigth = elem.offset().top+ elem.height() ;\n    var arrow = $(\".arrow_up\");\n    $(document).on('scroll', function(){\n       if(window.pageYOffset > elem_heigth ){\n           if(arrow.is( \":hidden\" )){\n             arrow.clearQueue();\n             arrow.stop();\n             arrow.css('display','block');\n             arrow.css('left','0');\n             arrow.animate({\n                   opacity: 1,\n                   left: \"+=50\"\n               }, 200);\n           }\n       }else{\n           if(arrow.is( \":visible\" )){\n               arrow.clearQueue();\n               arrow.stop();\n               arrow.css('left','0');\n               arrow.animate({\n                   opacity: 0.25,\n                   left: \"-=50\"\n\n               }, 200,function(){\n                   arrow.css('display','none');\n               });\n           }\n       }\n    })\n\n</script>";
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {

@@ -13,6 +13,7 @@ module.exports = class SiteView extends View
     @delegate 'click', '.menu_friends', @friends
     @delegate 'click', '.menu_users', @users
     @delegate 'click', '.menu_settings', @show
+    @delegate 'click', '.menu_messages', @messages
 
   home: ->
     utils.redirectTo url: '/'
@@ -26,5 +27,5 @@ module.exports = class SiteView extends View
   show: ->
     utils.redirectTo url: '/settings'
 
-
-#   utils.redirectTo('friends#index', {id: 2})
+  messages: ->
+    utils.redirectTo url: '/messages'

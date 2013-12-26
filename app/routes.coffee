@@ -5,9 +5,11 @@ module.exports = (match) ->
   match 'friends/:id', 'home#show'
   match 'users', 'home#users'
   match 'settings', 'home#settings'
+  match 'messages', 'home#messages'
   urlPath: ->
     "friends/#{@get('id')}
     /friends/
     /users/
     /settings/
+    /messages/
     //"

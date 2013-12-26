@@ -16,5 +16,4 @@ module.exports = class Friends extends Collection
        @unsync
     .success (data) ->
       collection.add data
-      console.log collection
       @finishSync

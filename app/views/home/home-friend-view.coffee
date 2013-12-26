@@ -6,9 +6,10 @@ module.exports = class FriendView extends View
   chat: require 'views/templates/chat'
   initialize: ->
     super
-    @model.fetch
-      success: (response) ->
-        console.log response
     @delegate "click", ".start_chat", @start_chat
+    @delegate 'click', '.friend_image', @info
   start_chat: ->
     new Chat(model: @model)
+
+  info: ->
+    console.log @model.get('email')
