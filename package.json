@@ -29,7 +29,7 @@
   },
   "devDependencies": {},
   "engines": {
-    "node": "*",
+    "node": "0.10.21",
     "npm": "*"
    }
 }
