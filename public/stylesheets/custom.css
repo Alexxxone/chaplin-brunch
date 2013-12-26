@@ -1,0 +1,38 @@
+.friends_list{
+    list-style: none;
+}
+.each_friend_in_list {
+    padding: 5px;
+    border:1px solid rgba(215, 244, 255, 0.52);
+    border-collapse:collapse;
+    vertical-align: middle;
+}
+.friends_list .friend_image{
+    display: inline-block;
+}
+.friend_actions_menu{
+    list-style: none;
+    display: inline;
+}
+.friend_actions p {
+    margin:5px 0;
+    font-size: 12px;
+}
+.friend_actions{
+    float:right;
+    display: inline-block;
+}
+.friend_info{
+    margin-left: 10px ;
+    display: inline-block;
+}
+.main_site{
+    margin-top: 50px;
+}
+.arrow_up{
+    display: none;
+    position: fixed;
+    top:49%;
+    left:2%;
+
+}
