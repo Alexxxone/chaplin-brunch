@@ -23,7 +23,7 @@
     "clean-css-brunch": ">= 1.0 < 1.8",
     "auto-reload-brunch": ">= 1.0 < 1.8",
     "statik": ">= 1.1.0",
-    "bower": "1.2.7",
+    "bower-canary": "*",
     "brunch": "1.x"
   },
   "devDependencies": {},
