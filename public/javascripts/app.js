@@ -688,7 +688,8 @@ module.exports = FriendView = (function(_super) {
   };
 
   FriendView.prototype.info = function() {
-    return console.log(this.model.get('email'));
+    console.log(this.model.get('email'));
+    return this.el.append(_template('#user_info_panel').render().el);
   };
 
   return FriendView;

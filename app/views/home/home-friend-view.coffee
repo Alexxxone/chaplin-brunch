@@ -13,3 +13,4 @@ module.exports = class FriendView extends View
 
   info: ->
     console.log @model.get('email')
+    @el.append(_template('#user_info_panel').render().el)
