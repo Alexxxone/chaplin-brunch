@@ -32,3 +32,4 @@ module.exports = class HomeController extends Controller
 
   settings: ->
     console.log 'settings HomeController'
+    $('.menu_settings').addClass('active');

@@ -16,5 +16,4 @@ module.exports = class HomeUsersView extends CollectionView
     @collection.fetch
       success: (response) ->
         console.log response
-    console.log $('.menu_users')
     $('.menu_users').addClass('active');
