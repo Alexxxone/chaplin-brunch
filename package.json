@@ -9,7 +9,7 @@
     "url": ""
   },
   "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "postinstall": "./node_modules/bower/bin/bower install",
     "start": "brunch watch --server",
     "postinstall": "brunch build --production"
   },
