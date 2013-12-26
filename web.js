@@ -1,8 +1,6 @@
-console.log(process.env.PORT);
-
 var statik = require('statik');
 
-statik(process.env.PORT || 3005);
+statik(process.env.PORT);
 
 //
 //var statik = require('../index');
