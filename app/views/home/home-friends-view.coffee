@@ -13,9 +13,7 @@ module.exports = class HomeFriendsView extends CollectionView
 
   initialize: ->
     super
-
     @collection.fetch
       success: (response) ->
         console.log response
-    console.log 'asdaasdasdsd'
     $('.menu_friends').addClass('active');

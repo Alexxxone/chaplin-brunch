@@ -21,11 +21,14 @@ module.exports = class HomeController extends Controller
     friends = new Friends
     @view = new HomeFriendsView region: 'main', collection: friends
 
-#  show: ->
-#    console.log 'show method in HomeController '
+  show: (params)->
+    console.log params.id
 #    friend = new Friend
 #    @view = new HomeFriendView region: 'main', model: friend
   users: ->
     console.log 'users HomeController'
     users = new Users
     @view = new HomeUsersView region: 'main', collection: users
+
+  settings: ->
+    console.log 'settings HomeController'
