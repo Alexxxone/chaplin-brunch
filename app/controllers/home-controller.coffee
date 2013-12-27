@@ -36,7 +36,7 @@ module.exports = class HomeController extends Controller
     messages = new Messages
     @view = new HomeMessagesView region: 'main', collection: messages
     messages.fetch()
-    $('.menu_messages').addClass('active');
+
   settings: ->
     console.log 'settings HomeController'
     $('.menu_settings').addClass('active');

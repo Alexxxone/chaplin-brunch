@@ -216,8 +216,7 @@ module.exports = HomeController = (function(_super) {
       region: 'main',
       collection: messages
     });
-    messages.fetch();
-    return $('.menu_messages').addClass('active');
+    return messages.fetch();
   };
 
   HomeController.prototype.settings = function() {
@@ -593,11 +592,13 @@ module.exports = View = (function(_super) {
 });
 
 ;require.register("views/chat-view", function(exports, require, module) {
-var ChatView, View, _ref,
+var ChatView, Message, View, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 View = require('views/base/view');
+
+Message = require('models/message');
 
 module.exports = ChatView = (function(_super) {
   __extends(ChatView, _super);
@@ -613,15 +614,15 @@ module.exports = ChatView = (function(_super) {
 
   ChatView.prototype.template = require('./templates/chat');
 
+  ChatView.prototype.params = params;
+
   ChatView.prototype.initialize = function() {
     this.render();
     $(".chat_container").containerize();
     return this.delegate("click", ".send_message", this.send_message);
   };
 
-  ChatView.prototype.send_message = function() {
-    return console.log('send message');
-  };
+  ChatView.prototype.send_message = function() {};
 
   return ChatView;
 
@@ -771,7 +772,7 @@ module.exports = MessageView = (function(_super) {
 
   MessageView.prototype.start_chat = function() {
     return new Chat({
-      model: this.model
+      params: this.model.get('user').id
     });
   };
 
@@ -980,7 +981,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<a href=\"http://brunch.io/\">\n  <div class=\"icon-brunch-logo-napkin\"></div>\n</ul>";
+  return "<img src=\"images/user.png\" alt=\"image\"/>\n<h1>WALL</h1>";
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -1076,7 +1077,7 @@ module.exports = SiteView = (function(_super) {
     this.delegate('click', '.menu_main_page', this.home);
     this.delegate('click', '.menu_friends', this.friends);
     this.delegate('click', '.menu_users', this.users);
-    this.delegate('click', '.menu_settings', this.show);
+    this.delegate('click', '.menu_settings', this.settings);
     return this.delegate('click', '.menu_messages', this.messages);
   };
 
@@ -1098,7 +1099,7 @@ module.exports = SiteView = (function(_super) {
     });
   };
 
-  SiteView.prototype.show = function() {
+  SiteView.prototype.settings = function() {
     return utils.redirectTo({
       url: '/settings'
     });
@@ -1134,7 +1135,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.id); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "\n\n        <table class=\"table table-hover table-striped\">\n            <thead>\n            <tr>\n                <th>asd</th>\n                <th>asd</th>\n                <th>asd</th>\n            </tr>\n            </thead>\n            <tbody class=\"message_list\">\n            <tr>\n                <td>asdasd</td>\n                <td>asdasd</td>\n                <td>asdasd</td>\n            </tr>\n            </tbody>\n        </table>\n        <div class=\"col-lg-12 \">\n            <div class=\"input-group\">\n                <input type=\"text\" class=\"form-control\">\n                    <span class=\"input-group-btn\">\n                      <button class=\"btn btn-info send_message\" type=\"button\">Send</button>\n                    </span>\n            </div>\n        </div>\n\n\n    </div>\n</div>";
+    + "\n\n        <table class=\"table table-hover table-striped\">\n            <thead>\n            <tr>\n                <th>asd</th>\n                <th>asd</th>\n                <th>asd</th>\n            </tr>\n            </thead>\n            <tbody class=\"message_list\">\n            <tr>\n                <td>asdasd</td>\n                <td>asdasd</td>\n                <td>asdasd</td>\n            </tr>\n            </tbody>\n        </table>\n        <div class=\"col-lg-12 \">\n            <div class=\"input-group\">\n                <input type=\"text\" class=\"form-control message_text\">\n                    <span class=\"input-group-btn\">\n                      <button class=\"btn btn-info send_message\" type=\"button\">Send</button>\n                    </span>\n            </div>\n        </div>\n\n\n    </div>\n</div>";
   return buffer;
   });
 if (typeof define === 'function' && define.amd) {

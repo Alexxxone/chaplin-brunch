@@ -11,5 +11,5 @@ module.exports = class MessageView extends View
 
 
   start_chat: ->
-    new Chat(model: @model)
+    new Chat(params: @model.get('user').id)
 
