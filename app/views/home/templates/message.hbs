@@ -1,11 +1,17 @@
 
 <li class="each_friend_in_list">
-    <div class="friend_image">
+    <div class="messages_image" >
         <img src="images/deactivated_100.gif" alt="image"/>
     </div>
-    <div class="friend_info">
-        <p> {{body}}</p>
-        <p class="created_at">{{created_at}}</p>
+    <div class="friend_info" >
+        <blockquote >
+            <p>{{body}}</p>
+            <small class="created_at">{{created_at}}</small>
+            <small><cite title="Source Title">{{user.username}}</cite></small>
+        </blockquote>
     </div>
-
+    <div class="friend_actions">
+        <p><a href="javascript:;" class="start_chat">Start Chat</a></p>
+    </div>
 </li>
+

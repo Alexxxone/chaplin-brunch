@@ -741,11 +741,13 @@ module.exports = HomeFriendsView = (function(_super) {
 });
 
 ;require.register("views/home/home-message-view", function(exports, require, module) {
-var MessageView, View, _ref,
+var Chat, MessageView, View, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 View = require('views/base/view');
+
+Chat = require('views/chat-view');
 
 module.exports = MessageView = (function(_super) {
   __extends(MessageView, _super);
@@ -761,13 +763,15 @@ module.exports = MessageView = (function(_super) {
 
   MessageView.prototype.initialize = function() {
     MessageView.__super__.initialize.apply(this, arguments);
-    this.model.fetch({
-      success: function(response) {
-        return console.log(response);
-      }
-    });
-    return this.model.set({
+    this.model.set({
       created_at: moment(this.model.get('created_at')).fromNow()
+    });
+    return this.delegate('click', '.start_chat', this.start_chat);
+  };
+
+  MessageView.prototype.start_chat = function() {
+    return new Chat({
+      model: this.model
     });
   };
 
@@ -996,15 +1000,17 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "\n<li class=\"each_friend_in_list\">\n    <div class=\"friend_image\">\n        <img src=\"images/deactivated_100.gif\" alt=\"image\"/>\n    </div>\n    <div class=\"friend_info\">\n        <p> ";
+  buffer += "\n<li class=\"each_friend_in_list\">\n    <div class=\"messages_image\" >\n        <img src=\"images/deactivated_100.gif\" alt=\"image\"/>\n    </div>\n    <div class=\"friend_info\" >\n        <blockquote >\n            <p>";
   if (stack1 = helpers.body) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.body); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</p>\n        <p class=\"created_at\">";
+    + "</p>\n            <small class=\"created_at\">";
   if (stack1 = helpers.created_at) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.created_at); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</p>\n    </div>\n\n</li>\n";
+    + "</small>\n            <small><cite title=\"Source Title\">"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.user)),stack1 == null || stack1 === false ? stack1 : stack1.username)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</cite></small>\n        </blockquote>\n    </div>\n    <div class=\"friend_actions\">\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n    </div>\n</li>\n\n";
   return buffer;
   });
 if (typeof define === 'function' && define.amd) {

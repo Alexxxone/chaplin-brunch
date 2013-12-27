@@ -10,6 +10,9 @@
 .friends_list .friend_image{
     display: inline-block;
 }
+.messages_image{
+    position: absolute;
+}
 .friend_actions_menu{
     list-style: none;
     display: inline;
@@ -23,8 +26,12 @@
     display: inline-block;
 }
 .friend_info{
-    margin-left: 10px ;
+    margin-left: 115px;
     display: inline-block;
+
+}
+.friend_info blockquote{
+    margin-bottom: 15px;
 }
 .main_site{
     margin-top: 50px;
