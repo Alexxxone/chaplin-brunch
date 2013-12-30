@@ -1,14 +1,21 @@
 View = require 'views/base/view'
 utils = require 'lib/utils'
+
+
 # Site view is a top-level view which is bound to body.
 module.exports = class SiteView extends View
   container: 'body'
   id: 'site-container'
+  autoRender: true
   regions:
-    header: '#header-container'
+    menu: '#menu-container'
     main: '#page-container'
   template: require './templates/site'
   initialize: ->
+    @model.fetch
+      success: (res)->
+        $('.new_friend_badge').text(res.get('invitations'))
+        $('.new_messages_badge').text(res.get('messages'))
     @delegate 'click', '.menu_main_page', @home
     @delegate 'click', '.menu_friends', @friends
     @delegate 'click', '.menu_users', @users
@@ -17,7 +24,6 @@ module.exports = class SiteView extends View
 
   home: ->
     utils.redirectTo url: '/'
-
   friends: ->
     utils.redirectTo url: '/friends'
 
@@ -29,3 +35,5 @@ module.exports = class SiteView extends View
 
   messages: ->
     utils.redirectTo url: '/messages'
+
+

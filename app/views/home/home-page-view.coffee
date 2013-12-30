@@ -6,4 +6,4 @@ module.exports = class HomePageView extends View
   template: require './templates/home'
 
   initialize: ->
-    $('.menu_main_page').addClass('active');
+    $('.menu_main_page').addClass('active')

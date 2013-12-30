@@ -109,11 +109,13 @@ module.exports = Application = (function(_super) {
 });
 
 ;require.register("controllers/base/controller", function(exports, require, module) {
-var Controller, SiteView, _ref,
+var Controller, Init, SiteView, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 SiteView = require('views/site-view');
+
+Init = require('models/init');
 
 module.exports = Controller = (function(_super) {
   __extends(Controller, _super);
@@ -124,7 +126,10 @@ module.exports = Controller = (function(_super) {
   }
 
   Controller.prototype.beforeAction = function() {
-    return this.compose('site', SiteView);
+    this.model = new Init;
+    return this.compose('site', SiteView, {
+      model: this.model
+    });
   };
 
   return Controller;
@@ -133,13 +138,15 @@ module.exports = Controller = (function(_super) {
 });
 
 ;require.register("controllers/home-controller", function(exports, require, module) {
-var Controller, Friend, Friends, HeaderView, HomeController, HomeFriendView, HomeFriendsView, HomeMessageView, HomeMessagesView, HomePageView, HomeUsersView, Message, Messages, Users, _ref,
+var Controller, Friend, Friends, HomeController, HomeFriendView, HomeFriendsView, HomeMessageView, HomeMessagesView, HomePageView, HomeUsersView, Init, MenuView, Message, Messages, Users, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 Controller = require('controllers/base/controller');
 
-HeaderView = require('views/home/header-view');
+MenuView = require('views/home/menu-view');
+
+Init = require('models/init');
 
 HomePageView = require('views/home/home-page-view');
 
@@ -173,8 +180,8 @@ module.exports = HomeController = (function(_super) {
 
   HomeController.prototype.beforeAction = function() {
     HomeController.__super__.beforeAction.apply(this, arguments);
-    this.compose('header', HeaderView, {
-      region: 'header'
+    this.compose('menu', MenuView, {
+      region: 'menu'
     });
     return $('.left_menu li').removeClass('active');
   };
@@ -399,6 +406,28 @@ module.exports = Friends = (function(_super) {
 })(Collection);
 });
 
+;require.register("models/init", function(exports, require, module) {
+var Init, Model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('./base/model');
+
+module.exports = Init = (function(_super) {
+  __extends(Init, _super);
+
+  function Init() {
+    _ref = Init.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Init.prototype.url = "http://localhost:3000/init.json";
+
+  return Init;
+
+})(Model);
+});
+
 ;require.register("models/message", function(exports, require, module) {
 var Message, Model, _ref,
   __hasProp = {}.hasOwnProperty,
@@ -614,8 +643,6 @@ module.exports = ChatView = (function(_super) {
 
   ChatView.prototype.template = require('./templates/chat');
 
-  ChatView.prototype.params = params;
-
   ChatView.prototype.initialize = function() {
     this.render();
     $(".chat_container").containerize();
@@ -625,30 +652,6 @@ module.exports = ChatView = (function(_super) {
   ChatView.prototype.send_message = function() {};
 
   return ChatView;
-
-})(View);
-});
-
-;require.register("views/home/header-view", function(exports, require, module) {
-var HeaderView, View, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-View = require('views/base/view');
-
-module.exports = HeaderView = (function(_super) {
-  __extends(HeaderView, _super);
-
-  function HeaderView() {
-    _ref = HeaderView.__super__.constructor.apply(this, arguments);
-    return _ref;
-  }
-
-  HeaderView.prototype.autoRender = true;
-
-  HeaderView.prototype.template = require('./templates/header');
-
-  return HeaderView;
 
 })(View);
 });
@@ -898,6 +901,30 @@ module.exports = HomeUsersView = (function(_super) {
 })(CollectionView);
 });
 
+;require.register("views/home/menu-view", function(exports, require, module) {
+var MenuView, View, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+module.exports = MenuView = (function(_super) {
+  __extends(MenuView, _super);
+
+  function MenuView() {
+    _ref = MenuView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MenuView.prototype.autoRender = true;
+
+  MenuView.prototype.template = require('./templates/menu');
+
+  return MenuView;
+
+})(View);
+});
+
 ;require.register("views/home/templates/friend", function(exports, require, module) {
 var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
@@ -913,7 +940,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</p>\n    </div>\n    <div class=\"friend_actions\">\n\n        <p> <a href=\"javascript:;\" >Write message</a></p>\n        <p> <a href=\"javascript:;\" >Look at friends</a></p>\n        <p><a href=\"javascript:;\" >Remove from friends</a></p>\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n\n    </div>\n</li>\n<script type=\"x/template\" id=\"user_info_panel\">\n    <div class=\"panel panel-default\">\n        <div class=\"panel-body\">\n            ";
+    + "</p>\n    </div>\n    <div class=\"friend_actions\">\n\n        <p> <a href=\"javascript:;\" >Write message</a></p>\n        <p> <a href=\"javascript:;\" >Look at friends</a></p>\n        <p><a href=\"javascript:;\" >Remove from friends</a></p>\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n\n    </div>\n</li>\n<script type=\"text/x-handlebars-template\" id=\"user_info_panel\">\n    <div class=\"panel panel-default\">\n        <div class=\"panel-body\">\n            ";
   if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
@@ -981,7 +1008,36 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<img src=\"images/user.png\" alt=\"image\"/>\n<h1>WALL</h1>";
+  return "<img src=\"images/user.png\" alt=\"image\"/>\n<h1>WALL</h1>\n\n<div class=\"wall_scroll\" style=\"color:black;\">\n    <div class=\"wall_message\">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n    <div class=\"wall_message\">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n    <div class=\"wall_message\">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n</div>\n\n\n<script type=\"text/javascript\">\n    $(\".wall_scroll\").slimScroll({\n    height: \"450px\",\n    color: '#008cba'\n    })\n</script>";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/home/templates/menu", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<!--<div class='col-md-3'>-->\n    <!--<ul class=\"nav nav-pills nav-stacked left_menu\">-->\n        <!--<li class=\"menu_main_page\"><a href=\"javascript:;\"><i class=\"fa fa-home fa-fw\"></i> My page</a></li>-->\n        <!--<li class=\"menu_friends\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> Fiends<span class=\"badge pull-right new_friend_badge\">";
+  if (stack1 = helpers.invitations) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.invitations); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span></a></li>-->\n        <!--<li class=\"menu_messages\"><a href=\"javascript:;\"><i class=\"fa fa-envelope-o fa-fw\"></i>Messages<span class=\"badge pull-right new_messages_badge\">";
+  if (stack1 = helpers.messages) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.messages); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span></a>-->\n        <!--<li class=\"menu_users\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> All People</a></li></li>-->\n        <!--<li class=\"menu_settings\"><a href=\"javascript:;\"><i class=\"fa fa-cogs fa-fw\"></i> Settings</a></li>-->\n    <!--</ul>-->\n<!--</div>-->\n\n\n<!--<script type=\"text/javascript\">-->\n    <!--var elem = $('.left_menu');-->\n    <!--var elem_heigth = elem.offset().top+ elem.height() ;-->\n    <!--var arrow = $(\".arrow_up\");-->\n    <!--$(document).on('scroll', function(){-->\n        <!--if(window.pageYOffset > elem_heigth ){-->\n            <!--if(arrow.is( \":hidden\" )){-->\n                <!--arrow.clearQueue();-->\n                <!--arrow.stop();-->\n                <!--arrow.css('display','block');-->\n                <!--arrow.css('left','0');-->\n                <!--arrow.animate({-->\n                    <!--opacity: 1,-->\n                    <!--left: \"+=50\"-->\n                <!--}, 200);-->\n            <!--}-->\n        <!--}else{-->\n            <!--if(arrow.is( \":visible\" )){-->\n                <!--arrow.clearQueue();-->\n                <!--arrow.stop();-->\n                <!--arrow.css('left','0');-->\n                <!--arrow.animate({-->\n                    <!--opacity: 0.25,-->\n                    <!--left: \"-=50\"-->\n\n                <!--}, 200,function(){-->\n                    <!--arrow.css('display','none');-->\n                <!--});-->\n            <!--}-->\n        <!--}-->\n    <!--})-->\n\n<!--</script>-->";
+  return buffer;
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -1066,14 +1122,22 @@ module.exports = SiteView = (function(_super) {
 
   SiteView.prototype.id = 'site-container';
 
+  SiteView.prototype.autoRender = true;
+
   SiteView.prototype.regions = {
-    header: '#header-container',
+    menu: '#menu-container',
     main: '#page-container'
   };
 
   SiteView.prototype.template = require('./templates/site');
 
   SiteView.prototype.initialize = function() {
+    this.model.fetch({
+      success: function(res) {
+        $('.new_friend_badge').text(res.get('invitations'));
+        return $('.new_messages_badge').text(res.get('messages'));
+      }
+    });
     this.delegate('click', '.menu_main_page', this.home);
     this.delegate('click', '.menu_friends', this.friends);
     this.delegate('click', '.menu_users', this.users);
@@ -1153,10 +1217,19 @@ if (typeof define === 'function' && define.amd) {
 var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  return "<div class=\"navbar navbar-default navbar-fixed-top navbar-collapse collapse navbar-inverse-collapse\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n            <a href=\"../\" class=\"navbar-brand\">Bootswatch</a>\n            <button class=\"navbar-toggle\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbar-main\">\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n        </div>\n        <div class=\"navbar-collapse collapse\" id=\"navbar-main\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"themes\">Themes <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"themes\">\n                        <li><a tabindex=\"-1\" href=\"../default/\">Default</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"../amelia/\">Amelia</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cerulean/\">Cerulean</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cosmo/\">Cosmo</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cyborg/\">Cyborg</a></li>\n                        <li><a tabindex=\"-1\" href=\"../flatly/\">Flatly</a></li>\n                        <li><a tabindex=\"-1\" href=\"../journal/\">Journal</a></li>\n                        <li><a tabindex=\"-1\" href=\"../readable/\">Readable</a></li>\n                        <li><a tabindex=\"-1\" href=\"../simplex/\">Simplex</a></li>\n                        <li><a tabindex=\"-1\" href=\"../slate/\">Slate</a></li>\n                        <li><a tabindex=\"-1\" href=\"../spacelab/\">Spacelab</a></li>\n                        <li><a tabindex=\"-1\" href=\"../united/\">United</a></li>\n                        <li><a tabindex=\"-1\" href=\"../yeti/\">Yeti</a></li>\n                    </ul>\n                </li>\n                <li>\n                    <a href=\"../help/\">Help</a>\n                </li>\n                <li>\n                    <a href=\"http://news.bootswatch.com\">Blog</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"download\">Download <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"download\">\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.min.css\">bootstrap.min.css</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.css\">bootstrap.css</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"./variables.less\">variables.less</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootswatch.less\">bootswatch.less</a></li>\n                    </ul>\n                </li>\n            </ul>\n\n            <ul class=\"nav navbar-nav navbar-right\">\n                <li><a href=\"http://builtwithbootstrap.com/\" target=\"_blank\">Built With Bootstrap</a></li>\n                <li><a href=\"https://wrapbootstrap.com/?ref=bsw\" target=\"_blank\">WrapBootstrap</a></li>\n            </ul>\n\n        </div>\n    </div>\n</div>\n\n<div class=\"main_site\">\n    <div class=\"header-container\" id=\"header-container\"></div>\n    <div class=\"main_chat\"></div>\n    <div class=\"row\">\n        <div class='col-md-3'>\n                <ul class=\"nav nav-pills nav-stacked left_menu\">\n                    <li class=\"menu_main_page\"><a href=\"javascript:;\"><i class=\"fa fa-home fa-fw\"></i> My page</a></li>\n                    <li class=\"menu_friends\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> Fiends<span class=\"badge pull-right new_friend_badge\">1</span></a></li>\n                    <li class=\"menu_messages\"><a href=\"javascript:;\"><i class=\"fa fa-envelope-o fa-fw\"></i>Messages<span class=\"badge pull-right new_messages_badge\">2</span></a>\n                    <li class=\"menu_users\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> All People<span class=\"badge pull-right new_friend_badge\">1</span></a></li></li>\n                    <li class=\"menu_settings\"><a href=\"javascript:;\"><i class=\"fa fa-cogs fa-fw\"></i> Settings</a></li>\n                </ul>\n        </div>\n\n        <div class=\"\" >\n          <div class='col-md-6'  id=\"page-container\">\n          </div>\n        </div>\n        <div class=\"col-md-2\">\n\n            <div class=\"panel panel-primary\">\n                <div class=\"panel-heading\">News</div>\n                <div class=\"panel-body\">\n                    <img src=\"http://asset2.cbsistatic.com/cnwk.1d/i/tim/2010/09/28/0927LazaridisPlayBook_270x203.jpg\" alt=\"news\" class=\"img-thumbnail\" >\n                    Mike Lazaridis, a BlackBerry co-founder and former co-CEO, has officially ditched his plans to acquire the company through a joint bid with a fellow co-founder.\n                    In dissolving the plan, Lazaridis' stake in the sagging company is now 4.99 percent.\n                    Lazaridis made his decision public in a Securities and Exchange Commission filing on Tuesday. Under the now-defunct plan, which was announced in October, Lazaridis and fellow co-founder Douglas Fregin had combined stakes to reach 8 percent total ownership and said they were considering a purchase of the company. Last month, however, BlackBerry took itself off the market, and new management is trying to turn the company around.\n                </div>\n            </div>\n            <div class=\"panel panel-default\">\n                <div class=\"panel-body\">\n                    Panel content\n                </div>\n                <div class=\"panel-footer\">Panel footer</div>\n            </div>\n        </div>\n        <a href=\"#top\" class=\"arrow_up\"><i class=\"fa fa-chevron-up fa-3x\"></i></a>\n    </div>\n</div>\n\n<script type=\"text/javascript\">\n    var elem = $('.left_menu');\n    var elem_heigth = elem.offset().top+ elem.height() ;\n    var arrow = $(\".arrow_up\");\n    $(document).on('scroll', function(){\n       if(window.pageYOffset > elem_heigth ){\n           if(arrow.is( \":hidden\" )){\n             arrow.clearQueue();\n             arrow.stop();\n             arrow.css('display','block');\n             arrow.css('left','0');\n             arrow.animate({\n                   opacity: 1,\n                   left: \"+=50\"\n               }, 200);\n           }\n       }else{\n           if(arrow.is( \":visible\" )){\n               arrow.clearQueue();\n               arrow.stop();\n               arrow.css('left','0');\n               arrow.animate({\n                   opacity: 0.25,\n                   left: \"-=50\"\n\n               }, 200,function(){\n                   arrow.css('display','none');\n               });\n           }\n       }\n    })\n\n</script>";
+  buffer += "<div class=\"navbar navbar-default navbar-fixed-top navbar-collapse collapse navbar-inverse-collapse\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n            <a href=\"../\" class=\"navbar-brand\">Bootswatch</a>\n            <button class=\"navbar-toggle\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbar-main\">\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n        </div>\n        <div class=\"navbar-collapse collapse\" id=\"navbar-main\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"themes\">Themes <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"themes\">\n                        <li><a tabindex=\"-1\" href=\"../default/\">Default</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"../amelia/\">Amelia</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cerulean/\">Cerulean</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cosmo/\">Cosmo</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cyborg/\">Cyborg</a></li>\n                        <li><a tabindex=\"-1\" href=\"../flatly/\">Flatly</a></li>\n                        <li><a tabindex=\"-1\" href=\"../journal/\">Journal</a></li>\n                        <li><a tabindex=\"-1\" href=\"../readable/\">Readable</a></li>\n                        <li><a tabindex=\"-1\" href=\"../simplex/\">Simplex</a></li>\n                        <li><a tabindex=\"-1\" href=\"../slate/\">Slate</a></li>\n                        <li><a tabindex=\"-1\" href=\"../spacelab/\">Spacelab</a></li>\n                        <li><a tabindex=\"-1\" href=\"../united/\">United</a></li>\n                        <li><a tabindex=\"-1\" href=\"../yeti/\">Yeti</a></li>\n                    </ul>\n                </li>\n                <li>\n                    <a href=\"../help/\">Help</a>\n                </li>\n                <li>\n                    <a href=\"http://news.bootswatch.com\">Blog</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"download\">Download <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"download\">\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.min.css\">bootstrap.min.css</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.css\">bootstrap.css</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"./variables.less\">variables.less</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootswatch.less\">bootswatch.less</a></li>\n                    </ul>\n                </li>\n            </ul>\n\n            <ul class=\"nav navbar-nav navbar-right\">\n                <li><a href=\"http://builtwithbootstrap.com/\" target=\"_blank\">Built With Bootstrap</a></li>\n                <li><a href=\"https://wrapbootstrap.com/?ref=bsw\" target=\"_blank\">WrapBootstrap</a></li>\n            </ul>\n\n        </div>\n    </div>\n</div>\n\n<div class=\"main_site\">\n    <div class=\"header-container\" id=\"menu-container\"></div>\n    <div class=\"main_chat\"></div>\n    <div class=\"row\">\n        <div class='col-md-3'>\n                <ul class=\"nav nav-pills nav-stacked left_menu\">\n                    <li class=\"menu_main_page\"><a href=\"javascript:;\"><i class=\"fa fa-home fa-fw\"></i> My page</a></li>\n                    <li class=\"menu_friends\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> Fiends<span class=\"badge pull-right new_friend_badge\">";
+  if (stack1 = helpers.invitations) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.invitations); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span></a></li>\n                    <li class=\"menu_messages\"><a href=\"javascript:;\"><i class=\"fa fa-envelope-o fa-fw\"></i>Messages<span class=\"badge pull-right new_messages_badge\">";
+  if (stack1 = helpers.messages) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.messages); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span></a>\n                    <li class=\"menu_users\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> All People</a></li></li>\n                    <li class=\"menu_settings\"><a href=\"javascript:;\"><i class=\"fa fa-cogs fa-fw\"></i> Settings</a></li>\n                </ul>\n        </div>\n\n        <div class=\"\" >\n          <div class='col-md-6'  id=\"page-container\">\n          </div>\n        </div>\n        <div class=\"col-md-2\">\n\n            <div class=\"panel panel-primary\">\n                <div class=\"panel-heading\">News</div>\n                <div class=\"panel-body\">\n                    <img src=\"http://asset2.cbsistatic.com/cnwk.1d/i/tim/2010/09/28/0927LazaridisPlayBook_270x203.jpg\" alt=\"news\" class=\"img-thumbnail\" >\n                    Mike Lazaridis, a BlackBerry co-founder and former co-CEO, has officially ditched his plans to acquire the company through a joint bid with a fellow co-founder.\n                    In dissolving the plan, Lazaridis' stake in the sagging company is now 4.99 percent.\n                    Lazaridis made his decision public in a Securities and Exchange Commission filing on Tuesday. Under the now-defunct plan, which was announced in October, Lazaridis and fellow co-founder Douglas Fregin had combined stakes to reach 8 percent total ownership and said they were considering a purchase of the company. Last month, however, BlackBerry took itself off the market, and new management is trying to turn the company around.\n                </div>\n            </div>\n            <div class=\"panel panel-default\">\n                <div class=\"panel-body\">\n                    Panel content\n                </div>\n                <div class=\"panel-footer\">Panel footer</div>\n            </div>\n        </div>\n        <a href=\"#top\" class=\"arrow_up\"><i class=\"fa fa-chevron-up fa-3x\"></i></a>\n    </div>\n</div>\n\n<script type=\"text/javascript\">\n    var elem = $('.left_menu');\n    var elem_heigth = elem.offset().top+ elem.height() ;\n    var arrow = $(\".arrow_up\");\n    $(document).on('scroll', function(){\n       if(window.pageYOffset > elem_heigth ){\n           if(arrow.is( \":hidden\" )){\n             arrow.clearQueue();\n             arrow.stop();\n             arrow.css('display','block');\n             arrow.css('left','0');\n             arrow.animate({\n                   opacity: 1,\n                   left: \"+=50\"\n               }, 200);\n           }\n       }else{\n           if(arrow.is( \":visible\" )){\n               arrow.clearQueue();\n               arrow.stop();\n               arrow.css('left','0');\n               arrow.animate({\n                   opacity: 0.25,\n                   left: \"-=50\"\n\n               }, 200,function(){\n                   arrow.css('display','none');\n               });\n           }\n       }\n    })\n\n</script>";
+  return buffer;
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {

@@ -1,5 +1,6 @@
 Controller = require 'controllers/base/controller'
-HeaderView = require 'views/home/header-view'
+MenuView = require 'views/home/menu-view'
+Init = require 'models/init'
 HomePageView = require 'views/home/home-page-view'
 HomeFriendsView = require 'views/home/home-friends-view'
 HomeFriendView = require 'views/home/home-friend-view'
@@ -14,7 +15,7 @@ HomeMessagesView = require 'views/home/home-messages-view'
 module.exports = class HomeController extends Controller
   beforeAction: ->
     super
-    @compose 'header', HeaderView, region: 'header'
+    @compose 'menu',MenuView, region: 'menu'
     $('.left_menu li').removeClass('active');
 
   index: ->

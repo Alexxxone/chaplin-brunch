@@ -612,7 +612,13 @@ table {
   display: inline;
 }
 
-
+.home-page {
+  width: 551px;
+  height: 275px;
+  margin: 0 auto;
+  padding: 5px;
+  margin-bottom: 0.5em;
+}
 .home-page .icon-brunch-logo-napkin {
   background-repeat: no-repeat;
   width: 256px;
@@ -626,7 +632,6 @@ table {
   -webkit-background-size: 100%;
   -moz-background-size: 100%;
   background-size: 100%;
-  background-image: url("http://brunch.io/images/svg/png/brunch-logo-napkin.png");
 }
 
 * {

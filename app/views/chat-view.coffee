@@ -6,7 +6,6 @@ module.exports = class ChatView extends View
   container: '.main_chat'
   autoRender: false
   template: require './templates/chat'
-  params: params
   initialize: ->
     @render()
     $(".chat_container").containerize()
