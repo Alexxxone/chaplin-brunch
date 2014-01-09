@@ -8,10 +8,15 @@ HomeUsersView = require 'views/home/home-users-view'
 Friends = require 'models/friends'
 Friend = require 'models/friend'
 Users = require 'models/users'
+Conversation = require 'models/conversation'
+Conversations = require 'models/conversations'
+HomeConversationView = require 'views/home/home-conversation-view'
+HomeConversationsView = require 'views/home/home-conversations-view'
 Message = require 'models/message'
 Messages = require 'models/messages'
-HomeMessageView = require 'views/home/home-message-view'
-HomeMessagesView = require 'views/home/home-messages-view'
+MessageView = require 'views/messages/message-view'
+MessagesView = require 'views/messages/messages-view'
+
 module.exports = class HomeController extends Controller
   beforeAction: ->
     super
@@ -33,9 +38,14 @@ module.exports = class HomeController extends Controller
     users = new Users
     @view = new HomeUsersView region: 'main', collection: users
     users.fetch()
-  messages: ->
-    messages = new Messages
-    @view = new HomeMessagesView region: 'main', collection: messages
+  conversations: ->
+    conversations = new Conversations
+    @view = new HomeConversationsView region: 'main', collection: conversations
+    conversations.fetch()
+
+  conversation: (params) ->
+    messages = new Messages( id: params.id )
+    @view = new MessagesView region: 'main', collection: messages
     messages.fetch()
 
   settings: ->

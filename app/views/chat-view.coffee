@@ -1,5 +1,5 @@
 View = require 'views/base/view'
-Message = require 'models/message'
+Message = require 'models/conversation'
 
 
 module.exports = class ChatView extends View

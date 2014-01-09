@@ -2,6 +2,7 @@
     list-style: none;
 }
 .each_friend_in_list {
+    height: 112px;
     padding: 5px;
     border:1px solid rgba(215, 244, 255, 0.52);
     border-collapse:collapse;
@@ -24,6 +25,7 @@
 .friend_actions{
     float:right;
     display: inline-block;
+    margin-right: 10px;
 }
 .friend_info{
     margin-left: 115px;
@@ -44,4 +46,13 @@
 }
 .wall_message{
 
+}
+.not_readed{
+    background-color: rgba(0, 160, 250, 0.04);
+}
+.marked_message{
+    background-color: rgba(0, 160, 250, 0.04);
+}
+.remove_message{
+    display: none;
 }

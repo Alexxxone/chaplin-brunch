@@ -1,8 +1,8 @@
 CollectionView = require 'views/base/collection-view'
-View = require 'views/home/home-message-view'
-template = require './templates/messages'
+View = require 'views/home/home-conversation-view'
+template = require './templates/conversations'
 
-module.exports = class HomeMessagesView extends CollectionView
+module.exports = class HomeConversationsView extends CollectionView
   itemView: View
   container: '#container'
   autoRender: true
@@ -17,4 +17,4 @@ module.exports = class HomeMessagesView extends CollectionView
 #      success: (response) ->
 #        console.log response
     console.log @collection
-    $('.menu_messages').addClass('active');
+    $('.menu_conversations').addClass('active');

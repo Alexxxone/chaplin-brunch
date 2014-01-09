@@ -138,7 +138,7 @@ module.exports = Controller = (function(_super) {
 });
 
 ;require.register("controllers/home-controller", function(exports, require, module) {
-var Controller, Friend, Friends, HomeController, HomeFriendView, HomeFriendsView, HomeMessageView, HomeMessagesView, HomePageView, HomeUsersView, Init, MenuView, Message, Messages, Users, _ref,
+var Controller, Conversation, Conversations, Friend, Friends, HomeController, HomeConversationView, HomeConversationsView, HomeFriendView, HomeFriendsView, HomePageView, HomeUsersView, Init, MenuView, Message, MessageView, Messages, MessagesView, Users, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -162,13 +162,21 @@ Friend = require('models/friend');
 
 Users = require('models/users');
 
+Conversation = require('models/conversation');
+
+Conversations = require('models/conversations');
+
+HomeConversationView = require('views/home/home-conversation-view');
+
+HomeConversationsView = require('views/home/home-conversations-view');
+
 Message = require('models/message');
 
 Messages = require('models/messages');
 
-HomeMessageView = require('views/home/home-message-view');
+MessageView = require('views/messages/message-view');
 
-HomeMessagesView = require('views/home/home-messages-view');
+MessagesView = require('views/messages/messages-view');
 
 module.exports = HomeController = (function(_super) {
   __extends(HomeController, _super);
@@ -216,10 +224,22 @@ module.exports = HomeController = (function(_super) {
     return users.fetch();
   };
 
-  HomeController.prototype.messages = function() {
+  HomeController.prototype.conversations = function() {
+    var conversations;
+    conversations = new Conversations;
+    this.view = new HomeConversationsView({
+      region: 'main',
+      collection: conversations
+    });
+    return conversations.fetch();
+  };
+
+  HomeController.prototype.conversation = function(params) {
     var messages;
-    messages = new Messages;
-    this.view = new HomeMessagesView({
+    messages = new Messages({
+      id: params.id
+    });
+    this.view = new MessagesView({
       region: 'main',
       collection: messages
     });
@@ -343,6 +363,69 @@ module.exports = Model = (function(_super) {
 })(Chaplin.Model);
 });
 
+;require.register("models/conversation", function(exports, require, module) {
+var Conversation, Model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('./base/model');
+
+module.exports = Conversation = (function(_super) {
+  __extends(Conversation, _super);
+
+  function Conversation() {
+    _ref = Conversation.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Conversation.prototype.urlRoot = "http://localhost:3000/conversations/:id.json";
+
+  return Conversation;
+
+})(Model);
+});
+
+;require.register("models/conversations", function(exports, require, module) {
+var Collection, Conversations, Model, _ref,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Collection = require('./base/collection');
+
+Model = require('./conversation');
+
+module.exports = Conversations = (function(_super) {
+  __extends(Conversations, _super);
+
+  function Conversations() {
+    this.fetch = __bind(this.fetch, this);
+    _ref = Conversations.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  _.extend(Conversations.prototype, Chaplin.SyncMachine);
+
+  Conversations.prototype.model = Model;
+
+  Conversations.prototype.fetch = function() {
+    var api, collection;
+    this.beginSync;
+    collection = this;
+    api = "http://localhost:3000/conversations.json";
+    return $.getJSON(api).error(function(a, b) {
+      return this.unsync;
+    }).success(function(data) {
+      collection.add(data);
+      return this.finishSync;
+    });
+  };
+
+  return Conversations;
+
+})(Collection);
+});
+
 ;require.register("models/friend", function(exports, require, module) {
 var Friend, Model, _ref,
   __hasProp = {}.hasOwnProperty,
@@ -443,7 +526,7 @@ module.exports = Message = (function(_super) {
     return _ref;
   }
 
-  Message.prototype.urlRoot = "/";
+  Message.prototype.urlRoot = "http://localhost:3000/messages/";
 
   return Message;
 
@@ -452,7 +535,6 @@ module.exports = Message = (function(_super) {
 
 ;require.register("models/messages", function(exports, require, module) {
 var Collection, Messages, Model, _ref,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -464,27 +546,19 @@ module.exports = Messages = (function(_super) {
   __extends(Messages, _super);
 
   function Messages() {
-    this.fetch = __bind(this.fetch, this);
     _ref = Messages.__super__.constructor.apply(this, arguments);
     return _ref;
   }
 
-  _.extend(Messages.prototype, Chaplin.SyncMachine);
+  Messages.prototype.initialize = function(option) {
+    console.log('MODEL PARAMS');
+    this.id = option.id;
+    return Messages.__super__.initialize.apply(this, arguments);
+  };
 
   Messages.prototype.model = Model;
 
-  Messages.prototype.fetch = function() {
-    var api, collection;
-    this.beginSync;
-    collection = this;
-    api = "http://localhost:3000/messages.json";
-    return $.getJSON(api).error(function(a, b) {
-      return this.unsync;
-    }).success(function(data) {
-      collection.add(data);
-      return this.finishSync;
-    });
-  };
+  Messages.prototype.url = "http://localhost:3000/messages.json?id=" + Messages.id;
 
   return Messages;
 
@@ -563,10 +637,11 @@ module.exports = function(match) {
   match('friends/:id', 'home#show');
   match('users', 'home#users');
   match('settings', 'home#settings');
-  match('messages', 'home#messages');
+  match('conversations', 'home#conversations');
+  match('conversation/:id', 'home#conversation');
   return {
     urlPath: function() {
-      return "friends/" + (this.get('id')) + "    /friends/    /users/    /settings/    /messages/    //";
+      return "friends/" + (this.get('id')) + "    /friends/    /users/    /settings/    /conversations/    /conversation/:id/    /messages/destroy/:id/    //";
     }
   };
 };
@@ -627,7 +702,7 @@ var ChatView, Message, View, _ref,
 
 View = require('views/base/view');
 
-Message = require('models/message');
+Message = require('models/conversation');
 
 module.exports = ChatView = (function(_super) {
   __extends(ChatView, _super);
@@ -654,6 +729,99 @@ module.exports = ChatView = (function(_super) {
   return ChatView;
 
 })(View);
+});
+
+;require.register("views/home/home-conversation-view", function(exports, require, module) {
+var Chat, CoversationView, View, utils, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+Chat = require('views/chat-view');
+
+utils = require('lib/utils');
+
+module.exports = CoversationView = (function(_super) {
+  __extends(CoversationView, _super);
+
+  function CoversationView() {
+    _ref = CoversationView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  CoversationView.prototype.autoRender = true;
+
+  CoversationView.prototype.template = require('./templates/conversation');
+
+  CoversationView.prototype.initialize = function() {
+    CoversationView.__super__.initialize.apply(this, arguments);
+    this.model.set({
+      created_at: moment(this.model.get('created_at')).fromNow()
+    });
+    this.delegate('click', '.start_chat', this.start_chat);
+    return this.delegate('click', '.each_friend_in_list', this.open_conversation);
+  };
+
+  CoversationView.prototype.start_chat = function() {
+    return new Chat({
+      params: this.model.get('user').id
+    });
+  };
+
+  CoversationView.prototype.open_conversation = function() {
+    return utils.redirectTo({
+      url: '/conversation/' + this.model.get('id')
+    });
+  };
+
+  return CoversationView;
+
+})(View);
+});
+
+;require.register("views/home/home-conversations-view", function(exports, require, module) {
+var CollectionView, HomeConversationsView, View, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CollectionView = require('views/base/collection-view');
+
+View = require('views/home/home-conversation-view');
+
+template = require('./templates/conversations');
+
+module.exports = HomeConversationsView = (function(_super) {
+  __extends(HomeConversationsView, _super);
+
+  function HomeConversationsView() {
+    _ref = HomeConversationsView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  HomeConversationsView.prototype.itemView = View;
+
+  HomeConversationsView.prototype.container = '#container';
+
+  HomeConversationsView.prototype.autoRender = true;
+
+  HomeConversationsView.prototype.className = 'messages-page';
+
+  HomeConversationsView.prototype.containerMethod = 'html';
+
+  HomeConversationsView.prototype.template = template;
+
+  HomeConversationsView.prototype.listSelector = '#messages_content';
+
+  HomeConversationsView.prototype.initialize = function() {
+    HomeConversationsView.__super__.initialize.apply(this, arguments);
+    console.log(this.collection);
+    return $('.menu_conversations').addClass('active');
+  };
+
+  return HomeConversationsView;
+
+})(CollectionView);
 });
 
 ;require.register("views/home/home-friend-view", function(exports, require, module) {
@@ -740,90 +908,6 @@ module.exports = HomeFriendsView = (function(_super) {
   };
 
   return HomeFriendsView;
-
-})(CollectionView);
-});
-
-;require.register("views/home/home-message-view", function(exports, require, module) {
-var Chat, MessageView, View, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-View = require('views/base/view');
-
-Chat = require('views/chat-view');
-
-module.exports = MessageView = (function(_super) {
-  __extends(MessageView, _super);
-
-  function MessageView() {
-    _ref = MessageView.__super__.constructor.apply(this, arguments);
-    return _ref;
-  }
-
-  MessageView.prototype.autoRender = true;
-
-  MessageView.prototype.template = require('./templates/message');
-
-  MessageView.prototype.initialize = function() {
-    MessageView.__super__.initialize.apply(this, arguments);
-    this.model.set({
-      created_at: moment(this.model.get('created_at')).fromNow()
-    });
-    return this.delegate('click', '.start_chat', this.start_chat);
-  };
-
-  MessageView.prototype.start_chat = function() {
-    return new Chat({
-      params: this.model.get('user').id
-    });
-  };
-
-  return MessageView;
-
-})(View);
-});
-
-;require.register("views/home/home-messages-view", function(exports, require, module) {
-var CollectionView, HomeMessagesView, View, template, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-CollectionView = require('views/base/collection-view');
-
-View = require('views/home/home-message-view');
-
-template = require('./templates/messages');
-
-module.exports = HomeMessagesView = (function(_super) {
-  __extends(HomeMessagesView, _super);
-
-  function HomeMessagesView() {
-    _ref = HomeMessagesView.__super__.constructor.apply(this, arguments);
-    return _ref;
-  }
-
-  HomeMessagesView.prototype.itemView = View;
-
-  HomeMessagesView.prototype.container = '#container';
-
-  HomeMessagesView.prototype.autoRender = true;
-
-  HomeMessagesView.prototype.className = 'messages-page';
-
-  HomeMessagesView.prototype.containerMethod = 'html';
-
-  HomeMessagesView.prototype.template = template;
-
-  HomeMessagesView.prototype.listSelector = '#messages_content';
-
-  HomeMessagesView.prototype.initialize = function() {
-    HomeMessagesView.__super__.initialize.apply(this, arguments);
-    console.log(this.collection);
-    return $('.menu_messages').addClass('active');
-  };
-
-  return HomeMessagesView;
 
 })(CollectionView);
 });
@@ -923,6 +1007,72 @@ module.exports = MenuView = (function(_super) {
   return MenuView;
 
 })(View);
+});
+
+;require.register("views/home/templates/conversation", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, stack2, self=this, functionType="function", escapeExpression=this.escapeExpression;
+
+function program1(depth0,data) {
+  
+  
+  return "\n    <li class=\"each_friend_in_list\">\n";
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n    <li class=\"each_friend_in_list not_readed\">\n";
+  }
+
+  stack2 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.last_message)),stack1 == null || stack1 === false ? stack1 : stack1.readed), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack2 || stack2 === 0) { buffer += stack2; }
+  buffer += "\n    <div class=\"messages_image\" >\n        <img src=\"images/deactivated_100.gif\" alt=\"image\"/>\n    </div>\n    <div class=\"friend_info\" >\n        <blockquote >\n            <p>";
+  if (stack2 = helpers.body) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = (depth0 && depth0.body); stack2 = typeof stack2 === functionType ? stack2.call(depth0, {hash:{},data:data}) : stack2; }
+  buffer += escapeExpression(stack2)
+    + "</p>\n            <small class=\"created_at\">";
+  if (stack2 = helpers.created_at) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = (depth0 && depth0.created_at); stack2 = typeof stack2 === functionType ? stack2.call(depth0, {hash:{},data:data}) : stack2; }
+  buffer += escapeExpression(stack2)
+    + ", By "
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = (depth0 && depth0.last_message)),stack1 == null || stack1 === false ? stack1 : stack1.user)),stack1 == null || stack1 === false ? stack1 : stack1.username)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</small>\n            <small><cite title=\"Source Title\">"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.last_message)),stack1 == null || stack1 === false ? stack1 : stack1.body)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</cite></small>\n        </blockquote>\n    </div>\n    <div class=\"friend_actions\">\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n    </div>\n</li>\n\n\n";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/home/templates/conversations", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<h4>Conversations</h4>\n<ul id='messages_content'  class=\"friends_list\">\n</ul>\n\n";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
 });
 
 ;require.register("views/home/templates/friend", function(exports, require, module) {
@@ -1050,24 +1200,140 @@ if (typeof define === 'function' && define.amd) {
 }
 });
 
-;require.register("views/home/templates/message", function(exports, require, module) {
+;require.register("views/messages/message-view", function(exports, require, module) {
+var MessageView, View, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+module.exports = MessageView = (function(_super) {
+  __extends(MessageView, _super);
+
+  function MessageView() {
+    _ref = MessageView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MessageView.prototype.autoRender = true;
+
+  MessageView.prototype.template = require('./templates/message');
+
+  MessageView.prototype.initialize = function() {
+    MessageView.__super__.initialize.apply(this, arguments);
+    this.model.set({
+      created_at: moment(this.model.get('created_at')).fromNow()
+    });
+    this.delegate('click', '.start_chat', this.start_chat);
+    this.delegate('click', '.each_friend_in_list', this.mark_message);
+    return this.delegate('click', '.remove_message', this.remove_message);
+  };
+
+  MessageView.prototype.start_chat = function() {
+    return new Chat({
+      params: this.model.get('user').id
+    });
+  };
+
+  MessageView.prototype.mark_message = function() {
+    $(this.el).toggleClass('marked_message');
+    return $(this.el).find('.remove_message').fadeToggle();
+  };
+
+  MessageView.prototype.remove_message = function() {
+    return this.model.destroy();
+  };
+
+  return MessageView;
+
+})(View);
+});
+
+;require.register("views/messages/messages-view", function(exports, require, module) {
+var CollectionView, MessagesView, View, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CollectionView = require('views/base/collection-view');
+
+View = require('views/messages/message-view');
+
+template = require('./templates/messages');
+
+module.exports = MessagesView = (function(_super) {
+  __extends(MessagesView, _super);
+
+  function MessagesView() {
+    _ref = MessagesView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MessagesView.prototype.itemView = View;
+
+  MessagesView.prototype.container = '#container';
+
+  MessagesView.prototype.autoRender = true;
+
+  MessagesView.prototype.className = 'messages-page';
+
+  MessagesView.prototype.containerMethod = 'html';
+
+  MessagesView.prototype.template = template;
+
+  MessagesView.prototype.listSelector = '#messages_content';
+
+  MessagesView.prototype.initialize = function() {
+    MessagesView.__super__.initialize.apply(this, arguments);
+    console.log(this.collection);
+    $('.menu_conversations').addClass('active');
+    this.delegate('click', '.send_message', this.send_message);
+    return this.collection.on("push", function(model) {
+      return alert("Ahoy " + model.get("body") + "!");
+    });
+  };
+
+  MessagesView.prototype.send_message = function() {
+    var input;
+    input = $(this.el).find('.message_body');
+    if (input.val().length > 2) {
+      this.collection.push({
+        sender_id: 1,
+        user: {
+          username: 'Alex0-test'
+        },
+        body: input.val(),
+        receiver_id: 4,
+        conversation_id: 3
+      });
+      return input.val('');
+    }
+  };
+
+  return MessagesView;
+
+})(CollectionView);
+});
+
+;require.register("views/messages/templates/message", function(exports, require, module) {
 var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "\n<li class=\"each_friend_in_list\">\n    <div class=\"messages_image\" >\n        <img src=\"images/deactivated_100.gif\" alt=\"image\"/>\n    </div>\n    <div class=\"friend_info\" >\n        <blockquote >\n            <p>";
+  buffer += "<li class=\"each_friend_in_list\">\n    <div class=\"messages_image\" >\n        <img src=\"/images/deactivated_100.gif\" alt=\"image\" height=\"50\" width=\"50\"/>\n    </div>\n    <div class=\"friend_info\" >\n\n            <p>";
   if (stack1 = helpers.body) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.body); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</p>\n            <small class=\"created_at\">";
+    + "</p>\n            <small class=\"created_at text-muted\">";
   if (stack1 = helpers.created_at) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.created_at); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</small>\n            <small><cite title=\"Source Title\">"
+    + ", By "
     + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.user)),stack1 == null || stack1 === false ? stack1 : stack1.username)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
-    + "</cite></small>\n        </blockquote>\n    </div>\n    <div class=\"friend_actions\">\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n    </div>\n</li>\n\n";
+    + "</small>\n            <small><cite title=\"Source Title\">"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.messages)),stack1 == null || stack1 === false ? stack1 : stack1.body)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</cite></small>\n\n    </div>\n    <div class=\"friend_actions\">\n        <button type=\"button\" class=\"close remove_message pull-right\" aria-hidden=\"true\">&times;</button>\n    </div>\n\n</li>\n\n\n";
   return buffer;
   });
 if (typeof define === 'function' && define.amd) {
@@ -1081,14 +1347,14 @@ if (typeof define === 'function' && define.amd) {
 }
 });
 
-;require.register("views/home/templates/messages", function(exports, require, module) {
+;require.register("views/messages/templates/messages", function(exports, require, module) {
 var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<h4>Messages</h4>\n<ul id='messages_content'  class=\"friends_list\">\n</ul>\n\n";
+  return "<h4>Messages</h4>\n<ul id='messages_content'  class=\"friends_list\">\n</ul>\n\n<div class=\"input-group\">\n    <span class=\"input-group-addon\">:)</span>\n    <input type=\"text\" class=\"form-control message_body\">\n    <span class=\"input-group-btn\">\n      <button class=\"btn btn-primary send_message\" type=\"button\">Send</button>\n    </span>\n</div>";
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -1142,7 +1408,7 @@ module.exports = SiteView = (function(_super) {
     this.delegate('click', '.menu_friends', this.friends);
     this.delegate('click', '.menu_users', this.users);
     this.delegate('click', '.menu_settings', this.settings);
-    return this.delegate('click', '.menu_messages', this.messages);
+    return this.delegate('click', '.menu_conversations', this.conversations);
   };
 
   SiteView.prototype.home = function() {
@@ -1169,9 +1435,9 @@ module.exports = SiteView = (function(_super) {
     });
   };
 
-  SiteView.prototype.messages = function() {
+  SiteView.prototype.conversations = function() {
     return utils.redirectTo({
-      url: '/messages'
+      url: '/conversations'
     });
   };
 
@@ -1224,7 +1490,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.invitations) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.invitations); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span></a></li>\n                    <li class=\"menu_messages\"><a href=\"javascript:;\"><i class=\"fa fa-envelope-o fa-fw\"></i>Messages<span class=\"badge pull-right new_messages_badge\">";
+    + "</span></a></li>\n                    <li class=\"menu_conversations\"><a href=\"javascript:;\"><i class=\"fa fa-envelope-o fa-fw\"></i>Messages<span class=\"badge pull-right new_messages_badge\">";
   if (stack1 = helpers.messages) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.messages); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
