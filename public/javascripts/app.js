@@ -558,7 +558,9 @@ module.exports = Messages = (function(_super) {
 
   Messages.prototype.model = Model;
 
-  Messages.prototype.url = "http://localhost:3000/messages.json?id=" + Messages.id;
+  Messages.prototype.url = function() {
+    return "http://localhost:3000/messages.json?id=" + this.id;
+  };
 
   return Messages;
 

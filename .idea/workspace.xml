@@ -2,29 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92e223d6-100d-4e78-a96e-2a343d2555f9" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/models/conversation.coffee" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/models/message.coffee" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/models/messages.coffee" afterPath="$PROJECT_DIR$/app/models/conversations.coffee" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/home/home-message-view.coffee" afterPath="$PROJECT_DIR$/app/views/home/home-conversation-view.coffee" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/home/home-messages-view.coffee" afterPath="$PROJECT_DIR$/app/views/home/home-conversations-view.coffee" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/home/templates/message.hbs" afterPath="$PROJECT_DIR$/app/views/home/templates/conversation.hbs" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/views/home/templates/messages.hbs" afterPath="$PROJECT_DIR$/app/views/home/templates/conversations.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/app.js.map" afterPath="$PROJECT_DIR$/public/javascripts/app.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/app.js" afterPath="$PROJECT_DIR$/public/javascripts/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/chat-view.coffee" afterPath="$PROJECT_DIR$/app/views/chat-view.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/app/models/conversation.rb" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/app/models/conversation.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/stylesheets/custom.css" afterPath="$PROJECT_DIR$/public/stylesheets/custom.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/app/controllers/friends_controller.rb" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/app/controllers/friends_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/home-controller.coffee" afterPath="$PROJECT_DIR$/app/controllers/home-controller.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/app/views/messages/index.json.rabl" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/app/views/messages/index.json.rabl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/app/models/message.rb" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/app/models/message.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/app/controllers/messages_controller.rb" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/app/controllers/messages_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/routes.coffee" afterPath="$PROJECT_DIR$/app/routes.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/config/routes.rb" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/config/routes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/app/views/messages/show.json.rabl" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/app/views/messages/show.json.rabl" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/site-view.coffee" afterPath="$PROJECT_DIR$/app/views/site-view.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/templates/site.hbs" afterPath="$PROJECT_DIR$/app/views/templates/site.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/app/models/user.rb" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/app/models/user.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/messages.coffee" afterPath="$PROJECT_DIR$/app/models/messages.coffee" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="heroku_brunch.iws" />
@@ -60,7 +38,7 @@
       <file leaf-file-name="messages.coffee" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/models/messages.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="19" selection-start="197" selection-end="197" vertical-scroll-proportion="0.13193718" vertical-offset="0" max-vertical-offset="955">
+            <state line="11" column="4" selection-start="238" selection-end="238" vertical-scroll-proportion="0.20732984" vertical-offset="0" max-vertical-offset="955">
               <folding />
             </state>
           </provider>
@@ -1125,7 +1103,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/models/messages.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="19" selection-start="197" selection-end="197" vertical-scroll-proportion="0.13193718" vertical-offset="0" max-vertical-offset="955">
+        <state line="11" column="4" selection-start="238" selection-end="238" vertical-scroll-proportion="0.20732984" vertical-offset="0" max-vertical-offset="955">
           <folding />
         </state>
       </provider>

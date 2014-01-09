@@ -8,7 +8,8 @@ module.exports = class Messages extends Collection
     @id = option.id
     super
   model : Model
-  url: "http://localhost:3000/messages.json?id="+@id
+  url: ->
+    "http://localhost:3000/messages.json?id="+@id
 
 
 
