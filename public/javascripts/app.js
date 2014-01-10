@@ -378,7 +378,7 @@ module.exports = Conversation = (function(_super) {
     return _ref;
   }
 
-  Conversation.prototype.urlRoot = "http://localhost:3000/conversations/:id.json";
+  Conversation.prototype.urlRoot = "    http://alexxxxone-backend.herokuapp.com/conversations/:id.json";
 
   return Conversation;
 
@@ -412,7 +412,7 @@ module.exports = Conversations = (function(_super) {
     var api, collection;
     this.beginSync;
     collection = this;
-    api = "http://localhost:3000/conversations.json";
+    api = "http://alexxxxone-backend.herokuapp.com/conversations.json";
     return $.getJSON(api).error(function(a, b) {
       return this.unsync;
     }).success(function(data) {
@@ -475,7 +475,7 @@ module.exports = Friends = (function(_super) {
     var api, collection;
     this.beginSync;
     collection = this;
-    api = "http://localhost:3000/friends.json";
+    api = "http://alexxxxone-backend.herokuapp.com/friends.json";
     return $.getJSON(api).error(function(a, b) {
       return this.unsync;
     }).success(function(data) {
@@ -504,7 +504,7 @@ module.exports = Init = (function(_super) {
     return _ref;
   }
 
-  Init.prototype.url = "http://localhost:3000/init.json";
+  Init.prototype.url = "http://alexxxxone-backend.herokuapp.com/init.json";
 
   return Init;
 
@@ -526,7 +526,7 @@ module.exports = Message = (function(_super) {
     return _ref;
   }
 
-  Message.prototype.urlRoot = "http://localhost:3000/messages/";
+  Message.prototype.urlRoot = "http://alexxxxone-backend.herokuapp.com/messages/";
 
   return Message;
 
@@ -550,10 +550,10 @@ module.exports = Messages = (function(_super) {
     return _ref;
   }
 
-  Messages.prototype.url = "http://localhost:3000/messages.json";
+  Messages.prototype.url = "http://alexxxxone-backend.herokuapp.com/messages.json";
 
   Messages.prototype.initialize = function(option) {
-    this.url = "http://localhost:3000/messages.json?id=" + option.id;
+    this.url = "http://alexxxxone-backend.herokuapp.com/messages.json?id=" + option.id;
     return Messages.__super__.initialize.apply(this, arguments);
   };
 
@@ -613,7 +613,7 @@ module.exports = Users = (function(_super) {
     var api, collection;
     this.beginSync;
     collection = this;
-    api = "http://localhost:3000/users.json";
+    api = "http://alexxxxone-backend.herokuapp.com/users.json";
     return $.getJSON(api).error(function(a, err) {
       this.unsync;
       return console.log(err);

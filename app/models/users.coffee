@@ -7,8 +7,8 @@ module.exports = class Users extends Collection
   fetch: =>
     @beginSync
     collection = @
-#    api = "http://alexxxxone-backend.herokuapp.com/users.json"
-    api = "http://localhost:3000/users.json"
+    api = "http://alexxxxone-backend.herokuapp.com/users.json"
+#    api = "http://localhost:3000/users.json"
     $.getJSON(api
     ).error (a,err)->
        @unsync

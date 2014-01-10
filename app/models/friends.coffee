@@ -8,8 +8,8 @@ module.exports = class Friends extends Collection
   fetch: =>
     @beginSync
     collection = @
-#    api = "http://alexxxxone-backend.herokuapp.com/friends.json"
-    api = "http://localhost:3000/friends.json"
+    api = "http://alexxxxone-backend.herokuapp.com/friends.json"
+#    api = "http://localhost:3000/friends.json"
 
     $.getJSON(api
     ).error (a,b)->
