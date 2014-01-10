@@ -550,17 +550,14 @@ module.exports = Messages = (function(_super) {
     return _ref;
   }
 
+  Messages.prototype.url = "http://localhost:3000/messages.json";
+
   Messages.prototype.initialize = function(option) {
-    console.log('MODEL PARAMS');
-    this.id = option.id;
+    this.url = "http://localhost:3000/messages.json?id=" + option.id;
     return Messages.__super__.initialize.apply(this, arguments);
   };
 
   Messages.prototype.model = Model;
-
-  Messages.prototype.url = function() {
-    return "http://localhost:3000/messages.json?id=" + this.id;
-  };
 
   return Messages;
 
@@ -1228,7 +1225,8 @@ module.exports = MessageView = (function(_super) {
     });
     this.delegate('click', '.start_chat', this.start_chat);
     this.delegate('click', '.each_friend_in_list', this.mark_message);
-    return this.delegate('click', '.remove_message', this.remove_message);
+    this.delegate('click', '.remove_message', this.remove_message);
+    return this.scroll_to_bottom();
   };
 
   MessageView.prototype.start_chat = function() {
@@ -1244,6 +1242,14 @@ module.exports = MessageView = (function(_super) {
 
   MessageView.prototype.remove_message = function() {
     return this.model.destroy();
+  };
+
+  MessageView.prototype.scroll_to_bottom = function() {
+    var scrollTo_val;
+    scrollTo_val = $('#messages_content>div:first').height() * $('#messages_content > div').length + 'px';
+    return $('#messages_content').slimScroll({
+      scrollTo: scrollTo_val
+    });
   };
 
   return MessageView;
@@ -1274,24 +1280,27 @@ module.exports = MessagesView = (function(_super) {
 
   MessagesView.prototype.container = '#container';
 
-  MessagesView.prototype.autoRender = true;
+  MessagesView.prototype.autoRender = false;
 
   MessagesView.prototype.className = 'messages-page';
 
   MessagesView.prototype.containerMethod = 'html';
 
+  MessagesView.prototype.animationDuration = 1000;
+
   MessagesView.prototype.template = template;
 
   MessagesView.prototype.listSelector = '#messages_content';
 
+  MessagesView.prototype.loadingSelector = ".loading";
+
   MessagesView.prototype.initialize = function() {
     MessagesView.__super__.initialize.apply(this, arguments);
-    console.log(this.collection);
     $('.menu_conversations').addClass('active');
     this.delegate('click', '.send_message', this.send_message);
-    return this.collection.on("push", function(model) {
-      return alert("Ahoy " + model.get("body") + "!");
-    });
+    this.scroll_to_bottom();
+    this.listenTo(this.collection, 'push remove', this.render);
+    return console.log(this.collection.models);
   };
 
   MessagesView.prototype.send_message = function() {
@@ -1307,8 +1316,17 @@ module.exports = MessagesView = (function(_super) {
         receiver_id: 4,
         conversation_id: 3
       });
-      return input.val('');
+      input.val('');
+      return this.scroll_to_bottom();
     }
+  };
+
+  MessagesView.prototype.scroll_to_bottom = function() {
+    var scrollTo_val;
+    scrollTo_val = $('#messages_content').prop('scrollHeight') + 'px';
+    return $('#messages_content').slimScroll({
+      scrollTo: scrollTo_val
+    });
   };
 
   return MessagesView;
@@ -1356,7 +1374,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<h4>Messages</h4>\n<ul id='messages_content'  class=\"friends_list\">\n</ul>\n\n<div class=\"input-group\">\n    <span class=\"input-group-addon\">:)</span>\n    <input type=\"text\" class=\"form-control message_body\">\n    <span class=\"input-group-btn\">\n      <button class=\"btn btn-primary send_message\" type=\"button\">Send</button>\n    </span>\n</div>";
+  return "<h4>Messages</h4>\n<div class=\"loading\"><div id=\"canvasloader-container\" class=\"wrapper\"></div></div>\n<ul id='messages_content'  class=\"friends_list\">\n</ul>\n\n<div class=\"input-group\">\n    <span class=\"input-group-addon\">:)</span>\n    <input type=\"text\" class=\"form-control message_body\">\n    <span class=\"input-group-btn\">\n      <button class=\"btn btn-primary send_message\" type=\"button\">Send</button>\n    </span>\n</div>\n\n\n\n\n<script type=\"text/javascript\">\n    var cl = new CanvasLoader('canvasloader-container');\n    cl.setColor('#008cba'); // default is '#000000'\n    cl.setShape('spiral'); // default is 'oval'\n    cl.setDiameter(71); // default is 40\n    cl.setDensity(90); // default is 40\n    cl.setRange(0.8); // default is 1.3\n    cl.setFPS(51); // default is 24\n    cl.show(); // Hidden by default\n\n    // This bit is only for positioning - not necessary\n    var loaderObj = document.getElementById(\"canvasLoader\");\n    loaderObj.style.position = \"absolute\";\n    loaderObj.style[\"top\"] = cl.getDiameter() * -0.5 + \"px\";\n    loaderObj.style[\"left\"] = cl.getDiameter() * -0.5 + \"px\";\n\n    $('#messages_content').slimScroll({\n        width: 'auto',\n        height: '745px',\n        size: '10px',\n        position: 'right',\n        color: '#008cba',\n        wheelStep: 10,\n        allowPageScroll: false,\n        disableFadeOut: false\n    });\n</script>\n\n\n";
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -1402,8 +1420,12 @@ module.exports = SiteView = (function(_super) {
   SiteView.prototype.initialize = function() {
     this.model.fetch({
       success: function(res) {
-        $('.new_friend_badge').text(res.get('invitations'));
-        return $('.new_messages_badge').text(res.get('messages'));
+        if (res.get('invitations') > 0) {
+          $('.new_friend_badge').text(res.get('invitations'));
+        }
+        if (res.get('messages') > 0) {
+          return $('.new_messages_badge').text(res.get('messages'));
+        }
       }
     });
     this.delegate('click', '.menu_main_page', this.home);

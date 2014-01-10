@@ -1,3 +1,6 @@
+.navbar.navbar-default{
+    box-shadow: 0px 3px 5px grey!important;
+}
 .friends_list{
     list-style: none;
 }
@@ -54,5 +57,19 @@
     background-color: rgba(0, 160, 250, 0.04);
 }
 .remove_message{
+    display: none;
+}
+.wrapper {
+    position:absolute;
+    top:50%;
+    left:50%;
+}
+.loading{
+    display: none;
+}
+.animated-item-view{
+    display: block;
+}
+.animated-item-view-end{
     display: none;
 }

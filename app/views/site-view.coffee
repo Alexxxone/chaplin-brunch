@@ -14,8 +14,8 @@ module.exports = class SiteView extends View
   initialize: ->
     @model.fetch
       success: (res)->
-        $('.new_friend_badge').text(res.get('invitations'))
-        $('.new_messages_badge').text(res.get('messages'))
+        $('.new_friend_badge').text(res.get('invitations')) if res.get('invitations') > 0
+        $('.new_messages_badge').text(res.get('messages')) if res.get('messages') > 0
     @delegate 'click', '.menu_main_page', @home
     @delegate 'click', '.menu_friends', @friends
     @delegate 'click', '.menu_users', @users
