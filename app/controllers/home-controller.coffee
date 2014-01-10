@@ -44,6 +44,7 @@ module.exports = class HomeController extends Controller
     conversations.fetch()
 
   conversation: (params) ->
+
     messages = new Messages( id: params.id )
     @view = new MessagesView region: 'main', collection: messages
     messages.fetch()

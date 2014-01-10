@@ -378,7 +378,7 @@ module.exports = Conversation = (function(_super) {
     return _ref;
   }
 
-  Conversation.prototype.urlRoot = "    http://alexxxxone-backend.herokuapp.com/conversations/:id.json";
+  Conversation.prototype.urlRoot = "http://localhost:3000/conversations/:id.json";
 
   return Conversation;
 
@@ -387,7 +387,6 @@ module.exports = Conversation = (function(_super) {
 
 ;require.register("models/conversations", function(exports, require, module) {
 var Collection, Conversations, Model, _ref,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -399,27 +398,11 @@ module.exports = Conversations = (function(_super) {
   __extends(Conversations, _super);
 
   function Conversations() {
-    this.fetch = __bind(this.fetch, this);
     _ref = Conversations.__super__.constructor.apply(this, arguments);
     return _ref;
   }
 
-  _.extend(Conversations.prototype, Chaplin.SyncMachine);
-
-  Conversations.prototype.model = Model;
-
-  Conversations.prototype.fetch = function() {
-    var api, collection;
-    this.beginSync;
-    collection = this;
-    api = "http://alexxxxone-backend.herokuapp.com/conversations.json";
-    return $.getJSON(api).error(function(a, b) {
-      return this.unsync;
-    }).success(function(data) {
-      collection.add(data);
-      return this.finishSync;
-    });
-  };
+  Conversations.prototype.url = "http://localhost:3000/conversations.json";
 
   return Conversations;
 
@@ -450,7 +433,6 @@ module.exports = Friend = (function(_super) {
 
 ;require.register("models/friends", function(exports, require, module) {
 var Collection, Friends, Model, _ref,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -462,27 +444,11 @@ module.exports = Friends = (function(_super) {
   __extends(Friends, _super);
 
   function Friends() {
-    this.fetch = __bind(this.fetch, this);
     _ref = Friends.__super__.constructor.apply(this, arguments);
     return _ref;
   }
 
-  _.extend(Friends.prototype, Chaplin.SyncMachine);
-
-  Friends.prototype.model = Model;
-
-  Friends.prototype.fetch = function() {
-    var api, collection;
-    this.beginSync;
-    collection = this;
-    api = "http://alexxxxone-backend.herokuapp.com/friends.json";
-    return $.getJSON(api).error(function(a, b) {
-      return this.unsync;
-    }).success(function(data) {
-      collection.add(data);
-      return this.finishSync;
-    });
-  };
+  Friends.prototype.url = "http://alexxxxone-backend.herokuapp.com/friends.json";
 
   return Friends;
 
@@ -504,7 +470,7 @@ module.exports = Init = (function(_super) {
     return _ref;
   }
 
-  Init.prototype.url = "http://alexxxxone-backend.herokuapp.com/init.json";
+  Init.prototype.url = "http://localhost:3000/init.json";
 
   return Init;
 
@@ -526,7 +492,7 @@ module.exports = Message = (function(_super) {
     return _ref;
   }
 
-  Message.prototype.urlRoot = "http://alexxxxone-backend.herokuapp.com/messages/";
+  Message.prototype.urlRoot = "http://localhost:3000/messages/";
 
   return Message;
 
@@ -550,10 +516,10 @@ module.exports = Messages = (function(_super) {
     return _ref;
   }
 
-  Messages.prototype.url = "http://alexxxxone-backend.herokuapp.com/messages.json";
+  Messages.prototype.url = "http://localhost:3000/messages.json";
 
   Messages.prototype.initialize = function(option) {
-    this.url = "http://alexxxxone-backend.herokuapp.com/messages.json?id=" + option.id;
+    this.url = "http://localhost:3000/messages.json?id=" + option.id;
     return Messages.__super__.initialize.apply(this, arguments);
   };
 
@@ -588,7 +554,6 @@ module.exports = User = (function(_super) {
 
 ;require.register("models/users", function(exports, require, module) {
 var Collection, Model, Users, _ref,
-  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -600,29 +565,11 @@ module.exports = Users = (function(_super) {
   __extends(Users, _super);
 
   function Users() {
-    this.fetch = __bind(this.fetch, this);
     _ref = Users.__super__.constructor.apply(this, arguments);
     return _ref;
   }
 
-  _.extend(Users.prototype, Chaplin.SyncMachine);
-
-  Users.prototype.model = Model;
-
-  Users.prototype.fetch = function() {
-    var api, collection;
-    this.beginSync;
-    collection = this;
-    api = "http://alexxxxone-backend.herokuapp.com/users.json";
-    return $.getJSON(api).error(function(a, err) {
-      this.unsync;
-      return console.log(err);
-    }).success(function(data) {
-      console.log(data);
-      collection.add(data);
-      return this.finishSync;
-    });
-  };
+  Users.prototype.url = "http://alexxxxone-backend.herokuapp.com/users.json";
 
   return Users;
 

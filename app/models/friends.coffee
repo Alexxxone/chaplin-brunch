@@ -2,18 +2,6 @@ Collection = require './base/collection'
 Model = require './friend'
 
 module.exports = class Friends extends Collection
-  _.extend @prototype, Chaplin.SyncMachine
-  model : Model
+  url:  "http://alexxxxone-backend.herokuapp.com/friends.json"
+#  url:  "http://localhost:3000/friends.json"
 
-  fetch: =>
-    @beginSync
-    collection = @
-    api = "http://alexxxxone-backend.herokuapp.com/friends.json"
-#    api = "http://localhost:3000/friends.json"
-
-    $.getJSON(api
-    ).error (a,b)->
-       @unsync
-    .success (data) ->
-      collection.add data
-      @finishSync
