@@ -378,7 +378,7 @@ module.exports = Conversation = (function(_super) {
     return _ref;
   }
 
-  Conversation.prototype.urlRoot = "http://localhost:3000/conversations/:id.json";
+  Conversation.prototype.urlRoot = "    http://alexxxxone-backend.herokuapp.com/conversations/:id.json";
 
   return Conversation;
 
@@ -402,7 +402,7 @@ module.exports = Conversations = (function(_super) {
     return _ref;
   }
 
-  Conversations.prototype.url = "http://localhost:3000/conversations.json";
+  Conversations.prototype.url = "http://alexxxxone-backend.herokuapp.com/conversations.json";
 
   return Conversations;
 
@@ -470,7 +470,7 @@ module.exports = Init = (function(_super) {
     return _ref;
   }
 
-  Init.prototype.url = "http://localhost:3000/init.json";
+  Init.prototype.url = "http://alexxxxone-backend.herokuapp.com/init.json";
 
   return Init;
 
@@ -492,7 +492,7 @@ module.exports = Message = (function(_super) {
     return _ref;
   }
 
-  Message.prototype.urlRoot = "http://localhost:3000/messages/";
+  Message.prototype.urlRoot = "http://alexxxxone-backend.herokuapp.com/messages/";
 
   return Message;
 
@@ -516,10 +516,10 @@ module.exports = Messages = (function(_super) {
     return _ref;
   }
 
-  Messages.prototype.url = "http://localhost:3000/messages.json";
+  Messages.prototype.url = "http://alexxxxone-backend.herokuapp.com/messages.json";
 
   Messages.prototype.initialize = function(option) {
-    this.url = "http://localhost:3000/messages.json?id=" + option.id;
+    this.url = "http://alexxxxone-backend.herokuapp.com/messages.json?id=" + option.id;
     return Messages.__super__.initialize.apply(this, arguments);
   };
 
