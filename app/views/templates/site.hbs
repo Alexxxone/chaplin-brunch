@@ -48,8 +48,13 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="http://builtwithbootstrap.com/" target="_blank">Built With Bootstrap</a></li>
-                <li><a href="https://wrapbootstrap.com/?ref=bsw" target="_blank">WrapBootstrap</a></li>
+            {{#ifLoggedIn}}
+                <li><a href="javascript:;">{{user_name}}</a></li>
+                <li><a href="javascript:;" class="logout_link">Logout</a></li>
+            {{else}}
+                <li><a href="javascript:;">Welcome Guest!</a></li>
+                <li><a href="javascript:;" class="login_link">Login</a></li>
+            {{/ifLoggedIn}}
             </ul>
 
         </div>

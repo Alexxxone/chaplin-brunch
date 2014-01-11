@@ -7,6 +7,9 @@ module.exports = (match) ->
   match 'settings', 'home#settings'
   match 'conversations', 'home#conversations'
   match 'conversation/:id', 'home#conversation'
+  match 'login', 'login_reg#login'
+  match 'logout', 'login_reg#logout'
+  match 'register', 'login_reg#registration'
   urlPath: ->
     "friends/#{@get('id')}
     /friends/

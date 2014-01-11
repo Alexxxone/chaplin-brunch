@@ -91,9 +91,11 @@
   globals.require.brunch = true;
 })();
 require.register("application", function(exports, require, module) {
-var Application, _ref,
+var Application, mediator, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+mediator = require('mediator');
 
 module.exports = Application = (function(_super) {
   __extends(Application, _super);
@@ -102,6 +104,16 @@ module.exports = Application = (function(_super) {
     _ref = Application.__super__.constructor.apply(this, arguments);
     return _ref;
   }
+
+  Application.prototype.initMediator = function() {
+    if ($.cookie('id') !== void 0) {
+      mediator.login({
+        id: $.cookie('id'),
+        username: $.cookie('username')
+      });
+    }
+    return Application.__super__.initMediator.apply(this, arguments);
+  };
 
   return Application;
 
@@ -138,9 +150,13 @@ module.exports = Controller = (function(_super) {
 });
 
 ;require.register("controllers/home-controller", function(exports, require, module) {
-var Controller, Conversation, Conversations, Friend, Friends, HomeController, HomeConversationView, HomeConversationsView, HomeFriendView, HomeFriendsView, HomePageView, HomeUsersView, Init, MenuView, Message, MessageView, Messages, MessagesView, Users, _ref,
+var Controller, Conversation, Conversations, Friend, Friends, HomeController, HomeConversationView, HomeConversationsView, HomeFriendView, HomeFriendsView, HomePageView, HomeUsersView, Init, MenuView, Message, MessageView, Messages, MessagesView, Users, mediator, utils, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+mediator = require('mediator');
+
+utils = require('lib/utils');
 
 Controller = require('controllers/base/controller');
 
@@ -191,7 +207,14 @@ module.exports = HomeController = (function(_super) {
     this.compose('menu', MenuView, {
       region: 'menu'
     });
-    return $('.left_menu li').removeClass('active');
+    $('.left_menu li').removeClass('active');
+    if (mediator.user) {
+      return console.log('login');
+    } else {
+      return utils.redirectTo({
+        url: '/login'
+      });
+    }
   };
 
   HomeController.prototype.index = function() {
@@ -256,6 +279,74 @@ module.exports = HomeController = (function(_super) {
 })(Controller);
 });
 
+;require.register("controllers/login_reg-controller", function(exports, require, module) {
+var Controller, LoginRegController, LoginView, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Controller = require('controllers/base/controller');
+
+LoginView = require('views/login-view');
+
+module.exports = LoginRegController = (function(_super) {
+  __extends(LoginRegController, _super);
+
+  function LoginRegController() {
+    _ref = LoginRegController.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  LoginRegController.prototype.login = function() {
+    return this.view = new LoginView;
+  };
+
+  LoginRegController.prototype.registration = function() {};
+
+  return LoginRegController;
+
+})(Controller);
+});
+
+;require.register("controllers/settings-controller", function(exports, require, module) {
+var Controller, SettingsController, SettingsPageView, mediator, _ref,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Controller = require('controllers/base/controller');
+
+SettingsPageView = require('views/settings-page-view');
+
+mediator = require('mediator');
+
+module.exports = SettingsController = (function(_super) {
+  __extends(SettingsController, _super);
+
+  function SettingsController() {
+    this._show = __bind(this._show, this);
+    _ref = SettingsController.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  SettingsController.prototype._show = function() {
+    return this.view = new SettingsPageView({
+      model: mediator.user
+    });
+  };
+
+  SettingsController.prototype.show = function() {
+    if (mediator.user != null) {
+      return this._show();
+    } else {
+      return this.subscribeEvent('login', this._show);
+    }
+  };
+
+  return SettingsController;
+
+})(Controller);
+});
+
 ;require.register("initialize", function(exports, require, module) {
 var Application, routes;
 
@@ -285,14 +376,26 @@ module.exports = utils;
 });
 
 ;require.register("lib/view-helper", function(exports, require, module) {
-var register, utils,
+var mediator, register, utils,
   __slice = [].slice;
 
 utils = require('./utils');
 
+mediator = require('mediator');
+
 register = function(name, fn) {
   return Handlebars.registerHelper(name, fn);
 };
+
+Handlebars.registerHelper('ifLoggedIn', function(options) {
+  var method;
+  method = mediator.user ? options.fn : options.inverse;
+  return method(this);
+});
+
+Handlebars.registerHelper('user_name', function(options) {
+  return mediator.user.get('username');
+});
 
 register('with', function(context, options) {
   if (!context || Handlebars.Utils.isEmpty(context)) {
@@ -318,9 +421,40 @@ register('url', function() {
 });
 
 ;require.register("mediator", function(exports, require, module) {
-var mediator;
+var CurrentUser, mediator;
 
 mediator = module.exports = Chaplin.mediator;
+
+CurrentUser = require('models/current-user');
+
+mediator.createUser = function(params) {
+  return console.log('register new user');
+};
+
+mediator.logout = function() {
+  console.log('logout');
+  mediator.user.dispose();
+  mediator.user = null;
+  $.removeCookie('id');
+  $.removeCookie('username');
+  return mediator.publish('logout');
+};
+
+mediator.login = function(params) {
+  if (!mediator.user) {
+    mediator.user = new CurrentUser({
+      id: params.id,
+      username: params.username
+    });
+    $.cookie('id', params.id, {
+      expires: 1
+    });
+    $.cookie('username', params.username, {
+      expires: 1
+    });
+    return mediator.publish('login', mediator.user);
+  }
+};
 });
 
 ;require.register("models/base/collection", function(exports, require, module) {
@@ -402,11 +536,37 @@ module.exports = Conversations = (function(_super) {
     return _ref;
   }
 
-  Conversations.prototype.url = "http://alexxxxone-backend.herokuapp.com/conversations.json";
+  Conversations.prototype.url = "http://localhost:3000/conversations.json";
 
   return Conversations;
 
 })(Collection);
+});
+
+;require.register("models/current-user", function(exports, require, module) {
+var CurrentUser, User, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+User = require('models/user');
+
+module.exports = CurrentUser = (function(_super) {
+  __extends(CurrentUser, _super);
+
+  function CurrentUser() {
+    _ref = CurrentUser.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  CurrentUser.prototype.urlKey = '';
+
+  CurrentUser.prototype.urlPath = function() {
+    return '/users/me';
+  };
+
+  return CurrentUser;
+
+})(User);
 });
 
 ;require.register("models/friend", function(exports, require, module) {
@@ -448,7 +608,7 @@ module.exports = Friends = (function(_super) {
     return _ref;
   }
 
-  Friends.prototype.url = "http://alexxxxone-backend.herokuapp.com/friends.json";
+  Friends.prototype.url = "http://localhost:3000/friends.json";
 
   return Friends;
 
@@ -470,7 +630,7 @@ module.exports = Init = (function(_super) {
     return _ref;
   }
 
-  Init.prototype.url = "http://alexxxxone-backend.herokuapp.com/init.json";
+  Init.prototype.url = "http://localhost:3000/init.json";
 
   return Init;
 
@@ -516,10 +676,10 @@ module.exports = Messages = (function(_super) {
     return _ref;
   }
 
-  Messages.prototype.url = "http://alexxxxone-backend.herokuapp.com/messages.json";
+  Messages.prototype.url = "http://localhost:3000/messages.json";
 
   Messages.prototype.initialize = function(option) {
-    this.url = "http://alexxxxone-backend.herokuapp.com/messages.json?id=" + option.id;
+    this.url = "http://localhost:3000/messages.json?id=" + option.id;
     return Messages.__super__.initialize.apply(this, arguments);
   };
 
@@ -569,7 +729,7 @@ module.exports = Users = (function(_super) {
     return _ref;
   }
 
-  Users.prototype.url = "http://alexxxxone-backend.herokuapp.com/users.json";
+  Users.prototype.url = "http://localhost:3000/users.json";
 
   return Users;
 
@@ -585,6 +745,9 @@ module.exports = function(match) {
   match('settings', 'home#settings');
   match('conversations', 'home#conversations');
   match('conversation/:id', 'home#conversation');
+  match('login', 'login_reg#login');
+  match('logout', 'login_reg#logout');
+  match('register', 'login_reg#registration');
   return {
     urlPath: function() {
       return "friends/" + (this.get('id')) + "    /friends/    /users/    /settings/    /conversations/    /conversation/:id/    /messages/destroy/:id/    //";
@@ -1146,6 +1309,90 @@ if (typeof define === 'function' && define.amd) {
 }
 });
 
+;require.register("views/login-view", function(exports, require, module) {
+var Collection, Login, LoginView, User, View, mediator, template, utils, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+Login = require('models/conversation');
+
+template = require('./templates/login');
+
+mediator = require('mediator');
+
+utils = require('lib/utils');
+
+User = require('models/user');
+
+Collection = require('models/base/collection');
+
+module.exports = LoginView = (function(_super) {
+  __extends(LoginView, _super);
+
+  function LoginView() {
+    _ref = LoginView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  LoginView.prototype.container = 'body';
+
+  LoginView.prototype.autoRender = true;
+
+  LoginView.prototype.template = template;
+
+  LoginView.prototype.containerMethod = 'html';
+
+  LoginView.prototype.initialize = function() {
+    this.delegate("click", ".send", this.login);
+    this.delegate("click", ".cancel", this.cancel);
+    return this.delegate("click", ".help", this.fill);
+  };
+
+  LoginView.prototype.fill = function() {
+    $('#inputEmail').val('b0@maial.ru');
+    return $('#inputPassword').val('12345678');
+  };
+
+  LoginView.prototype.login = function() {
+    var email, password;
+    email = $('#inputEmail').val();
+    password = $('#inputPassword').val();
+    return $.ajax({
+      crossDomain: true,
+      type: 'POST',
+      url: "http://localhost:3000/login",
+      data: {
+        'user': {
+          'email': email,
+          'password': password
+        }
+      }
+    }).success(function(response) {
+      console.log(response);
+      mediator.login(response);
+      return utils.redirectTo({
+        url: '/'
+      });
+    }).complete(function(response) {
+      if (response.status === 404) {
+        return $('.form-group').addClass('has-error');
+      }
+    });
+  };
+
+  LoginView.prototype.cancel = function() {
+    return utils.redirectTo({
+      url: '/'
+    });
+  };
+
+  return LoginView;
+
+})(View);
+});
+
 ;require.register("views/messages/message-view", function(exports, require, module) {
 var MessageView, View, _ref,
   __hasProp = {}.hasOwnProperty,
@@ -1335,13 +1582,19 @@ if (typeof define === 'function' && define.amd) {
 });
 
 ;require.register("views/site-view", function(exports, require, module) {
-var SiteView, View, utils, _ref,
+var Init, SiteView, View, mediator, utils, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 View = require('views/base/view');
 
 utils = require('lib/utils');
+
+mediator = require('mediator');
+
+SiteView = require('views/site-view');
+
+Init = require('models/init');
 
 module.exports = SiteView = (function(_super) {
   __extends(SiteView, _super);
@@ -1379,7 +1632,9 @@ module.exports = SiteView = (function(_super) {
     this.delegate('click', '.menu_friends', this.friends);
     this.delegate('click', '.menu_users', this.users);
     this.delegate('click', '.menu_settings', this.settings);
-    return this.delegate('click', '.menu_conversations', this.conversations);
+    this.delegate('click', '.menu_conversations', this.conversations);
+    this.delegate('click', '.login_link', this.login);
+    return this.delegate('click', '.logout_link', this.logout);
   };
 
   SiteView.prototype.home = function() {
@@ -1409,6 +1664,19 @@ module.exports = SiteView = (function(_super) {
   SiteView.prototype.conversations = function() {
     return utils.redirectTo({
       url: '/conversations'
+    });
+  };
+
+  SiteView.prototype.login = function() {
+    return utils.redirectTo({
+      url: '/login'
+    });
+  };
+
+  SiteView.prototype.logout = function() {
+    mediator.logout();
+    return utils.redirectTo({
+      url: '/login'
     });
   };
 
@@ -1450,14 +1718,56 @@ if (typeof define === 'function' && define.amd) {
 }
 });
 
+;require.register("views/templates/login", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<div class=\"container login\"\n    <div class=\"row\">\n        <div class=\"col-lg-6 col-md-offset-2\">\n            <div class=\"well\">\n                <form class=\"bs-example form-horizontal\" >\n                    <fieldset>\n                        <legend>Login</legend>\n\n                        <div class=\"form-group\">\n                            <label for=\"inputEmail\" class=\"col-lg-2 control-label\">Email</label>\n                            <div class=\"col-lg-10\">\n                                <input type=\"email\" name=\"user[email]\" class=\"form-control\" id=\"inputEmail\" placeholder=\"Email\">\n                            </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <label for=\"inputPassword\" class=\"col-lg-2 control-label\">Password</label>\n                            <div class=\"col-lg-10\">\n                                <input type=\"password\" name=\"user[password]\" class=\"form-control\" id=\"inputPassword\" placeholder=\"Password\">\n                            </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <div class=\"col-lg-10 col-lg-offset-2\">\n                                <button  type=\"button\" class=\"btn btn-default cancel\">Cancel</button>\n                                <button type=\"button\" class=\"btn btn-primary send\">Submit</button>\n                                <button type=\"button\" class=\"btn btn-warning help\">Fill</button>\n                            </div>\n                        </div>\n                    </fieldset>\n                </form>\n            </div>\n        </div>\n\n    </div>\n</div>";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
 ;require.register("views/templates/site", function(exports, require, module) {
 var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+  var buffer = "", stack1, options, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing;
 
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n                <li><a href=\"javascript:;\">";
+  if (stack1 = helpers.user_name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.user_name); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</a></li>\n                <li><a href=\"javascript:;\" class=\"logout_link\">Logout</a></li>\n            ";
+  return buffer;
+  }
 
-  buffer += "<div class=\"navbar navbar-default navbar-fixed-top navbar-collapse collapse navbar-inverse-collapse\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n            <a href=\"../\" class=\"navbar-brand\">Bootswatch</a>\n            <button class=\"navbar-toggle\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbar-main\">\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n        </div>\n        <div class=\"navbar-collapse collapse\" id=\"navbar-main\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"themes\">Themes <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"themes\">\n                        <li><a tabindex=\"-1\" href=\"../default/\">Default</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"../amelia/\">Amelia</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cerulean/\">Cerulean</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cosmo/\">Cosmo</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cyborg/\">Cyborg</a></li>\n                        <li><a tabindex=\"-1\" href=\"../flatly/\">Flatly</a></li>\n                        <li><a tabindex=\"-1\" href=\"../journal/\">Journal</a></li>\n                        <li><a tabindex=\"-1\" href=\"../readable/\">Readable</a></li>\n                        <li><a tabindex=\"-1\" href=\"../simplex/\">Simplex</a></li>\n                        <li><a tabindex=\"-1\" href=\"../slate/\">Slate</a></li>\n                        <li><a tabindex=\"-1\" href=\"../spacelab/\">Spacelab</a></li>\n                        <li><a tabindex=\"-1\" href=\"../united/\">United</a></li>\n                        <li><a tabindex=\"-1\" href=\"../yeti/\">Yeti</a></li>\n                    </ul>\n                </li>\n                <li>\n                    <a href=\"../help/\">Help</a>\n                </li>\n                <li>\n                    <a href=\"http://news.bootswatch.com\">Blog</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"download\">Download <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"download\">\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.min.css\">bootstrap.min.css</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.css\">bootstrap.css</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"./variables.less\">variables.less</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootswatch.less\">bootswatch.less</a></li>\n                    </ul>\n                </li>\n            </ul>\n\n            <ul class=\"nav navbar-nav navbar-right\">\n                <li><a href=\"http://builtwithbootstrap.com/\" target=\"_blank\">Built With Bootstrap</a></li>\n                <li><a href=\"https://wrapbootstrap.com/?ref=bsw\" target=\"_blank\">WrapBootstrap</a></li>\n            </ul>\n\n        </div>\n    </div>\n</div>\n\n<div class=\"main_site\">\n    <div class=\"header-container\" id=\"menu-container\"></div>\n    <div class=\"main_chat\"></div>\n    <div class=\"row\">\n        <div class='col-md-3'>\n                <ul class=\"nav nav-pills nav-stacked left_menu\">\n                    <li class=\"menu_main_page\"><a href=\"javascript:;\"><i class=\"fa fa-home fa-fw\"></i> My page</a></li>\n                    <li class=\"menu_friends\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> Fiends<span class=\"badge pull-right new_friend_badge\">";
+function program3(depth0,data) {
+  
+  
+  return "\n                <li><a href=\"javascript:;\">Welcome Guest!</a></li>\n                <li><a href=\"javascript:;\" class=\"login_link\">Login</a></li>\n            ";
+  }
+
+  buffer += "<div class=\"navbar navbar-default navbar-fixed-top navbar-collapse collapse navbar-inverse-collapse\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n            <a href=\"../\" class=\"navbar-brand\">Bootswatch</a>\n            <button class=\"navbar-toggle\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbar-main\">\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n        </div>\n        <div class=\"navbar-collapse collapse\" id=\"navbar-main\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"themes\">Themes <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"themes\">\n                        <li><a tabindex=\"-1\" href=\"../default/\">Default</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"../amelia/\">Amelia</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cerulean/\">Cerulean</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cosmo/\">Cosmo</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cyborg/\">Cyborg</a></li>\n                        <li><a tabindex=\"-1\" href=\"../flatly/\">Flatly</a></li>\n                        <li><a tabindex=\"-1\" href=\"../journal/\">Journal</a></li>\n                        <li><a tabindex=\"-1\" href=\"../readable/\">Readable</a></li>\n                        <li><a tabindex=\"-1\" href=\"../simplex/\">Simplex</a></li>\n                        <li><a tabindex=\"-1\" href=\"../slate/\">Slate</a></li>\n                        <li><a tabindex=\"-1\" href=\"../spacelab/\">Spacelab</a></li>\n                        <li><a tabindex=\"-1\" href=\"../united/\">United</a></li>\n                        <li><a tabindex=\"-1\" href=\"../yeti/\">Yeti</a></li>\n                    </ul>\n                </li>\n                <li>\n                    <a href=\"../help/\">Help</a>\n                </li>\n                <li>\n                    <a href=\"http://news.bootswatch.com\">Blog</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"download\">Download <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"download\">\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.min.css\">bootstrap.min.css</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.css\">bootstrap.css</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"./variables.less\">variables.less</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootswatch.less\">bootswatch.less</a></li>\n                    </ul>\n                </li>\n            </ul>\n\n            <ul class=\"nav navbar-nav navbar-right\">\n            ";
+  options = {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data};
+  if (stack1 = helpers.ifLoggedIn) { stack1 = stack1.call(depth0, options); }
+  else { stack1 = (depth0 && depth0.ifLoggedIn); stack1 = typeof stack1 === functionType ? stack1.call(depth0, options) : stack1; }
+  if (!helpers.ifLoggedIn) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n            </ul>\n\n        </div>\n    </div>\n</div>\n\n<div class=\"main_site\">\n    <div class=\"header-container\" id=\"menu-container\"></div>\n    <div class=\"main_chat\"></div>\n    <div class=\"row\">\n        <div class='col-md-3'>\n                <ul class=\"nav nav-pills nav-stacked left_menu\">\n                    <li class=\"menu_main_page\"><a href=\"javascript:;\"><i class=\"fa fa-home fa-fw\"></i> My page</a></li>\n                    <li class=\"menu_friends\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> Fiends<span class=\"badge pull-right new_friend_badge\">";
   if (stack1 = helpers.invitations) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.invitations); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)

@@ -1,3 +1,5 @@
+mediator = require 'mediator'
+utils = require 'lib/utils'
 Controller = require 'controllers/base/controller'
 MenuView = require 'views/home/menu-view'
 Init = require 'models/init'
@@ -21,7 +23,12 @@ module.exports = class HomeController extends Controller
   beforeAction: ->
     super
     @compose 'menu',MenuView, region: 'menu'
-    $('.left_menu li').removeClass('active');
+    $('.left_menu li').removeClass('active')
+
+    if  mediator.user
+      console.log 'login'
+    else
+      utils.redirectTo url: '/login'
 
   index: ->
     @view = new HomePageView region: 'main'
@@ -32,8 +39,6 @@ module.exports = class HomeController extends Controller
     friends.fetch()
   show: (params)->
     console.log params.id
-#    friend = new Friend
-#    @view = new HomeFriendView region: 'main', model: friend
   users: ->
     users = new Users
     @view = new HomeUsersView region: 'main', collection: users
@@ -52,3 +57,5 @@ module.exports = class HomeController extends Controller
   settings: ->
     console.log 'settings HomeController'
     $('.menu_settings').addClass('active');
+
+
