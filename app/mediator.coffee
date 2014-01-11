@@ -1,6 +1,6 @@
 mediator = module.exports = Chaplin.mediator
 CurrentUser = require 'models/current-user'
-
+utils = require 'lib/utils'
 
 mediator.createUser = (params) ->
 
@@ -19,4 +19,5 @@ mediator.login = (params) ->
     $.cookie('id', params.id, { expires: 1 })
     $.cookie('username', params.username, { expires: 1 })
     mediator.publish 'login', mediator.user
+    utils.redirectTo url: '/'
 

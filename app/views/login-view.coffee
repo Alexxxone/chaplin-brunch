@@ -26,9 +26,8 @@ module.exports = class LoginView extends View
       url: "http://localhost:3000/login"
       data: 'user': {'email': email,'password': password}
     ).success (response) ->
-      console.log response
       mediator.login(response)
-      utils.redirectTo url: '/'
+
     .complete (response) ->
       $('.form-group').addClass('has-error') if response.status is 404
   cancel: ->
