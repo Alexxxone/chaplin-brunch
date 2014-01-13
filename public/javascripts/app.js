@@ -547,13 +547,15 @@ module.exports = Conversation = (function(_super) {
 });
 
 ;require.register("models/conversations", function(exports, require, module) {
-var Collection, Conversations, Model, _ref,
+var Collection, Conversations, Model, mediator, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 Collection = require('./base/collection');
 
 Model = require('./conversation');
+
+mediator = require('mediator');
 
 module.exports = Conversations = (function(_super) {
   __extends(Conversations, _super);
@@ -563,7 +565,7 @@ module.exports = Conversations = (function(_super) {
     return _ref;
   }
 
-  Conversations.prototype.url = "http://localhost:3000/conversations.json";
+  Conversations.prototype.url = "http://localhost:3000/conversations.json?user_id=" + mediator.user.id;
 
   return Conversations;
 
@@ -679,7 +681,7 @@ module.exports = Message = (function(_super) {
     return _ref;
   }
 
-  Message.prototype.urlRoot = "http://alexxxxone-backend.herokuapp.com/messages/";
+  Message.prototype.urlRoot = "http://localhost:3000/messages/";
 
   return Message;
 
@@ -687,13 +689,15 @@ module.exports = Message = (function(_super) {
 });
 
 ;require.register("models/messages", function(exports, require, module) {
-var Collection, Messages, Model, _ref,
+var Collection, Messages, Model, mediator, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 Collection = require('./base/collection');
 
 Model = require('./message');
+
+mediator = require('mediator');
 
 module.exports = Messages = (function(_super) {
   __extends(Messages, _super);
@@ -706,7 +710,7 @@ module.exports = Messages = (function(_super) {
   Messages.prototype.url = "http://localhost:3000/messages.json";
 
   Messages.prototype.initialize = function(option) {
-    this.url = "http://localhost:3000/messages.json?id=" + option.id;
+    this.url = "http://localhost:3000/messages.json?id=" + option.id + "&user_id=" + mediator.user.id;
     return Messages.__super__.initialize.apply(this, arguments);
   };
 
@@ -1483,7 +1487,7 @@ module.exports = MessageView = (function(_super) {
 });
 
 ;require.register("views/messages/messages-view", function(exports, require, module) {
-var CollectionView, MessagesView, View, mediator, template, _ref,
+var CollectionView, Message, MessagesView, View, mediator, template, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -1494,6 +1498,8 @@ View = require('views/messages/message-view');
 template = require('./templates/messages');
 
 mediator = require('mediator');
+
+Message = require('/models/message');
 
 module.exports = MessagesView = (function(_super) {
   __extends(MessagesView, _super);
@@ -1543,21 +1549,16 @@ module.exports = MessagesView = (function(_super) {
   };
 
   MessagesView.prototype.send_message = function() {
-    var input;
+    var input, message;
     input = $(this.el).find('.message_body');
     if (input.val().length > 2) {
-      this.collection.push({
-        sender_id: this.user.id,
-        user: {
-          username: this.user.get('username')
-        },
+      message = new Message({
         body: input.val(),
         receiver_id: this.receiver_id,
         conversation_id: this.conversation_id
       });
-      this.publish(input.val());
-      input.val('');
-      return this.scroll_to_bottom();
+      message.save();
+      return console.log(message);
     }
   };
 
