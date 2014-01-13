@@ -1,19 +1,19 @@
 CollectionView = require 'views/base/collection-view'
-View = require 'views/messages/message-view'
+View = require '/views/messages/message-view'
 template = require './templates/messages'
 mediator = require 'mediator'
 Message = require '/models/message'
+
 module.exports = class MessagesView extends CollectionView
   itemView: View
   container: '#container'
-  autoRender: false
+  autoRender: true
   className: 'messages-page'
   containerMethod: 'html'
   animationDuration: 1000
   template: template
   listSelector: '#messages_content'
   loadingSelector: ".loading"
-
   receiver_id: mediator.receiver_id
   conversation_id: mediator.conversation_id
   user: mediator.user
@@ -35,14 +35,14 @@ module.exports = class MessagesView extends CollectionView
   send_message: ->
     input = $(@.el).find('.message_body')
     if input.val().length > 2
-      message = new Message({body: input.val(),receiver_id: @receiver_id, conversation_id: @conversation_id})
+      message = new Message({user_id: @user.id ,message:{body: input.val(),receiver_id: @receiver_id, conversation_id: @conversation_id}})
 
       message.save()
       console.log(message)
-#      @collection.push({sender_id: @user.id ,user:{username: @user.get('username')} ,body: input.val(),receiver_id: @receiver_id, conversation_id: @conversation_id})
-#      @publish(input.val())
-#      input.val('')
-#      @scroll_to_bottom()
+      @collection.push({sender_id: @user.id ,user:{username: @user.get('username')} ,body: input.val(),receiver_id: @receiver_id, conversation_id: @conversation_id})
+      @publish(input.val())
+      input.val('')
+      @scroll_to_bottom()
   scroll_to_bottom: ->
     scrollTo_val = $('#messages_content').prop('scrollHeight') + 'px'
     $('#messages_content').slimScroll({scrollTo: scrollTo_val})

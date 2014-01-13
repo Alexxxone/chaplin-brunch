@@ -274,7 +274,6 @@ module.exports = HomeController = (function(_super) {
   };
 
   HomeController.prototype.settings = function() {
-    console.log('settings HomeController');
     return $('.menu_settings').addClass('active');
   };
 
@@ -1493,7 +1492,7 @@ var CollectionView, Message, MessagesView, View, mediator, template, _ref,
 
 CollectionView = require('views/base/collection-view');
 
-View = require('views/messages/message-view');
+View = require('/views/messages/message-view');
 
 template = require('./templates/messages');
 
@@ -1513,7 +1512,7 @@ module.exports = MessagesView = (function(_super) {
 
   MessagesView.prototype.container = '#container';
 
-  MessagesView.prototype.autoRender = false;
+  MessagesView.prototype.autoRender = true;
 
   MessagesView.prototype.className = 'messages-page';
 
@@ -1553,12 +1552,27 @@ module.exports = MessagesView = (function(_super) {
     input = $(this.el).find('.message_body');
     if (input.val().length > 2) {
       message = new Message({
+        user_id: this.user.id,
+        message: {
+          body: input.val(),
+          receiver_id: this.receiver_id,
+          conversation_id: this.conversation_id
+        }
+      });
+      message.save();
+      console.log(message);
+      this.collection.push({
+        sender_id: this.user.id,
+        user: {
+          username: this.user.get('username')
+        },
         body: input.val(),
         receiver_id: this.receiver_id,
         conversation_id: this.conversation_id
       });
-      message.save();
-      return console.log(message);
+      this.publish(input.val());
+      input.val('');
+      return this.scroll_to_bottom();
     }
   };
 

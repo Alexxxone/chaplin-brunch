@@ -55,7 +55,6 @@ module.exports = class HomeController extends Controller
     messages.fetch()
 
   settings: ->
-    console.log 'settings HomeController'
     $('.menu_settings').addClass('active');
 
 
