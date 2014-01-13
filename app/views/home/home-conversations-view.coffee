@@ -16,5 +16,5 @@ module.exports = class HomeConversationsView extends CollectionView
 #    @collection.fetch
 #      success: (response) ->
 #        console.log response
-    console.log @collection
+    console.log 'home-conversation-view'
     $('.menu_conversations').addClass('active');

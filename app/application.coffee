@@ -10,4 +10,7 @@ module.exports = class Application extends Chaplin.Application
   initMediator: ->
     unless $.cookie('id') is undefined
       mediator.login({id: $.cookie('id'), username: $.cookie('username')})
+    unless $.cookie('receiver_id') is undefined
+      mediator.receiver($.cookie('receiver_id'))
+      mediator.conversation($.cookie('conversation_id'))
     super

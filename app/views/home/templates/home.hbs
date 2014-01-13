@@ -27,11 +27,78 @@
         </p>
     </div>
 </div>
+<table class="table table-hover table-striped">
+    <thead>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody class="message_list">
 
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-xs-12 col-md-8">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <input type="text" class="form-control input_message" id="" placeholder="Type your message here">
+            </div>
+            <button type="button" class="btn btn-info send_message">Send</button>
+        </form>
+    </div>
+</div>
 
 <script type="text/javascript">
     $(".wall_scroll").slimScroll({
     height: "450px",
     color: '#008cba'
     })
+
+//        var socket = io.connect(window.location.toString());
+//        $('.send_message').click(function(){
+//            input =  $('.input_message');
+//            message =  input.val();
+//            if (message.length >=2){
+//                input.val('');
+//                socket.emit('messages', { message: message, name: name });
+//                append_message(message,'Me');
+//            }
+//            return false;
+//        });
+//
+//        socket.on('new', function (data) {
+//            console.log('custom online');
+//            $('body').append('<p class="text-primary new_user_connected" style="position: absolute; top:0;left:40%;">'+data.message+'</p>');
+//
+//            $( ".new_user_connected" ).animate({
+//                top: '+=160px'
+//            }, {
+//                duration: 600,
+//                specialEasing: {
+//                    width: "linear"
+//                },
+//                complete: function() {
+//                    $(this).delay(600).animate({
+//                        opacity: 0,
+//                        left: '-=500px'
+//                    }, 500,function(){
+//                        $(this).remove();
+//                    } )
+//                }
+//            });
+//        });
+//
+//        socket.on('news', function(data) {
+//            console.log(data.body);
+//            append_message(data.body, data.name);
+//    //        newExcitingAlerts(data.name);
+//        });
+//
+//    function append_message(message,sender_name){
+//        message_box = '<tr><td>'+sender_name+'</td><td>'+message+'</td><td><button type="button" class="close delete_message" >&times;</button></td></tr>'
+//        $('.message_list').append(message_box);
+//    }
 </script>

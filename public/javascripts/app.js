@@ -112,6 +112,10 @@ module.exports = Application = (function(_super) {
         username: $.cookie('username')
       });
     }
+    if ($.cookie('receiver_id') !== void 0) {
+      mediator.receiver($.cookie('receiver_id'));
+      mediator.conversation($.cookie('conversation_id'));
+    }
     return Application.__super__.initMediator.apply(this, arguments);
   };
 
@@ -421,11 +425,13 @@ register('url', function() {
 });
 
 ;require.register("mediator", function(exports, require, module) {
-var CurrentUser, mediator;
+var CurrentUser, mediator, utils;
 
 mediator = module.exports = Chaplin.mediator;
 
 CurrentUser = require('models/current-user');
+
+utils = require('lib/utils');
 
 mediator.createUser = function(params) {
   return console.log('register new user');
@@ -435,25 +441,46 @@ mediator.logout = function() {
   console.log('logout');
   mediator.user.dispose();
   mediator.user = null;
+  mediator.receiver_id = null;
+  mediator.conversation_id = null;
   $.removeCookie('id');
   $.removeCookie('username');
-  return mediator.publish('logout');
+  $.removeCookie('friend_id');
+  $.removeCookie('conversation_id');
+  mediator.publish('logout');
+  return utils.redirectTo({
+    url: '/login'
+  });
 };
 
 mediator.login = function(params) {
-  if (!mediator.user) {
-    mediator.user = new CurrentUser({
-      id: params.id,
-      username: params.username
-    });
-    $.cookie('id', params.id, {
-      expires: 1
-    });
-    $.cookie('username', params.username, {
-      expires: 1
-    });
-    return mediator.publish('login', mediator.user);
-  }
+  mediator.user = new CurrentUser({
+    id: params.id,
+    username: params.username
+  });
+  $.cookie('id', params.id, {
+    expires: 1
+  });
+  $.cookie('username', params.username, {
+    expires: 1
+  });
+  return utils.redirectTo({
+    url: '/'
+  });
+};
+
+mediator.receiver = function(receiver_id) {
+  mediator.receiver_id = receiver_id;
+  return $.cookie('receiver_id', receiver_id, {
+    expires: 1
+  });
+};
+
+mediator.conversation = function(conversation_id) {
+  mediator.conversation_id = conversation_id;
+  return $.cookie('conversation_id', conversation_id, {
+    expires: 1
+  });
 };
 });
 
@@ -841,7 +868,7 @@ module.exports = ChatView = (function(_super) {
 });
 
 ;require.register("views/home/home-conversation-view", function(exports, require, module) {
-var Chat, CoversationView, View, utils, _ref,
+var Chat, CoversationView, View, mediator, utils, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -850,6 +877,8 @@ View = require('views/base/view');
 Chat = require('views/chat-view');
 
 utils = require('lib/utils');
+
+mediator = require('mediator');
 
 module.exports = CoversationView = (function(_super) {
   __extends(CoversationView, _super);
@@ -879,6 +908,12 @@ module.exports = CoversationView = (function(_super) {
   };
 
   CoversationView.prototype.open_conversation = function() {
+    mediator.conversation(this.model.get('id'));
+    if (mediator.user.id === this.model.get('friend_id')) {
+      mediator.receiver(this.model.get('user_id'));
+    } else {
+      mediator.receiver(this.model.get('friend_id'));
+    }
     return utils.redirectTo({
       url: '/conversation/' + this.model.get('id')
     });
@@ -924,7 +959,7 @@ module.exports = HomeConversationsView = (function(_super) {
 
   HomeConversationsView.prototype.initialize = function() {
     HomeConversationsView.__super__.initialize.apply(this, arguments);
-    console.log(this.collection);
+    console.log('home-conversation-view');
     return $('.menu_conversations').addClass('active');
   };
 
@@ -1267,7 +1302,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<img src=\"images/user.png\" alt=\"image\"/>\n<h1>WALL</h1>\n\n<div class=\"wall_scroll\" style=\"color:black;\">\n    <div class=\"wall_message\">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n    <div class=\"wall_message\">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n    <div class=\"wall_message\">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n</div>\n\n\n<script type=\"text/javascript\">\n    $(\".wall_scroll\").slimScroll({\n    height: \"450px\",\n    color: '#008cba'\n    })\n</script>";
+  return "<img src=\"images/user.png\" alt=\"image\"/>\n<h1>WALL</h1>\n\n<div class=\"wall_scroll\" style=\"color:black;\">\n    <div class=\"wall_message\">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n    <div class=\"wall_message\">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n    <div class=\"wall_message\">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n</div>\n<table class=\"table table-hover table-striped\">\n    <thead>\n    <tr>\n        <th></th>\n        <th></th>\n        <th></th>\n    </tr>\n    </thead>\n    <tbody class=\"message_list\">\n\n    </tbody>\n</table>\n\n<div class=\"row\">\n    <div class=\"col-xs-12 col-md-8\">\n        <form class=\"form-inline\" role=\"form\">\n            <div class=\"form-group\">\n                <input type=\"text\" class=\"form-control input_message\" id=\"\" placeholder=\"Type your message here\">\n            </div>\n            <button type=\"button\" class=\"btn btn-info send_message\">Send</button>\n        </form>\n    </div>\n</div>\n\n<script type=\"text/javascript\">\n    $(\".wall_scroll\").slimScroll({\n    height: \"450px\",\n    color: '#008cba'\n    })\n\n//        var socket = io.connect(window.location.toString());\n//        $('.send_message').click(function(){\n//            input =  $('.input_message');\n//            message =  input.val();\n//            if (message.length >=2){\n//                input.val('');\n//                socket.emit('messages', { message: message, name: name });\n//                append_message(message,'Me');\n//            }\n//            return false;\n//        });\n//\n//        socket.on('new', function (data) {\n//            console.log('custom online');\n//            $('body').append('<p class=\"text-primary new_user_connected\" style=\"position: absolute; top:0;left:40%;\">'+data.message+'</p>');\n//\n//            $( \".new_user_connected\" ).animate({\n//                top: '+=160px'\n//            }, {\n//                duration: 600,\n//                specialEasing: {\n//                    width: \"linear\"\n//                },\n//                complete: function() {\n//                    $(this).delay(600).animate({\n//                        opacity: 0,\n//                        left: '-=500px'\n//                    }, 500,function(){\n//                        $(this).remove();\n//                    } )\n//                }\n//            });\n//        });\n//\n//        socket.on('news', function(data) {\n//            console.log(data.body);\n//            append_message(data.body, data.name);\n//    //        newExcitingAlerts(data.name);\n//        });\n//\n//    function append_message(message,sender_name){\n//        message_box = '<tr><td>'+sender_name+'</td><td>'+message+'</td><td><button type=\"button\" class=\"close delete_message\" >&times;</button></td></tr>'\n//        $('.message_list').append(message_box);\n//    }\n</script>";
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -1370,11 +1405,7 @@ module.exports = LoginView = (function(_super) {
         }
       }
     }).success(function(response) {
-      console.log(response);
-      mediator.login(response);
-      return utils.redirectTo({
-        url: '/'
-      });
+      return mediator.login(response);
     }).complete(function(response) {
       if (response.status === 404) {
         return $('.form-group').addClass('has-error');
@@ -1452,7 +1483,7 @@ module.exports = MessageView = (function(_super) {
 });
 
 ;require.register("views/messages/messages-view", function(exports, require, module) {
-var CollectionView, MessagesView, View, template, _ref,
+var CollectionView, MessagesView, View, mediator, template, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -1461,6 +1492,8 @@ CollectionView = require('views/base/collection-view');
 View = require('views/messages/message-view');
 
 template = require('./templates/messages');
+
+mediator = require('mediator');
 
 module.exports = MessagesView = (function(_super) {
   __extends(MessagesView, _super);
@@ -1488,13 +1521,25 @@ module.exports = MessagesView = (function(_super) {
 
   MessagesView.prototype.loadingSelector = ".loading";
 
+  MessagesView.prototype.receiver_id = mediator.receiver_id;
+
+  MessagesView.prototype.conversation_id = mediator.conversation_id;
+
+  MessagesView.prototype.user = mediator.user;
+
   MessagesView.prototype.initialize = function() {
+    var that;
     MessagesView.__super__.initialize.apply(this, arguments);
+    this.socket = io.connect(window.location.toString());
     $('.menu_conversations').addClass('active');
     this.delegate('click', '.send_message', this.send_message);
     this.scroll_to_bottom();
     this.listenTo(this.collection, 'push remove', this.render);
-    return console.log(this.collection.models);
+    that = this;
+    return this.socket.on("news", function(data) {
+      console.log('INCOMMING');
+      return that.incoming_message(data);
+    });
   };
 
   MessagesView.prototype.send_message = function() {
@@ -1502,14 +1547,15 @@ module.exports = MessagesView = (function(_super) {
     input = $(this.el).find('.message_body');
     if (input.val().length > 2) {
       this.collection.push({
-        sender_id: 1,
+        sender_id: this.user.id,
         user: {
-          username: 'Alex0-test'
+          username: this.user.get('username')
         },
         body: input.val(),
-        receiver_id: 4,
-        conversation_id: 3
+        receiver_id: this.receiver_id,
+        conversation_id: this.conversation_id
       });
+      this.publish(input.val());
       input.val('');
       return this.scroll_to_bottom();
     }
@@ -1521,6 +1567,29 @@ module.exports = MessagesView = (function(_super) {
     return $('#messages_content').slimScroll({
       scrollTo: scrollTo_val
     });
+  };
+
+  MessagesView.prototype.publish = function(body) {
+    return this.socket.emit("messages", {
+      sender_id: this.user.id,
+      username: this.user.get('username'),
+      receiver_id: this.receiver_id,
+      body: body,
+      conversation_id: this.conversation_id
+    });
+  };
+
+  MessagesView.prototype.incoming_message = function(data) {
+    this.collection.push({
+      sender_id: data.sender_id,
+      user: {
+        username: data.username
+      },
+      body: data.body,
+      receiver_id: data.receiver_id,
+      conversation_id: data.conversation_id
+    });
+    return this.scroll_to_bottom();
   };
 
   return MessagesView;
