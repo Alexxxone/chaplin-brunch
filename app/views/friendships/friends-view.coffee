@@ -16,7 +16,8 @@ module.exports = class FriendsView extends View
     super
     @collection.fetch
       success: (response) ->
-          new Invites(collection: response.models[0].get('invites'))
-          new My_friends(collection: response.models[0].get('my_friends'))
-          $('.friends_count').text(response.length)
+
+        new Invites(collection: response.models[0].get('invites'))
+        new My_friends(collection: response.models[0].get('my_friends'))
+        $('.friends_count').text(response.length)
     $('.menu_friends').addClass('active');

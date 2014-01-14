@@ -644,28 +644,6 @@ module.exports = Friends = (function(_super) {
 })(Collection);
 });
 
-;require.register("models/friendship", function(exports, require, module) {
-var Friendship, Model, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-Model = require('./base/model');
-
-module.exports = Friendship = (function(_super) {
-  __extends(Friendship, _super);
-
-  function Friendship() {
-    _ref = Friendship.__super__.constructor.apply(this, arguments);
-    return _ref;
-  }
-
-  Friendship.prototype.urlRoot = "http://localhost:3000/friendships/";
-
-  return Friendship;
-
-})(Model);
-});
-
 ;require.register("models/init", function(exports, require, module) {
 var Init, Model, mediator, _ref,
   __hasProp = {}.hasOwnProperty,
@@ -686,6 +664,28 @@ module.exports = Init = (function(_super) {
   Init.prototype.url = "http://localhost:3000/init.json?user_id=" + mediator.user.id;
 
   return Init;
+
+})(Model);
+});
+
+;require.register("models/invites", function(exports, require, module) {
+var Invites, Model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('./base/model');
+
+module.exports = Invites = (function(_super) {
+  __extends(Invites, _super);
+
+  function Invites() {
+    _ref = Invites.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Invites.prototype.urlRoot = "http://localhost:3000/invites/";
+
+  return Invites;
 
 })(Model);
 });
@@ -743,6 +743,28 @@ module.exports = Messages = (function(_super) {
   return Messages;
 
 })(Collection);
+});
+
+;require.register("models/my_friends", function(exports, require, module) {
+var Model, MyFriends, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('./base/model');
+
+module.exports = MyFriends = (function(_super) {
+  __extends(MyFriends, _super);
+
+  function MyFriends() {
+    _ref = MyFriends.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MyFriends.prototype.urlRoot = "http://localhost:3000/friendships/";
+
+  return MyFriends;
+
+})(Model);
 });
 
 ;require.register("models/user", function(exports, require, module) {
@@ -1110,47 +1132,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<h4>You have <span class=\"friends_count\"></span> friend('s)</h4>\n\n\n\n\n<ul class=\"nav nav-tabs\">\n    <li class=\"active\"><a href=\"#my_friends\" data-toggle=\"tab\">My friends</a></li>\n    <li><a href=\"#invites\" data-toggle=\"tab\">Invitations</a></li>\n</ul>\n\n<!-- Tab panes -->\n<div class=\"tab-content\">\n    <div class=\"tab-pane active\" id=\"my_friends\">\n    </div>\n    <div class=\"tab-pane\" id=\"invites\">\n\n    </div>\n</div>\n";
-  });
-if (typeof define === 'function' && define.amd) {
-  define([], function() {
-    return __templateData;
-  });
-} else if (typeof module === 'object' && module && module.exports) {
-  module.exports = __templateData;
-} else {
-  __templateData;
-}
-});
-
-;require.register("views/friendships/templates/invites", function(exports, require, module) {
-var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
-
-
-  return "<ul id='index_content'  class=\"friends_list invites\">\n\n</ul>";
-  });
-if (typeof define === 'function' && define.amd) {
-  define([], function() {
-    return __templateData;
-  });
-} else if (typeof module === 'object' && module && module.exports) {
-  module.exports = __templateData;
-} else {
-  __templateData;
-}
-});
-
-;require.register("views/friendships/templates/my_friends", function(exports, require, module) {
-var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
-
-
-  return "<ul id='index_content'  class=\"friends_list my_friends\">\n\n</ul>";
+  return "<h4>You have <span class=\"friends_count\"></span> friend('s)</h4>\n\n\n\n\n<ul class=\"nav nav-tabs\">\n    <li class=\"active\"><a href=\"#my_friends\" data-toggle=\"tab\">My friends</a></li>\n    <li><a href=\"#invites\" data-toggle=\"tab\">Invitations</a></li>\n</ul>\n\n<!-- Tab panes -->\n<div class=\"tab-content\">\n    <div class=\"tab-pane active\" id=\"my_friends\">\n        <ul id='index_content'  class=\"friends_list my_friends\">\n\n        </ul>\n    </div>\n    <div class=\"tab-pane\" id=\"invites\">\n        <ul id='index_content'  class=\"friends_list invites\">\n\n        </ul>\n    </div>\n</div>\n";
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {
