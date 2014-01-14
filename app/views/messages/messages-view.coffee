@@ -26,10 +26,8 @@ module.exports = class MessagesView extends CollectionView
     @delegate 'click', '.send_message', @send_message
     @scroll_to_bottom()
     @listenTo(@collection, 'push remove', @render)
-
     that = @
-    @socket.on "news", (data)->
-      console.log 'INCOMMING'
+    @socket.on "news#{@conversation_id}", (data)->
       that.incoming_message(data)
 
   send_message: ->
@@ -56,5 +54,7 @@ module.exports = class MessagesView extends CollectionView
       conversation_id: @conversation_id
 
   incoming_message: (data)->
+#    badge = $('.new_messages_badge').text()
+#    $('.new_messages_badge').text(parseInt(badge)-1)
     @collection.push({sender_id: data.sender_id ,user:{username: data.username} ,body: data.body ,receiver_id: data.receiver_id , conversation_id: data.conversation_id})
     @scroll_to_bottom()

@@ -13,11 +13,13 @@ module.exports = class SiteView extends View
     menu: '#menu-container'
     main: '#page-container'
   template: require './templates/site'
+  user: mediator.user
   initialize: ->
     @model.fetch
       success: (res)->
         $('.new_friend_badge').text(res.get('invitations')) if res.get('invitations') > 0
         $('.new_messages_badge').text(res.get('messages')) if res.get('messages') > 0
+    @socket = io.connect(window.location.toString())
     @delegate 'click', '.menu_main_page', @home
     @delegate 'click', '.menu_friends', @friends
     @delegate 'click', '.menu_users', @users
@@ -25,7 +27,11 @@ module.exports = class SiteView extends View
     @delegate 'click', '.menu_conversations', @conversations
     @delegate 'click', '.login_link', @login
     @delegate 'click', '.logout_link', @logout
-
+    that = @
+    @socket.on "inbox#{@user.id}", (data)->
+      console.log 'INCOMMING INBOX'
+      that.incoming_inbox(data)
+      console.log data
   home: ->
     utils.redirectTo url: '/'
   friends: ->
@@ -41,4 +47,12 @@ module.exports = class SiteView extends View
   logout: ->
     mediator.logout()
     utils.redirectTo url: '/login'
+
+  incoming_inbox: (data) ->
+    badge = $('.new_messages_badge').text()
+    $('.new_messages_badge').text(parseInt(badge)+1)
+    $.gritter.add
+      title: data.body
+      text: data.username
+
 

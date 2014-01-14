@@ -4,8 +4,8 @@ Controller = require 'controllers/base/controller'
 MenuView = require 'views/home/menu-view'
 Init = require 'models/init'
 HomePageView = require 'views/home/home-page-view'
-HomeFriendsView = require 'views/home/home-friends-view'
-HomeFriendView = require 'views/home/home-friend-view'
+HomeFriendsView = require 'views/friendships/friends-view'
+HomeFriendView = require 'views/friendships/friend-view'
 HomeUsersView = require 'views/home/home-users-view'
 Friends = require 'models/friends'
 Friend = require 'models/friend'
@@ -36,7 +36,7 @@ module.exports = class HomeController extends Controller
   friends: ->
     friends = new Friends
     @view = new HomeFriendsView region: 'main', collection: friends
-    friends.fetch()
+#    friends.fetch()
   show: (params)->
     console.log params.id
   users: ->
@@ -49,7 +49,6 @@ module.exports = class HomeController extends Controller
     conversations.fetch()
 
   conversation: (params) ->
-
     messages = new Messages( id: params.id )
     @view = new MessagesView region: 'main', collection: messages
     messages.fetch()

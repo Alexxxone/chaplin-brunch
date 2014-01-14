@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="3970173125">
+    <data-source source="LOCAL" name="Rails Rental: development" uuid="ce0f3d9e-f47c-4614-a153-6a84a81eef59">
+      <driver-ref>postgresql</driver-ref>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://127.0.0.1/alexxxxone_backend_dev</jdbc-url>
+      <user-name>alex</user-name>
+      <user-password>dfcbdfc6dfcfdfd2dfd2dfd2dfc5dfc4dfcfdf92df93</user-password>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails Rental: test" uuid="6d55ae42-e06b-4cfd-8a40-683e7595c963">
+      <driver-ref>postgresql</driver-ref>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://127.0.0.1/rental_test</jdbc-url>
+      <user-name>alex</user-name>
+      <user-password>dfcbdfc6dfcfdfd2dfd2dfd2dfc5dfc4dfcfdf92df93</user-password>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails Rental: production" uuid="47a5fd06-206f-4a36-a112-0a40eec0b423">
+      <driver-ref>postgresql</driver-ref>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://127.0.0.1/rental_prod</jdbc-url>
+      <user-name>alex</user-name>
+      <user-password>dfcbdfc6dfcfdfd2dfd2dfd2dfc5dfc4dfcfdf92df93</user-password>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+
