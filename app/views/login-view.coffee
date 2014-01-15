@@ -23,7 +23,8 @@ module.exports = class LoginView extends View
     $.ajax(
       crossDomain: true
       type: 'POST'
-      url: "http://localhost:3000/login"
+#      url: "http://localhost:3000/login"
+      url: "http://alexxxxone-backend.herokuapp.com/login"
       data: 'user': {'email': email,'password': password}
     ).success (response) ->
       mediator.login(response)

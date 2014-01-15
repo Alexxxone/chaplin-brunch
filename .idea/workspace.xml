@@ -2,41 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="92e223d6-100d-4e78-a96e-2a343d2555f9" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/models/current-user.coffee" afterPath="$PROJECT_DIR$/app/models/users/current-user.coffee" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/models/friend.coffee" afterPath="$PROJECT_DIR$/app/models/friendships/friend.coffee" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/models/friends.coffee" afterPath="$PROJECT_DIR$/app/models/friendships/friends.coffee" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/models/invitations.coffee" afterPath="$PROJECT_DIR$/app/models/friendships/invitations.coffee" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/models/my_friends.coffee" afterPath="$PROJECT_DIR$/app/models/friendships/my_friends.coffee" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/models/user.coffee" afterPath="$PROJECT_DIR$/app/models/users/user.coffee" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/models/users.coffee" afterPath="$PROJECT_DIR$/app/models/users/users.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/app.js.map" afterPath="$PROJECT_DIR$/public/javascripts/app.js.map" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/javascripts/app.js" afterPath="$PROJECT_DIR$/public/javascripts/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/application.coffee" afterPath="$PROJECT_DIR$/app/application.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/conversation.coffee" afterPath="$PROJECT_DIR$/app/models/conversation.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/conversations.coffee" afterPath="$PROJECT_DIR$/app/models/conversations.coffee" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/friendships/friend-view.coffee" afterPath="$PROJECT_DIR$/app/views/friendships/friend-view.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/friendships/friends-view.coffee" afterPath="$PROJECT_DIR$/app/views/friendships/friends-view.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/friendships/templates/friends.hbs" afterPath="$PROJECT_DIR$/app/views/friendships/templates/friends.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/app/controllers/friendships_controller.rb" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/app/controllers/friendships_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/heroku_brunch.iml" afterPath="$PROJECT_DIR$/.idea/heroku_brunch.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/friendships/friend.coffee" afterPath="$PROJECT_DIR$/app/models/friendships/friend.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/friendships/friends.coffee" afterPath="$PROJECT_DIR$/app/models/friendships/friends.coffee" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/home-controller.coffee" afterPath="$PROJECT_DIR$/app/controllers/home-controller.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/init.coffee" afterPath="$PROJECT_DIR$/app/models/init.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/friendships/invitations.coffee" afterPath="$PROJECT_DIR$/app/models/friendships/invitations.coffee" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/friendships/invite-view.coffee" afterPath="$PROJECT_DIR$/app/views/friendships/invite-view.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/friendships/invites-view.coffee" afterPath="$PROJECT_DIR$/app/views/friendships/invites-view.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/friendships/templates/invites.hbs" afterPath="$PROJECT_DIR$/app/views/friendships/templates/invites.hbs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/friendships/invites.coffee" afterPath="$PROJECT_DIR$/app/models/friendships/invites.coffee" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/login-view.coffee" afterPath="$PROJECT_DIR$/app/views/login-view.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/mediator.coffee" afterPath="$PROJECT_DIR$/app/mediator.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/messages/messages-view.coffee" afterPath="$PROJECT_DIR$/app/views/messages/messages-view.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/messages/templates/messages.hbs" afterPath="$PROJECT_DIR$/app/views/messages/templates/messages.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/friendships/templates/my.hbs" afterPath="$PROJECT_DIR$/app/views/friendships/templates/my.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/friendships/my_friends-view.coffee" afterPath="$PROJECT_DIR$/app/views/friendships/my_friends-view.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/config/routes.rb" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/config/routes.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/config/initializers/session_store.rb" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/config/initializers/session_store.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/app/controllers/sessions_controller.rb" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/app/controllers/sessions_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/site-view.coffee" afterPath="$PROJECT_DIR$/app/views/site-view.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/templates/site.hbs" afterPath="$PROJECT_DIR$/app/views/templates/site.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/user-view.coffee" afterPath="$PROJECT_DIR$/app/views/users/user-view.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../heroku_nodeJs_API/app/models/user.rb" afterPath="$PROJECT_DIR$/../heroku_nodeJs_API/app/models/user.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/users-view.coffee" afterPath="$PROJECT_DIR$/app/views/users/users-view.coffee" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/users/templates/users.hbs" afterPath="$PROJECT_DIR$/app/views/users/templates/users.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/message.coffee" afterPath="$PROJECT_DIR$/app/models/message.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/messages.coffee" afterPath="$PROJECT_DIR$/app/models/messages.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/friendships/my_friends.coffee" afterPath="$PROJECT_DIR$/app/models/friendships/my_friends.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/friendships/my_invitations.coffee" afterPath="$PROJECT_DIR$/app/models/friendships/my_invitations.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/friendships/my_invite-view.coffee" afterPath="$PROJECT_DIR$/app/views/friendships/my_invite-view.coffee" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/models/users/users.coffee" afterPath="$PROJECT_DIR$/app/models/users/users.coffee" />
     </list>
     <ignored path="heroku_brunch.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -59,28 +41,91 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="users-view.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/users/users-view.coffee">
+      <file leaf-file-name="invites.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/friendships/invites.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="28" selection-start="322" selection-end="322" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
+            <state line="4" column="59" selection-start="186" selection-end="186" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="user-view.coffee" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/users/user-view.coffee">
+      <file leaf-file-name="init.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/init.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="21" selection-start="411" selection-end="411" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="684">
+            <state line="10" column="12" selection-start="452" selection-end="452" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="home-controller.coffee" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/controllers/home-controller.coffee">
+      <file leaf-file-name="message.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/message.coffee">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="58" selection-end="58" vertical-scroll-proportion="0.037696335" vertical-offset="0" max-vertical-offset="1440">
+            <state line="5" column="19" selection-start="186" selection-end="186" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="messages.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/messages.coffee">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="36" selection-start="498" selection-end="498" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="432">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="friend.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/friendships/friend.coffee">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="19" selection-start="194" selection-end="194" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="my_friends.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/friendships/my_friends.coffee">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="14" selection-start="346" selection-end="346" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="252">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="my_invitations.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/friendships/my_invitations.coffee">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="users.coffee" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/models/users/users.coffee">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="16" selection-start="197" selection-end="197" vertical-scroll-proportion="0.18442623" vertical-offset="0" max-vertical-offset="488">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="friends.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/friendships/friends.coffee">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="7" column="32" selection-start="315" selection-end="315" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="invitations.coffee" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/models/friendships/invitations.coffee">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="8" column="0" selection-start="341" selection-end="341" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
               <folding />
             </state>
           </provider>
@@ -100,11 +145,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/views/home/templates/friends.hbs" />
-        <option value="$PROJECT_DIR$/app/views/home/templates/friend.hbs" />
-        <option value="$PROJECT_DIR$/app/models/friendship.coffee" />
-        <option value="$PROJECT_DIR$/app/views/home/home-friend-view.coffee" />
-        <option value="$PROJECT_DIR$/app/views/home/home-users-view.coffee" />
         <option value="$PROJECT_DIR$/app/views/friendships/templates/friend.hbs" />
         <option value="$PROJECT_DIR$/app/views/friendships/my_friends.coffee" />
         <option value="$PROJECT_DIR$/app/views/friendships/invites.coffee" />
@@ -119,22 +159,11 @@
         <option value="$PROJECT_DIR$/app/views/friendships/templates/my.hbs" />
         <option value="$PROJECT_DIR$/app/views/site-view.coffee" />
         <option value="$PROJECT_DIR$/app/views/friendships/templates/my_inv.hbs" />
-        <option value="$PROJECT_DIR$/app/models/friendships/friend.coffee" />
-        <option value="$PROJECT_DIR$/app/models/friendships/friends.coffee" />
-        <option value="$PROJECT_DIR$/app/models/friendships/invites.coffee" />
-        <option value="$PROJECT_DIR$/app/models/friendships/invitations.coffee" />
-        <option value="$PROJECT_DIR$/app/models/friendships/my_friends.coffee" />
-        <option value="$PROJECT_DIR$/app/models/friendships/my_invitations.coffee" />
-        <option value="$PROJECT_DIR$/app/views/login-view.coffee" />
         <option value="$PROJECT_DIR$/app/mediator.coffee" />
         <option value="$PROJECT_DIR$/app/models/users/current-user.coffee" />
         <option value="$PROJECT_DIR$/app/models/users/user.coffee" />
-        <option value="$PROJECT_DIR$/app/models/users/users.coffee" />
         <option value="$PROJECT_DIR$/../heroku_nodeJs_API/app/models/user.rb" />
         <option value="$PROJECT_DIR$/app/views/friendships/templates/my_invites.hbs" />
-        <option value="$PROJECT_DIR$/app/views/friendships/my_invite-view.coffee" />
-        <option value="$PROJECT_DIR$/app/views/friendships/invite-view.coffee" />
-        <option value="$PROJECT_DIR$/app/views/friendships/friend-view.coffee" />
         <option value="$PROJECT_DIR$/app/views/messages/templates/messages.hbs" />
         <option value="$PROJECT_DIR$/app/views/messages/messages-view.coffee" />
         <option value="$PROJECT_DIR$/app/views/templates/site.hbs" />
@@ -151,6 +180,22 @@
         <option value="$PROJECT_DIR$/app/views/friendships/my_friends-view.coffee" />
         <option value="$PROJECT_DIR$/app/views/users/users-view.coffee" />
         <option value="$PROJECT_DIR$/app/controllers/home-controller.coffee" />
+        <option value="$PROJECT_DIR$/app/views/login-view.coffee" />
+        <option value="$PROJECT_DIR$/app/views/friendships/friend-view.coffee" />
+        <option value="$PROJECT_DIR$/app/views/friendships/invite-view.coffee" />
+        <option value="$PROJECT_DIR$/app/views/friendships/my_invite-view.coffee" />
+        <option value="$PROJECT_DIR$/app/models/conversation.coffee" />
+        <option value="$PROJECT_DIR$/app/models/conversations.coffee" />
+        <option value="$PROJECT_DIR$/app/models/init.coffee" />
+        <option value="$PROJECT_DIR$/app/models/message.coffee" />
+        <option value="$PROJECT_DIR$/app/models/messages.coffee" />
+        <option value="$PROJECT_DIR$/app/models/friendships/friend.coffee" />
+        <option value="$PROJECT_DIR$/app/models/friendships/friends.coffee" />
+        <option value="$PROJECT_DIR$/app/models/friendships/invitations.coffee" />
+        <option value="$PROJECT_DIR$/app/models/friendships/invites.coffee" />
+        <option value="$PROJECT_DIR$/app/models/friendships/my_friends.coffee" />
+        <option value="$PROJECT_DIR$/app/models/friendships/my_invitations.coffee" />
+        <option value="$PROJECT_DIR$/app/models/users/users.coffee" />
       </list>
     </option>
   </component>
@@ -453,6 +498,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="heroku_brunch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="heroku_brunch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -472,28 +535,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="heroku_brunch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="heroku_brunch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="base" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -702,7 +743,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7238579" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.44873098" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2498615" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26094183" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -738,34 +779,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../heroku_nodeJs_API/app/controllers/users_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="955">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../heroku_nodeJs_API/app/controllers/house_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="955">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../heroku_nodeJs_API/app/controllers/conversations_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="11" selection-start="84" selection-end="84" vertical-scroll-proportion="0.037696335" vertical-offset="0" max-vertical-offset="955">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../heroku_nodeJs_API/app/models/message.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="930">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../heroku_nodeJs_API/app/controllers/messages_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="36" column="0" selection-start="931" selection-end="1043" vertical-scroll-proportion="0.6967742" vertical-offset="0" max-vertical-offset="930">
@@ -783,13 +796,6 @@
     <entry file="file://$PROJECT_DIR$/../heroku_nodeJs_API/app/models/friendship.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="4" column="70" selection-start="158" selection-end="158" vertical-scroll-proportion="0.07539267" vertical-offset="0" max-vertical-offset="955">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/conversations.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="50" selection-start="170" selection-end="210" vertical-scroll-proportion="0.077419356" vertical-offset="0" max-vertical-offset="930">
           <folding />
         </state>
       </provider>
@@ -815,51 +821,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/friendships/friend.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="23" selection-start="23" selection-end="23" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/friendships/friends.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/friendships/invites.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="23" selection-start="23" selection-end="23" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../heroku_nodeJs_API/config/routes.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="25" column="20" selection-start="649" selection-end="649" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="684">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/friendships/invitations.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="17" selection-start="63" selection-end="80" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="252">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/friendships/my_invitations.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="35" selection-start="81" selection-end="81" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="252">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/login-view.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="0" selection-start="168" selection-end="168" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="738">
           <folding />
         </state>
       </provider>
@@ -874,13 +838,6 @@
     <entry file="file://$PROJECT_DIR$/app/models/users/current-user.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="34" selection-start="34" selection-end="34" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="930">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/users/users.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="28" selection-start="28" selection-end="28" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="930">
           <folding />
         </state>
       </provider>
@@ -913,30 +870,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/friendships/my_friends.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="49" selection-start="54" selection-end="81" vertical-scroll-proportion="0.018848168" vertical-offset="0" max-vertical-offset="955">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/friendships/my_invite-view.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="30" selection-start="759" selection-end="759" vertical-scroll-proportion="0.43350786" vertical-offset="0" max-vertical-offset="955">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/friendships/templates/invites.hbs">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="59" selection-start="384" selection-end="402" vertical-scroll-proportion="0.19396552" vertical-offset="0" max-vertical-offset="928">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/friendships/friend-view.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="30" selection-start="1016" selection-end="1016" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="720">
           <folding />
         </state>
       </provider>
@@ -1032,13 +968,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/friendships/invite-view.coffee">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="31" selection-start="1086" selection-end="1086" vertical-scroll-proportion="0.565445" vertical-offset="0" max-vertical-offset="955">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/friendships/friends-view.coffee">
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="4" selection-start="358" selection-end="358" vertical-scroll-proportion="0.2827225" vertical-offset="0" max-vertical-offset="955">
@@ -1090,7 +1019,119 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/home-controller.coffee">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="58" selection-end="58" vertical-scroll-proportion="0.037696335" vertical-offset="0" max-vertical-offset="1440">
+        <state line="9" column="29" selection-start="376" selection-end="376" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1422">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/login-view.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="51" selection-start="844" selection-end="844" vertical-scroll-proportion="0.0" vertical-offset="243" max-vertical-offset="756">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/friendships/friend-view.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="61" selection-start="1009" selection-end="1009" vertical-scroll-proportion="0.0" vertical-offset="207" max-vertical-offset="738">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/friendships/invite-view.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="25" selection-start="1080" selection-end="1080" vertical-scroll-proportion="0.0" vertical-offset="171" max-vertical-offset="684">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/friendships/my_invite-view.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="61" selection-start="662" selection-end="662" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="576">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/conversation.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="20" selection-start="217" selection-end="217" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="234">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/conversations.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="16" selection-start="271" selection-end="271" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="288">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/init.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="12" selection-start="452" selection-end="452" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="306">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/message.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="19" selection-start="186" selection-end="186" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/messages.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="36" selection-start="498" selection-end="498" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="432">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/friendships/friend.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="19" selection-start="194" selection-end="194" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="216">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/friendships/friends.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="32" selection-start="315" selection-end="315" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/friendships/invitations.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="0" selection-start="341" selection-end="341" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/friendships/invites.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="59" selection-start="186" selection-end="186" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="198">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/friendships/my_friends.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="14" selection-start="346" selection-end="346" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="252">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/friendships/my_invitations.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="0" selection-start="337" selection-end="337" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/users/users.coffee">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="16" selection-start="197" selection-end="197" vertical-scroll-proportion="0.18442623" vertical-offset="0" max-vertical-offset="488">
           <folding />
         </state>
       </provider>

@@ -561,7 +561,7 @@ module.exports = Conversation = (function(_super) {
     return _ref;
   }
 
-  Conversation.prototype.urlRoot = "    http://alexxxxone-backend.herokuapp.com/conversations/:id.json";
+  Conversation.prototype.urlRoot = "http://localhost:3000/conversations/:id.json";
 
   return Conversation;
 
@@ -587,7 +587,7 @@ module.exports = Conversations = (function(_super) {
     return _ref;
   }
 
-  Conversations.prototype.url = "http://localhost:3000/conversations.json?user_id=" + mediator.user.id;
+  Conversations.prototype.url = "http://alexxxxone-backend.herokuapp.com/conversations.json?user_id=" + mediator.user.id;
 
   return Conversations;
 
@@ -609,7 +609,7 @@ module.exports = Friend = (function(_super) {
     return _ref;
   }
 
-  Friend.prototype.urlRoot = "http://localhost:3000/friendships";
+  Friend.prototype.urlRoot = "http://alexxxxone-backend.herokuapp.com/friendships";
 
   return Friend;
 
@@ -635,7 +635,7 @@ module.exports = Friends = (function(_super) {
     return _ref;
   }
 
-  Friends.prototype.url = "http://localhost:3000/friends.json?user_id=" + mediator.user.id;
+  Friends.prototype.url = "http://alexxxxone-backend.herokuapp.com/friends.json?user_id=" + mediator.user.id;
 
   return Friends;
 
@@ -661,7 +661,7 @@ module.exports = Invitations = (function(_super) {
     return _ref;
   }
 
-  Invitations.prototype.url = "http://localhost:3000/invites.json?user_id=" + mediator.user.id;
+  Invitations.prototype.url = "http://alexxxxone-backend.herokuapp.com/invites.json?user_id=" + mediator.user.id;
 
   Invitations.prototype.model = model;
 
@@ -685,7 +685,7 @@ module.exports = Invites = (function(_super) {
     return _ref;
   }
 
-  Invites.prototype.urlRoot = "http://localhost:3000/invites/";
+  Invites.prototype.urlRoot = "http://alexxxxone-backend.herokuapp.com/invites/";
 
   return Invites;
 
@@ -711,7 +711,7 @@ module.exports = MyFriends = (function(_super) {
     return _ref;
   }
 
-  MyFriends.prototype.url = "http://localhost:3000/friendships.json?user_id=" + mediator.user.id;
+  MyFriends.prototype.url = "http://alexxxxone-backend.herokuapp.com/friendships.json?user_id=" + mediator.user.id;
 
   MyFriends.prototype.model = model;
 
@@ -739,7 +739,7 @@ module.exports = Invitations = (function(_super) {
     return _ref;
   }
 
-  Invitations.prototype.url = "http://localhost:3000/my_invites/" + mediator.user.id + ".json";
+  Invitations.prototype.url = "http://alexxxxone-backend.herokuapp.com/my_invites/" + mediator.user.id + ".json";
 
   Invitations.prototype.model = model;
 
@@ -767,13 +767,13 @@ module.exports = Init = (function(_super) {
 
   Init.prototype.initialize = function() {
     if (mediator.user) {
-      return this.url = "http://localhost:3000/init.json?user_id=" + mediator.user.id;
+      return this.url = "http://alexxxxone-backend.herokuapp.com/init.json?user_id=" + mediator.user.id;
     }
   };
 
-  Init.prototype.url = function() {
-    return "http://localhost:3000/init.json?user_id=1";
-  };
+  Init.prototype.url = function() {};
+
+  Init.prototype.url = "http://alexxxxone-backend.herokuapp.com/init.json?user_id=" + mediator.user.id;
 
   return Init;
 
@@ -795,7 +795,7 @@ module.exports = Message = (function(_super) {
     return _ref;
   }
 
-  Message.prototype.urlRoot = "http://localhost:3000/messages/";
+  Message.prototype.urlRoot = "http://alexxxxone-backend.herokuapp.com/messages/";
 
   return Message;
 
@@ -821,10 +821,10 @@ module.exports = Messages = (function(_super) {
     return _ref;
   }
 
-  Messages.prototype.url = "http://localhost:3000/messages.json";
+  Messages.prototype.url = "http://alexxxxone-backend.herokuapp.com/messages.json";
 
   Messages.prototype.initialize = function(option) {
-    this.url = "http://localhost:3000/messages.json?id=" + option.id + "&user_id=" + mediator.user.id;
+    this.url = "http://alexxxxone-backend.herokuapp.com/messages.json?id=" + option.id + "&user_id=" + mediator.user.id;
     return Messages.__super__.initialize.apply(this, arguments);
   };
 
@@ -900,7 +900,7 @@ module.exports = Users = (function(_super) {
     return _ref;
   }
 
-  Users.prototype.url = "http://localhost:3000/users.json";
+  Users.prototype.url = "http://alexxxxone-backend.herokuapp.com/users.json";
 
   return Users;
 
@@ -1068,7 +1068,7 @@ module.exports = FriendView = (function(_super) {
       firend_id: this.model.id,
       user_id: this.user.id
     });
-    friendship.url = 'http://localhost:3000/friendships/' + this.model.id + '?user_id=' + this.user.id;
+    friendship.url = 'http://alexxxxone-backend.herokuapp.com/friendships/' + this.model.id + '?user_id=' + this.user.id;
     friendship.fetch({
       method: 'delete'
     });
@@ -1184,7 +1184,7 @@ module.exports = FriendView = (function(_super) {
 
   FriendView.prototype.decline_friendship = function() {
     console.log('decline_friendship -> send');
-    this.model.url = "http://localhost:3000/destroy_invitation/" + this.model.id + "/" + this.user.id;
+    this.model.url = "http://alexxxxone-backend.herokuapp.com/destroy_invitation/" + this.model.id + "/" + this.user.id;
     this.model.destroy({
       wait: true
     });
@@ -1347,7 +1347,7 @@ module.exports = FriendView = (function(_super) {
       firend_id: this.model.id,
       user_id: this.user.id
     });
-    friendship.url = 'http://localhost:3000/friendships/' + this.model.id + '?user_id=' + this.user.id;
+    friendship.url = 'http://alexxxxone-backend.herokuapp.com/friendships/' + this.model.id + '?user_id=' + this.user.id;
     friendship.fetch({
       method: 'delete'
     });
@@ -1923,7 +1923,7 @@ module.exports = LoginView = (function(_super) {
     return $.ajax({
       crossDomain: true,
       type: 'POST',
-      url: "http://localhost:3000/login",
+      url: "http://alexxxxone-backend.herokuapp.com/login",
       data: {
         'user': {
           'email': email,

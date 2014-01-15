@@ -1,6 +1,5 @@
 mediator = require 'mediator'
 utils = require 'lib/utils'
-
 Controller = require 'controllers/base/controller'
 MenuView = require 'views/home/menu-view'
 Init = require 'models/init'

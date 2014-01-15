@@ -28,7 +28,8 @@ module.exports = class FriendView extends View
   destroy_friendship: ->
     console.log 'destroy_friendship'
     friendship = new Friendship(firend_id: @model.id, user_id: @user.id )
-    friendship.url = 'http://localhost:3000/friendships/'+@model.id+'?user_id='+@user.id
+#    friendship.url = 'http://localhost:3000/friendships/'+@model.id+'?user_id='+@user.id
+    friendship.url = 'http://alexxxxone-backend.herokuapp.com/friendships/'+@model.id+'?user_id='+@user.id
     friendship.fetch(method: 'delete')
     @model.destroy({wait: true})
     @publishEvent('delete_friend')

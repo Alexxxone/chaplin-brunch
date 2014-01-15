@@ -26,7 +26,7 @@ module.exports = class FriendView extends View
     @publishEvent('new_friend')
   decline_friendship: ->
     console.log 'decline_friendship -> send'
-    @model.url = "http://localhost:3000/destroy_invitation/#{@model.id}/#{@user.id}"
-#    @model.url = "http://alexxxxone-backend.herokuapp.com/destroy_invitation/#{@model.id}/#{@user.id}"
+#    @model.url = "http://localhost:3000/destroy_invitation/#{@model.id}/#{@user.id}"
+    @model.url = "http://alexxxxone-backend.herokuapp.com/destroy_invitation/#{@model.id}/#{@user.id}"
     @model.destroy({wait: true})
     @publishEvent('decline_friendship')
