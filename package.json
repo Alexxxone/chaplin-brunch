@@ -9,7 +9,6 @@
     "url": ""
   },
   "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install",
     "start": "brunch watch --server",
     "postinstall": "brunch build --production"
   },
@@ -23,8 +22,7 @@
     "uglify-js-brunch": ">=1.7.4",
     "clean-css-brunch": ">= 1.0 < 1.8",
     "auto-reload-brunch": ">= 1.0 < 1.8",
-    "statik": ">= 1.1.0",
-    "brunch": "1.x"
+    "statik": ">= 1.1.0"
   },
   "devDependencies": {},
   "engines": {
