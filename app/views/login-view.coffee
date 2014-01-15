@@ -3,7 +3,7 @@ Login = require 'models/conversation'
 template = require './templates/login'
 mediator = require 'mediator'
 utils = require 'lib/utils'
-User = require 'models/user'
+User = require 'models/users/user'
 Collection = require 'models/base/collection'
 module.exports = class LoginView extends View
   container: 'body'

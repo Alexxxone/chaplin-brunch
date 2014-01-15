@@ -27,6 +27,7 @@ module.exports = class SiteView extends View
     @delegate 'click', '.menu_conversations', @conversations
     @delegate 'click', '.login_link', @login
     @delegate 'click', '.logout_link', @logout
+
     that = @
     @socket.on "inbox#{@user.id}", (data)->
       that.incoming_inbox(data)

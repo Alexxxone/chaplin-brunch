@@ -1,5 +1,6 @@
 mediator = require 'mediator'
 utils = require 'lib/utils'
+
 Controller = require 'controllers/base/controller'
 MenuView = require 'views/home/menu-view'
 Init = require 'models/init'
@@ -9,14 +10,19 @@ FriendsView = require 'views/friendships/friends-view'
 MyFriendsView = require 'views/friendships/my_friends-view'
 FriendView = require 'views/friendships/friend-view'
 InvitesView = require 'views/friendships/invites-view'
+MyInvitesView = require 'views/friendships/my_invites-view'
 
 
 
+
+
+MyFriends = require 'models/friendships/my_friends'
+Invitation = require 'models/friendships/invitations'
+MyInvitation = require 'models/friendships/my_invitations'
+
+Users = require 'models/users/users'
 UsersView = require 'views/users/users-view'
-MyFriends = require 'models/my_friends'
-Invitation = require 'models/invitations'
 
-Users = require 'models/users'
 Conversation = require 'models/conversation'
 Conversations = require 'models/conversations'
 HomeConversationView = require 'views/home/home-conversation-view'
@@ -43,18 +49,17 @@ module.exports = class HomeController extends Controller
   friends: ->
     friends = new MyFriends
     invitations = new Invitation
+    my_invitations = new MyInvitation
     @view = new FriendsView region: 'main'
     @compose 'my_friends',MyFriendsView, region: 'my_friends',collection: friends
     @compose 'invites',InvitesView, region: 'invites', collection: invitations
-    friends.fetch()
-    invitations.fetch()
+    @compose 'my_invites',MyInvitesView, region: 'my_invites', collection: my_invitations
 
   show: (params)->
     console.log params.id
   users: ->
     users = new Users
     @view = new UsersView region: 'main', collection: users
-    users.fetch()
   conversations: ->
     conversations = new Conversations
     @view = new HomeConversationsView region: 'main', collection: conversations
@@ -63,8 +68,6 @@ module.exports = class HomeController extends Controller
   conversation: (params) ->
     messages = new Messages( id: params.id )
     @view = new MessagesView region: 'main', collection: messages
-    messages.fetch()
-
   settings: ->
     $('.menu_settings').addClass('active');
 

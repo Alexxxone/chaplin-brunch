@@ -5,13 +5,15 @@ template = require './templates/users'
 
 module.exports = class UsersView extends CollectionView
   itemView: View
-  container: '#container'
-  autoRender: true
+  container: '#page-container'
   containerMethod: 'html'
   listSelector: '#all_users'
   template: template
-  className: 'friends-page'
+
 
   initialize: ->
     super
+    @collection.fetch
+      success: () ->
+        console.log
     $('.menu_users').addClass('active');

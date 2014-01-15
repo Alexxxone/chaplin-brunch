@@ -111,6 +111,11 @@ module.exports = Application = (function(_super) {
         id: $.cookie('id'),
         username: $.cookie('username')
       });
+    } else {
+      mediator.login({
+        id: 0,
+        username: 'New'
+      });
     }
     if ($.cookie('receiver_id') !== void 0) {
       mediator.receiver($.cookie('receiver_id'));
@@ -154,7 +159,7 @@ module.exports = Controller = (function(_super) {
 });
 
 ;require.register("controllers/home-controller", function(exports, require, module) {
-var Controller, Conversation, Conversations, FriendView, FriendsView, HomeController, HomeConversationView, HomeConversationsView, HomePageView, Init, Invitation, InvitesView, MenuView, Message, MessageView, Messages, MessagesView, MyFriends, MyFriendsView, Users, UsersView, mediator, utils, _ref,
+var Controller, Conversation, Conversations, FriendView, FriendsView, HomeController, HomeConversationView, HomeConversationsView, HomePageView, Init, Invitation, InvitesView, MenuView, Message, MessageView, Messages, MessagesView, MyFriends, MyFriendsView, MyInvitation, MyInvitesView, Users, UsersView, mediator, utils, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -178,13 +183,17 @@ FriendView = require('views/friendships/friend-view');
 
 InvitesView = require('views/friendships/invites-view');
 
+MyInvitesView = require('views/friendships/my_invites-view');
+
+MyFriends = require('models/friendships/my_friends');
+
+Invitation = require('models/friendships/invitations');
+
+MyInvitation = require('models/friendships/my_invitations');
+
+Users = require('models/users/users');
+
 UsersView = require('views/users/users-view');
-
-MyFriends = require('models/my_friends');
-
-Invitation = require('models/invitations');
-
-Users = require('models/users');
 
 Conversation = require('models/conversation');
 
@@ -232,9 +241,10 @@ module.exports = HomeController = (function(_super) {
   };
 
   HomeController.prototype.friends = function() {
-    var friends, invitations;
+    var friends, invitations, my_invitations;
     friends = new MyFriends;
     invitations = new Invitation;
+    my_invitations = new MyInvitation;
     this.view = new FriendsView({
       region: 'main'
     });
@@ -246,8 +256,10 @@ module.exports = HomeController = (function(_super) {
       region: 'invites',
       collection: invitations
     });
-    friends.fetch();
-    return invitations.fetch();
+    return this.compose('my_invites', MyInvitesView, {
+      region: 'my_invites',
+      collection: my_invitations
+    });
   };
 
   HomeController.prototype.show = function(params) {
@@ -257,11 +269,10 @@ module.exports = HomeController = (function(_super) {
   HomeController.prototype.users = function() {
     var users;
     users = new Users;
-    this.view = new UsersView({
+    return this.view = new UsersView({
       region: 'main',
       collection: users
     });
-    return users.fetch();
   };
 
   HomeController.prototype.conversations = function() {
@@ -279,11 +290,10 @@ module.exports = HomeController = (function(_super) {
     messages = new Messages({
       id: params.id
     });
-    this.view = new MessagesView({
+    return this.view = new MessagesView({
       region: 'main',
       collection: messages
     });
-    return messages.fetch();
   };
 
   HomeController.prototype.settings = function() {
@@ -441,7 +451,7 @@ var CurrentUser, mediator, utils;
 
 mediator = module.exports = Chaplin.mediator;
 
-CurrentUser = require('models/current-user');
+CurrentUser = require('models/users/current-user');
 
 utils = require('lib/utils');
 
@@ -584,38 +594,12 @@ module.exports = Conversations = (function(_super) {
 })(Collection);
 });
 
-;require.register("models/current-user", function(exports, require, module) {
-var CurrentUser, User, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-User = require('models/user');
-
-module.exports = CurrentUser = (function(_super) {
-  __extends(CurrentUser, _super);
-
-  function CurrentUser() {
-    _ref = CurrentUser.__super__.constructor.apply(this, arguments);
-    return _ref;
-  }
-
-  CurrentUser.prototype.urlKey = '';
-
-  CurrentUser.prototype.urlPath = function() {
-    return '/users/me';
-  };
-
-  return CurrentUser;
-
-})(User);
-});
-
-;require.register("models/friend", function(exports, require, module) {
+;require.register("models/friendships/friend", function(exports, require, module) {
 var Friend, Model, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-Model = require('./base/model');
+Model = require('models/base/model');
 
 module.exports = Friend = (function(_super) {
   __extends(Friend, _super);
@@ -632,12 +616,12 @@ module.exports = Friend = (function(_super) {
 })(Model);
 });
 
-;require.register("models/friends", function(exports, require, module) {
+;require.register("models/friendships/friends", function(exports, require, module) {
 var Collection, Friends, Model, mediator, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-Collection = require('./base/collection');
+Collection = require('models/base/collection');
 
 Model = require('./friend');
 
@@ -654,6 +638,112 @@ module.exports = Friends = (function(_super) {
   Friends.prototype.url = "http://localhost:3000/friends.json?user_id=" + mediator.user.id;
 
   return Friends;
+
+})(Collection);
+});
+
+;require.register("models/friendships/invitations", function(exports, require, module) {
+var Collection, Invitations, mediator, model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Collection = require('models/base/collection');
+
+model = require('models/users/user');
+
+mediator = require('mediator');
+
+module.exports = Invitations = (function(_super) {
+  __extends(Invitations, _super);
+
+  function Invitations() {
+    _ref = Invitations.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Invitations.prototype.url = "http://localhost:3000/invites.json?user_id=" + mediator.user.id;
+
+  Invitations.prototype.model = model;
+
+  return Invitations;
+
+})(Collection);
+});
+
+;require.register("models/friendships/invites", function(exports, require, module) {
+var Invites, Model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('models/base/model');
+
+module.exports = Invites = (function(_super) {
+  __extends(Invites, _super);
+
+  function Invites() {
+    _ref = Invites.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Invites.prototype.urlRoot = "http://localhost:3000/invites/";
+
+  return Invites;
+
+})(Model);
+});
+
+;require.register("models/friendships/my_friends", function(exports, require, module) {
+var Collection, MyFriends, mediator, model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Collection = require('models/base/collection');
+
+model = require('models/users/user');
+
+mediator = require('mediator');
+
+module.exports = MyFriends = (function(_super) {
+  __extends(MyFriends, _super);
+
+  function MyFriends() {
+    _ref = MyFriends.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MyFriends.prototype.url = "http://localhost:3000/friendships.json?user_id=" + mediator.user.id;
+
+  MyFriends.prototype.model = model;
+
+  return MyFriends;
+
+})(Collection);
+});
+
+;require.register("models/friendships/my_invitations", function(exports, require, module) {
+var Collection, Invitations, mediator, model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Collection = require('models/base/collection');
+
+model = require('models/users/user');
+
+mediator = require('mediator');
+
+module.exports = Invitations = (function(_super) {
+  __extends(Invitations, _super);
+
+  function Invitations() {
+    _ref = Invitations.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Invitations.prototype.url = "http://localhost:3000/my_invites/" + mediator.user.id + ".json";
+
+  Invitations.prototype.model = model;
+
+  return Invitations;
 
 })(Collection);
 });
@@ -688,34 +778,6 @@ module.exports = Init = (function(_super) {
   return Init;
 
 })(Model);
-});
-
-;require.register("models/invitations", function(exports, require, module) {
-var Collection, Invitations, mediator, model, _ref,
-  __hasProp = {}.hasOwnProperty,
-  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
-
-Collection = require('./base/collection');
-
-model = require('./user');
-
-mediator = require('mediator');
-
-module.exports = Invitations = (function(_super) {
-  __extends(Invitations, _super);
-
-  function Invitations() {
-    _ref = Invitations.__super__.constructor.apply(this, arguments);
-    return _ref;
-  }
-
-  Invitations.prototype.url = "http://localhost:3000/invites.json?user_id=" + mediator.user.id;
-
-  Invitations.prototype.model = model;
-
-  return Invitations;
-
-})(Collection);
 });
 
 ;require.register("models/message", function(exports, require, module) {
@@ -773,40 +835,38 @@ module.exports = Messages = (function(_super) {
 })(Collection);
 });
 
-;require.register("models/my_friends", function(exports, require, module) {
-var Collection, MyFriends, mediator, model, _ref,
+;require.register("models/users/current-user", function(exports, require, module) {
+var CurrentUser, User, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-Collection = require('./base/collection');
+User = require('models/users/user');
 
-model = require('./user');
+module.exports = CurrentUser = (function(_super) {
+  __extends(CurrentUser, _super);
 
-mediator = require('mediator');
-
-module.exports = MyFriends = (function(_super) {
-  __extends(MyFriends, _super);
-
-  function MyFriends() {
-    _ref = MyFriends.__super__.constructor.apply(this, arguments);
+  function CurrentUser() {
+    _ref = CurrentUser.__super__.constructor.apply(this, arguments);
     return _ref;
   }
 
-  MyFriends.prototype.url = "http://localhost:3000/friendships.json?user_id=" + mediator.user.id;
+  CurrentUser.prototype.urlKey = '';
 
-  MyFriends.prototype.model = model;
+  CurrentUser.prototype.urlPath = function() {
+    return '/users/me';
+  };
 
-  return MyFriends;
+  return CurrentUser;
 
-})(Collection);
+})(User);
 });
 
-;require.register("models/user", function(exports, require, module) {
+;require.register("models/users/user", function(exports, require, module) {
 var Model, User, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-Model = require('./base/model');
+Model = require('models/base/model');
 
 module.exports = User = (function(_super) {
   __extends(User, _super);
@@ -823,12 +883,12 @@ module.exports = User = (function(_super) {
 })(Model);
 });
 
-;require.register("models/users", function(exports, require, module) {
+;require.register("models/users/users", function(exports, require, module) {
 var Collection, Model, Users, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-Collection = require('./base/collection');
+Collection = require('models/base/collection');
 
 Model = require('./user');
 
@@ -966,7 +1026,7 @@ chat_template = require('views/templates/chat');
 
 mediator = require('mediator');
 
-Friendship = require('models/friend');
+Friendship = require('models/friendships/friend');
 
 module.exports = FriendView = (function(_super) {
   __extends(FriendView, _super);
@@ -986,7 +1046,6 @@ module.exports = FriendView = (function(_super) {
 
   FriendView.prototype.initialize = function() {
     FriendView.__super__.initialize.apply(this, arguments);
-    console.log('friend-view');
     this.delegate("click", ".start_chat", this.start_chat);
     this.delegate("click", ".remove_friend", this.destroy_friendship);
     return this.delegate('click', '.friend_image', this.info);
@@ -1004,16 +1063,19 @@ module.exports = FriendView = (function(_super) {
 
   FriendView.prototype.destroy_friendship = function() {
     var friendship;
+    console.log('destroy_friendship');
     friendship = new Friendship({
       firend_id: this.model.id,
       user_id: this.user.id
     });
-    console.log(friendship);
     friendship.url = 'http://localhost:3000/friendships/' + this.model.id + '?user_id=' + this.user.id;
     friendship.fetch({
       method: 'delete'
     });
-    return this.model.destroy();
+    this.model.destroy({
+      wait: true
+    });
+    return this.publishEvent('delete_friend');
   };
 
   return FriendView;
@@ -1042,6 +1104,8 @@ module.exports = FriendsView = (function(_super) {
 
   FriendsView.prototype.autoRender = true;
 
+  FriendsView.prototype.autoAttach = true;
+
   FriendsView.prototype.containerMethod = 'html';
 
   FriendsView.prototype.className = 'friends-page';
@@ -1050,7 +1114,8 @@ module.exports = FriendsView = (function(_super) {
 
   FriendsView.prototype.regions = {
     my_friends: '#my_friends',
-    invites: '#invites'
+    invites: '#invites',
+    my_invites: '#my_invites'
   };
 
   FriendsView.prototype.initialize = function() {
@@ -1074,7 +1139,7 @@ mediator = require('mediator');
 
 template = require('./templates/invites');
 
-Friendship = require('models/friend');
+Friendship = require('models/friendships/friend');
 
 module.exports = FriendView = (function(_super) {
   __extends(FriendView, _super);
@@ -1088,11 +1153,14 @@ module.exports = FriendView = (function(_super) {
 
   FriendView.prototype.template = template;
 
+  FriendView.prototype.user = mediator.user;
+
   FriendView.prototype.initialize = function() {
     FriendView.__super__.initialize.apply(this, arguments);
     console.log('invite-view');
     this.delegate("click", ".accept_friend", this.accept_friend);
-    return this.delegate('click', '.friend_image', this.info);
+    this.delegate('click', '.friend_image', this.info);
+    return this.delegate('click', '.decline_friendship', this.decline_friendship);
   };
 
   FriendView.prototype.info = function() {
@@ -1105,8 +1173,22 @@ module.exports = FriendView = (function(_super) {
       user_id: mediator.user.id,
       friend_id: this.model.id
     });
-    friendship.save();
-    return this.model.destroy();
+    friendship.save({
+      wait: true
+    });
+    this.model.destroy({
+      wait: true
+    });
+    return this.publishEvent('new_friend');
+  };
+
+  FriendView.prototype.decline_friendship = function() {
+    console.log('decline_friendship -> send');
+    this.model.url = "http://localhost:3000/destroy_invitation/" + this.model.id + "/" + this.user.id;
+    this.model.destroy({
+      wait: true
+    });
+    return this.publishEvent('decline_friendship');
   };
 
   return FriendView;
@@ -1137,8 +1219,6 @@ module.exports = InvitesView = (function(_super) {
 
   InvitesView.prototype.container = '#invites';
 
-  InvitesView.prototype.autoRender = true;
-
   InvitesView.prototype.containerMethod = 'html';
 
   InvitesView.prototype.template = template;
@@ -1146,8 +1226,31 @@ module.exports = InvitesView = (function(_super) {
   InvitesView.prototype.listSelector = '.invites';
 
   InvitesView.prototype.initialize = function() {
+    var self;
+    InvitesView.__super__.initialize.apply(this, arguments);
+    self = this;
+    this.collection.fetch({
+      success: function(response) {
+        return self.badges(response.length);
+      }
+    });
     this.listenTo(this.collection, 'reset', this.render);
-    return InvitesView.__super__.initialize.apply(this, arguments);
+    this.subscribeEvent('delete_friend', this.restrat);
+    this.subscribeEvent('new_friend', this.restrat);
+    return this.subscribeEvent('decline_friendship', this.restrat);
+  };
+
+  InvitesView.prototype.restrat = function() {
+    console.log('decline_friendship -> receiv');
+    return this.initialize();
+  };
+
+  InvitesView.prototype.badges = function(length) {
+    if (length === 0) {
+      return $('.new_friend_badge, .invites_count_badge').empty();
+    } else {
+      return $('.new_friend_badge, .invites_count_badge').text(length);
+    }
   };
 
   return InvitesView;
@@ -1178,8 +1281,6 @@ module.exports = MyFriendsView = (function(_super) {
 
   MyFriendsView.prototype.container = '#my_friends';
 
-  MyFriendsView.prototype.autoRender = true;
-
   MyFriendsView.prototype.containerMethod = 'html';
 
   MyFriendsView.prototype.template = template;
@@ -1188,10 +1289,122 @@ module.exports = MyFriendsView = (function(_super) {
 
   MyFriendsView.prototype.initialize = function() {
     MyFriendsView.__super__.initialize.apply(this, arguments);
-    return this.listenTo(this.collection, 'reset', this.render);
+    this.collection.fetch();
+    this.listenTo(this.collection, 'reset', this.render);
+    this.subscribeEvent('new_friend', this.restrat);
+    return this.subscribeEvent('delete_friend', this.restrat);
+  };
+
+  MyFriendsView.prototype.restrat = function() {
+    return this.initialize();
   };
 
   return MyFriendsView;
+
+})(CollectionView);
+});
+
+;require.register("views/friendships/my_invite-view", function(exports, require, module) {
+var FriendView, Friendship, View, mediator, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+mediator = require('mediator');
+
+template = require('./templates/my_invites');
+
+Friendship = require('models/friendships/friend');
+
+module.exports = FriendView = (function(_super) {
+  __extends(FriendView, _super);
+
+  function FriendView() {
+    _ref = FriendView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  FriendView.prototype.autoRender = true;
+
+  FriendView.prototype.template = template;
+
+  FriendView.prototype.user = mediator.user;
+
+  FriendView.prototype.initialize = function() {
+    FriendView.__super__.initialize.apply(this, arguments);
+    this.delegate("click", ".decline_request", this.decline_request);
+    return this.delegate('click', '.friend_image', this.info);
+  };
+
+  FriendView.prototype.info = function() {
+    return console.log(this.model.get('email'));
+  };
+
+  FriendView.prototype.decline_request = function() {
+    var friendship;
+    friendship = new Friendship({
+      firend_id: this.model.id,
+      user_id: this.user.id
+    });
+    friendship.url = 'http://localhost:3000/friendships/' + this.model.id + '?user_id=' + this.user.id;
+    friendship.fetch({
+      method: 'delete'
+    });
+    return this.model.destroy({
+      wait: true
+    });
+  };
+
+  return FriendView;
+
+})(View);
+});
+
+;require.register("views/friendships/my_invites-view", function(exports, require, module) {
+var CollectionView, MyInvitesView, View, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CollectionView = require('views/base/collection-view');
+
+View = require('./my_invite-view');
+
+template = require('./templates/my_inv');
+
+module.exports = MyInvitesView = (function(_super) {
+  __extends(MyInvitesView, _super);
+
+  function MyInvitesView() {
+    _ref = MyInvitesView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MyInvitesView.prototype.itemView = View;
+
+  MyInvitesView.prototype.container = '#my_invites';
+
+  MyInvitesView.prototype.containerMethod = 'html';
+
+  MyInvitesView.prototype.template = template;
+
+  MyInvitesView.prototype.listSelector = '.my_invites';
+
+  MyInvitesView.prototype.initialize = function() {
+    MyInvitesView.__super__.initialize.apply(this, arguments);
+    this.collection.fetch({
+      success: function(response) {
+        if (response.length !== 0) {
+          return $('.my_invites_count_badge').text(response.length);
+        } else {
+          return $('.my_invites_count_badge').empty();
+        }
+      }
+    });
+    return this.listenTo(this.collection, 'reset', this.render);
+  };
+
+  return MyInvitesView;
 
 })(CollectionView);
 });
@@ -1236,7 +1449,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<h4>You have <span class=\"friends_count\"></span> friend('s)</h4>\n\n\n\n\n<ul class=\"nav nav-tabs\">\n    <li class=\"active\"><a href=\"#my_friends\" data-toggle=\"tab\">My friends</a></li>\n    <li><a href=\"#invites\" data-toggle=\"tab\">Invitations</a></li>\n</ul>\n\n<!-- Tab panes -->\n<div class=\"tab-content\">\n    <div class=\"tab-pane active\" id=\"my_friends\">\n\n    </div>\n    <div class=\"tab-pane\" id=\"invites\">\n\n    </div>\n</div>\n\n\n";
+  return "<h4>You have <span class=\"friends_count_badge\"></span> friend('s)</h4>\n\n<ul class=\"nav nav-pills\">\n    <li class=\"active\"><a href=\"#my_friends\" data-toggle=\"tab\">My friends</a></li>\n    <li><a href=\"#invites\" data-toggle=\"tab\">Invitations<span class=\"badge pull-right invites_count_badge\"></span></a></li>\n    <li><a href=\"#my_invites\" data-toggle=\"tab\">My Request's<span class=\"badge pull-right my_invites_count_badge\"></span></a></li>\n</ul>\n\n<!-- Tab panes -->\n\n<div class=\"tab-content\">\n\n    <div class=\"tab-pane active\" id=\"my_friends\">\n    </div>\n    <div class=\"tab-pane\" id=\"invites\">\n    </div>\n    <div class=\"tab-pane\" id=\"my_invites\">\n    </div>\n\n</div>\n\n\n";
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -1284,7 +1497,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</p>\n    </div>\n    <div class=\"friend_actions\">\n        <p><a href=\"javascript:;\" class=\"accept_friend\">Add to friends</a></p>\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n    </div>\n</li>\n\n";
+    + "</p>\n    </div>\n    <div class=\"friend_actions\">\n        <p><a href=\"javascript:;\" class=\"accept_friend\">Add to friends</a></p>\n        <p><a href=\"javascript:;\" class=\"decline_friendship\">Decline friendship</a></p>\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n    </div>\n</li>\n\n";
   return buffer;
   });
 if (typeof define === 'function' && define.amd) {
@@ -1305,7 +1518,56 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<ul id='index_content'  class=\"friends_list my_friends\">\n\n</ul>";
+  return "<ul id='index_content'  class=\"friends_list my_friends\">\n\n</ul>\n";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/friendships/templates/my_inv", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<ul id='index_content'  class=\"friends_list my_invites\">\n\n</ul>";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/friendships/templates/my_invites", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<li class=\"each_friend_in_list\">\n    <div class=\"friend_image\">\n        <img src=\"images/deactivated_100.gif\" alt=\"image\"/>\n    </div>\n    <div class=\"friend_info\">\n        <p> ";
+  if (stack1 = helpers.username) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.username); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n        <p> ";
+  if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n    </div>\n    <div class=\"friend_actions\">\n        <p><a href=\"javascript:;\" class=\"decline_request\">Decline request</a></p>\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n    </div>\n</li>\n\n";
+  return buffer;
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -1623,7 +1885,7 @@ mediator = require('mediator');
 
 utils = require('lib/utils');
 
-User = require('models/user');
+User = require('models/users/user');
 
 Collection = require('models/base/collection');
 
@@ -1773,13 +2035,9 @@ module.exports = MessagesView = (function(_super) {
 
   MessagesView.prototype.container = '#container';
 
-  MessagesView.prototype.autoRender = true;
-
   MessagesView.prototype.className = 'messages-page';
 
   MessagesView.prototype.containerMethod = 'html';
-
-  MessagesView.prototype.animationDuration = 1000;
 
   MessagesView.prototype.template = template;
 
@@ -1794,13 +2052,20 @@ module.exports = MessagesView = (function(_super) {
   MessagesView.prototype.user = mediator.user;
 
   MessagesView.prototype.initialize = function() {
-    var that;
+    var self, that;
+    this.start_animation();
     MessagesView.__super__.initialize.apply(this, arguments);
+    self = this;
+    this.collection.fetch({
+      complete: function() {
+        return self.stop_animation();
+      }
+    });
     this.socket = io.connect(window.location.toString());
     $('.menu_conversations').addClass('active');
     this.delegate('click', '.send_message', this.send_message);
     this.scroll_to_bottom();
-    this.listenTo(this.collection, 'push remove', this.render);
+    this.listenTo(this.collection, 'reset', this.render);
     that = this;
     return this.socket.on("news" + this.conversation_id, function(data) {
       return that.incoming_message(data);
@@ -1867,6 +2132,14 @@ module.exports = MessagesView = (function(_super) {
     return this.scroll_to_bottom();
   };
 
+  MessagesView.prototype.start_animation = function() {
+    return $(this.loadingSelector).fadeToggle('slow');
+  };
+
+  MessagesView.prototype.stop_animation = function() {
+    return $(this.loadingSelector).fadeToggle('slow');
+  };
+
   return MessagesView;
 
 })(CollectionView);
@@ -1912,7 +2185,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<h4>Messages</h4>\n<div class=\"loading\"><div id=\"canvasloader-container\" class=\"wrapper\"></div></div>\n<ul id='messages_content'  class=\"friends_list\">\n</ul>\n\n<div class=\"input-group\">\n    <span class=\"input-group-addon\">:)</span>\n    <input type=\"text\" class=\"form-control message_body\">\n    <span class=\"input-group-btn\">\n      <button class=\"btn btn-primary send_message\" type=\"button\">Send</button>\n    </span>\n</div>\n\n\n\n\n<script type=\"text/javascript\">\n    var cl = new CanvasLoader('canvasloader-container');\n    cl.setColor('#008cba'); // default is '#000000'\n    cl.setShape('spiral'); // default is 'oval'\n    cl.setDiameter(71); // default is 40\n    cl.setDensity(90); // default is 40\n    cl.setRange(0.8); // default is 1.3\n    cl.setFPS(51); // default is 24\n    cl.show(); // Hidden by default\n\n    // This bit is only for positioning - not necessary\n    var loaderObj = document.getElementById(\"canvasLoader\");\n    loaderObj.style.position = \"absolute\";\n    loaderObj.style[\"top\"] = cl.getDiameter() * -0.5 + \"px\";\n    loaderObj.style[\"left\"] = cl.getDiameter() * -0.5 + \"px\";\n\n    $('#messages_content').slimScroll({\n        width: 'auto',\n        height: '745px',\n        size: '10px',\n        position: 'right',\n        color: '#008cba',\n        wheelStep: 10,\n        allowPageScroll: false,\n        disableFadeOut: false\n    });\n</script>\n\n\n";
+  return "<h4>Messages</h4>\n<ul id='messages_content'  class=\"friends_list\">\n\n</ul>\n\n<div class=\"input-group\">\n    <span class=\"input-group-addon\">:)</span>\n    <input type=\"text\" class=\"form-control message_body\">\n    <span class=\"input-group-btn\">\n      <button class=\"btn btn-primary send_message\" type=\"button\">Send</button>\n    </span>\n</div>\n\n\n\n\n<script type=\"text/javascript\">\n    var cl = new CanvasLoader('canvasloader-container');\n    cl.setColor('#008cba'); // default is '#000000'\n    cl.setShape('spiral'); // default is 'oval'\n    cl.setDiameter(71); // default is 40\n    cl.setDensity(90); // default is 40\n    cl.setRange(0.8); // default is 1.3\n    cl.setFPS(51); // default is 24\n    cl.show(); // Hidden by default\n\n    // This bit is only for positioning - not necessary\n    var loaderObj = document.getElementById(\"canvasLoader\");\n    loaderObj.style.position = \"absolute\";\n    loaderObj.style[\"top\"] = cl.getDiameter() * -0.5 + \"px\";\n    loaderObj.style[\"left\"] = cl.getDiameter() * -0.5 + \"px\";\n\n    $('#messages_content').slimScroll({\n        width: 'auto',\n        height: '745px',\n        size: '10px',\n        position: 'right',\n        color: '#008cba',\n        wheelStep: 10,\n        allowPageScroll: false,\n        disableFadeOut: false\n    });\n</script>\n\n\n";
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -2138,7 +2411,7 @@ function program3(depth0,data) {
   if (stack1 = helpers.messages) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
   else { stack1 = (depth0 && depth0.messages); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
   buffer += escapeExpression(stack1)
-    + "</span></a>\n                    <li class=\"menu_users\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> All People</a></li></li>\n                    <li class=\"menu_settings\"><a href=\"javascript:;\"><i class=\"fa fa-cogs fa-fw\"></i> Settings</a></li>\n                </ul>\n        </div>\n\n        <div class=\"\" >\n          <div class='col-md-6'  id=\"page-container\">\n          </div>\n        </div>\n        <div class=\"col-md-2\">\n\n            <div class=\"panel panel-primary\">\n                <div class=\"panel-heading\">News</div>\n                <div class=\"panel-body\">\n                    <img src=\"http://asset2.cbsistatic.com/cnwk.1d/i/tim/2010/09/28/0927LazaridisPlayBook_270x203.jpg\" alt=\"news\" class=\"img-thumbnail\" >\n                    Mike Lazaridis, a BlackBerry co-founder and former co-CEO, has officially ditched his plans to acquire the company through a joint bid with a fellow co-founder.\n                    In dissolving the plan, Lazaridis' stake in the sagging company is now 4.99 percent.\n                    Lazaridis made his decision public in a Securities and Exchange Commission filing on Tuesday. Under the now-defunct plan, which was announced in October, Lazaridis and fellow co-founder Douglas Fregin had combined stakes to reach 8 percent total ownership and said they were considering a purchase of the company. Last month, however, BlackBerry took itself off the market, and new management is trying to turn the company around.\n                </div>\n            </div>\n            <div class=\"panel panel-default\">\n                <div class=\"panel-body\">\n                    Panel content\n                </div>\n                <div class=\"panel-footer\">Panel footer</div>\n            </div>\n        </div>\n        <a href=\"#top\" class=\"arrow_up\"><i class=\"fa fa-chevron-up fa-3x\"></i></a>\n    </div>\n</div>\n\n<script type=\"text/javascript\">\n    var elem = $('.left_menu');\n    var elem_heigth = elem.offset().top+ elem.height() ;\n    var arrow = $(\".arrow_up\");\n    $(document).on('scroll', function(){\n       if(window.pageYOffset > elem_heigth ){\n           if(arrow.is( \":hidden\" )){\n             arrow.clearQueue();\n             arrow.stop();\n             arrow.css('display','block');\n             arrow.css('left','0');\n             arrow.animate({\n                   opacity: 1,\n                   left: \"+=50\"\n               }, 200);\n           }\n       }else{\n           if(arrow.is( \":visible\" )){\n               arrow.clearQueue();\n               arrow.stop();\n               arrow.css('left','0');\n               arrow.animate({\n                   opacity: 0.25,\n                   left: \"-=50\"\n\n               }, 200,function(){\n                   arrow.css('display','none');\n               });\n           }\n       }\n    })\n\n</script>";
+    + "</span></a>\n                    <li class=\"menu_users\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> All People</a></li></li>\n                    <li class=\"menu_settings\"><a href=\"javascript:;\"><i class=\"fa fa-cogs fa-fw\"></i> Settings</a></li>\n                </ul>\n        </div>\n\n        <div class=\"\" >\n            <div class=\"loading\"><div id=\"canvasloader-container\" class=\"wrapper\"></div></div>\n            <div class='col-md-6'  id=\"page-container\">\n\n            </div>\n        </div>\n        <div class=\"col-md-2\">\n\n            <div class=\"panel panel-primary\">\n                <div class=\"panel-heading\">News</div>\n                <div class=\"panel-body\">\n                    <img src=\"http://asset2.cbsistatic.com/cnwk.1d/i/tim/2010/09/28/0927LazaridisPlayBook_270x203.jpg\" alt=\"news\" class=\"img-thumbnail\" >\n                    Mike Lazaridis, a BlackBerry co-founder and former co-CEO, has officially ditched his plans to acquire the company through a joint bid with a fellow co-founder.\n                    In dissolving the plan, Lazaridis' stake in the sagging company is now 4.99 percent.\n                    Lazaridis made his decision public in a Securities and Exchange Commission filing on Tuesday. Under the now-defunct plan, which was announced in October, Lazaridis and fellow co-founder Douglas Fregin had combined stakes to reach 8 percent total ownership and said they were considering a purchase of the company. Last month, however, BlackBerry took itself off the market, and new management is trying to turn the company around.\n                </div>\n            </div>\n            <div class=\"panel panel-default\">\n                <div class=\"panel-body\">\n                    Panel content\n                </div>\n                <div class=\"panel-footer\">Panel footer</div>\n            </div>\n        </div>\n        <a href=\"#top\" class=\"arrow_up\"><i class=\"fa fa-chevron-up fa-3x\"></i></a>\n    </div>\n</div>\n\n<script type=\"text/javascript\">\n    var elem = $('.left_menu');\n    var elem_heigth = elem.offset().top+ elem.height() ;\n    var arrow = $(\".arrow_up\");\n    $(document).on('scroll', function(){\n       if(window.pageYOffset > elem_heigth ){\n           if(arrow.is( \":hidden\" )){\n             arrow.clearQueue();\n             arrow.stop();\n             arrow.css('display','block');\n             arrow.css('left','0');\n             arrow.animate({\n                   opacity: 1,\n                   left: \"+=50\"\n               }, 200);\n           }\n       }else{\n           if(arrow.is( \":visible\" )){\n               arrow.clearQueue();\n               arrow.stop();\n               arrow.css('left','0');\n               arrow.animate({\n                   opacity: 0.25,\n                   left: \"-=50\"\n\n               }, 200,function(){\n                   arrow.css('display','none');\n               });\n           }\n       }\n    })\n\n</script>";
   return buffer;
   });
 if (typeof define === 'function' && define.amd) {
@@ -2192,7 +2465,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<h4>Users toal registered <span class=\"users_count\"></span></h4>\n\n\n   <ul id='all_users'  class=\"friends_list \">\n\n   </ul>\n\n\n\n";
+  return "<h4>Users toal registered <span class=\"users_count\"></span></h4>\n\n\n   <ul id='all_users'  class=\"friends_list\">\n\n   </ul>\n\n\n\n";
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {
@@ -2220,7 +2493,7 @@ chat_template = require('views/templates/chat');
 
 mediator = require('mediator');
 
-Friendship = require('models/friend');
+Friendship = require('models/friendships/friend');
 
 module.exports = UserView = (function(_super) {
   __extends(UserView, _super);
@@ -2240,7 +2513,7 @@ module.exports = UserView = (function(_super) {
 
   UserView.prototype.initialize = function() {
     UserView.__super__.initialize.apply(this, arguments);
-    console.log('invite-view');
+    console.log('user-view');
     this.delegate("click", ".accept_friend", this.accept_friend);
     return this.delegate('click', '.friend_image', this.info);
   };
@@ -2285,9 +2558,7 @@ module.exports = UsersView = (function(_super) {
 
   UsersView.prototype.itemView = View;
 
-  UsersView.prototype.container = '#container';
-
-  UsersView.prototype.autoRender = true;
+  UsersView.prototype.container = '#page-container';
 
   UsersView.prototype.containerMethod = 'html';
 
@@ -2295,10 +2566,13 @@ module.exports = UsersView = (function(_super) {
 
   UsersView.prototype.template = template;
 
-  UsersView.prototype.className = 'friends-page';
-
   UsersView.prototype.initialize = function() {
     UsersView.__super__.initialize.apply(this, arguments);
+    this.collection.fetch({
+      success: function() {
+        return console.log;
+      }
+    });
     return $('.menu_users').addClass('active');
   };
 

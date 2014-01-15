@@ -1,4 +1,4 @@
-Collection = require './base/collection'
+Collection = require 'models/base/collection'
 Model = require './friend'
 mediator = require 'mediator'
 

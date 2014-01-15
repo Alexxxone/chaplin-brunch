@@ -1,5 +1,5 @@
 mediator = module.exports = Chaplin.mediator
-CurrentUser = require 'models/current-user'
+CurrentUser = require 'models/users/current-user'
 utils = require 'lib/utils'
 
 mediator.createUser = (params) ->

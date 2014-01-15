@@ -5,7 +5,6 @@ template = require './templates/my'
 module.exports = class MyFriendsView extends CollectionView
   itemView: View
   container: '#my_friends'
-  autoRender: true
   containerMethod: 'html'
   template: template
   listSelector: '.my_friends'
@@ -13,7 +12,10 @@ module.exports = class MyFriendsView extends CollectionView
 
   initialize: ->
     super
+    @collection.fetch()
     @listenTo @collection, 'reset', @render
-#    @collection.fetch
-#      success: (response) ->
-#        $('.friends_count').text(response.length)
+    @subscribeEvent('new_friend', @restrat)
+    @subscribeEvent('delete_friend', @restrat)
+
+  restrat:  ->
+    @initialize()

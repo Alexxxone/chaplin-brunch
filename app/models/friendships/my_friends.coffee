@@ -1,5 +1,5 @@
-Collection = require './base/collection'
-model = require './user'
+Collection = require 'models/base/collection'
+model = require 'models/users/user'
 mediator = require 'mediator'
 
 module.exports = class MyFriends extends Collection

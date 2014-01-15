@@ -5,7 +5,7 @@ template = require './templates/user'
 chat_template = require 'views/templates/chat'
 
 mediator = require 'mediator'
-Friendship = require 'models/friend'
+Friendship = require 'models/friendships/friend'
 
 module.exports = class UserView extends View
   autoRender: true
@@ -15,7 +15,7 @@ module.exports = class UserView extends View
 
   initialize: ->
     super
-    console.log 'invite-view'
+    console.log 'user-view'
     @delegate "click", ".accept_friend", @accept_friend
     @delegate 'click', '.friend_image', @info
 #    @listenTo(@model, 'change push remove', @render)
