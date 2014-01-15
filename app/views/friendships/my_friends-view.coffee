@@ -1,7 +1,6 @@
 CollectionView = require 'views/base/collection-view'
 View = require './friend-view'
-template = require './templates/my_friends'
-FriendsView =  require './friends-view'
+template = require './templates/my'
 
 module.exports = class MyFriendsView extends CollectionView
   itemView: View
@@ -11,6 +10,10 @@ module.exports = class MyFriendsView extends CollectionView
   template: template
   listSelector: '.my_friends'
 
+
   initialize: ->
     super
-    console.log 'my_friends'
+    @listenTo @collection, 'reset', @render
+#    @collection.fetch
+#      success: (response) ->
+#        $('.friends_count').text(response.length)

@@ -1,7 +1,6 @@
 CollectionView = require 'views/base/collection-view'
-View = require './friend-view'
-template = require './templates/invites'
-FriendsView =  require './friends-view'
+View = require './invite-view'
+template = require './templates/inv'
 
 module.exports = class InvitesView extends CollectionView
   itemView: View
@@ -11,6 +10,8 @@ module.exports = class InvitesView extends CollectionView
   template: template
   listSelector: '.invites'
 
+
+
   initialize: ->
-    console.log 'invites'
+    @listenTo @collection, 'reset', @render
     super

@@ -1,15 +1,16 @@
 CollectionView = require 'views/base/collection-view'
-View = require 'views/friendships/friend-view'
-template = require 'views/friendships/templates/friends'
-module.exports = class HomeUsersView extends CollectionView
+View = require './user-view'
+template = require './templates/users'
 
+
+module.exports = class UsersView extends CollectionView
   itemView: View
   container: '#container'
   autoRender: true
   containerMethod: 'html'
-  className: 'friends-page'
+  listSelector: '#all_users'
   template: template
-  listSelector: '#index_content'
+  className: 'friends-page'
 
   initialize: ->
     super

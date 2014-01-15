@@ -2,8 +2,8 @@ View = require 'views/base/view'
 utils = require 'lib/utils'
 mediator = require 'mediator'
 SiteView = require 'views/site-view'
-
 Init = require 'models/init'
+
 # Site view is a top-level view which is bound to body.
 module.exports = class SiteView extends View
   container: 'body'
@@ -13,7 +13,7 @@ module.exports = class SiteView extends View
     menu: '#menu-container'
     main: '#page-container'
   template: require './templates/site'
-  user: mediator.user
+  user: mediator.user if mediator.user
   initialize: ->
     @model.fetch
       success: (res)->
@@ -29,7 +29,6 @@ module.exports = class SiteView extends View
     @delegate 'click', '.logout_link', @logout
     that = @
     @socket.on "inbox#{@user.id}", (data)->
-      console.log 'INCOMMING INBOX'
       that.incoming_inbox(data)
       console.log data
   home: ->
