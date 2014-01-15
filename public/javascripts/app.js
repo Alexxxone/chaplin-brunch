@@ -1,3 +1,2585 @@
-!function(){"use strict";var e="undefined"!=typeof window?window:global;if("function"!=typeof e.require){var t={},n={},r=function(e,t){return{}.hasOwnProperty.call(e,t)},i=function(e,t){var n,r,i=[];n=/^\.\.?(\/|$)/.test(t)?[e,t].join("/").split("/"):t.split("/");for(var o=0,s=n.length;s>o;o++)r=n[o],".."===r?i.pop():"."!==r&&""!==r&&i.push(r);return i.join("/")},o=function(e){return e.split("/").slice(0,-1).join("/")},s=function(t){return function(n){var r=o(t),s=i(r,n);return e.require(s,t)}},a=function(e,t){var r={id:e,exports:{}};return n[e]=r,t(r.exports,s(e),r),r.exports},p=function(e,o){var s=i(e,".");if(null==o&&(o="/"),r(n,s))return n[s].exports;if(r(t,s))return a(s,t[s]);var p=i(s,"./index");if(r(n,p))return n[p].exports;if(r(t,p))return a(p,t[p]);throw new Error('Cannot find module "'+e+'" from "'+o+'"')},l=function(e,n){if("object"==typeof e)for(var i in e)r(e,i)&&(t[i]=e[i]);else t[e]=n},c=function(){var e=[];for(var n in t)r(t,n)&&e.push(n);return e};e.require=p,e.require.define=l,e.require.register=l,e.require.list=c,e.require.brunch=!0}}(),require.register("application",function(e,t,n){var r,i,o,s={}.hasOwnProperty,a=function(e,t){function n(){this.constructor=e}for(var r in t)s.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("mediator"),n.exports=r=function(e){function t(){return o=t.__super__.constructor.apply(this,arguments)}return a(t,e),t.prototype.initMediator=function(){return void 0!==$.cookie("id")?i.login({id:$.cookie("id"),username:$.cookie("username")}):i.login({id:0,username:"New"}),void 0!==$.cookie("receiver_id")&&(i.receiver($.cookie("receiver_id")),i.conversation($.cookie("conversation_id"))),t.__super__.initMediator.apply(this,arguments)},t}(Chaplin.Application)}),require.register("controllers/base/controller",function(e,t,n){var r,i,o,s,a={}.hasOwnProperty,p=function(e,t){function n(){this.constructor=e}for(var r in t)a.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};o=t("views/site-view"),i=t("models/init"),n.exports=r=function(e){function t(){return s=t.__super__.constructor.apply(this,arguments)}return p(t,e),t.prototype.beforeAction=function(){return this.model=new i,this.compose("site",o,{model:this.model})},t}(Chaplin.Controller)}),require.register("controllers/home-controller",function(e,t,n){var r,i,o,s,a,p,l,c,u,d,f,h,m,_,v,g,y,w,b,x,k,q,j,P,O,z,C={}.hasOwnProperty,S=function(e,t){function n(){this.constructor=e}for(var r in t)C.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};P=t("mediator"),O=t("lib/utils"),r=t("controllers/base/controller"),m=t("views/home/menu-view"),d=t("models/init"),u=t("views/home/home-page-view"),a=t("views/friendships/friends-view"),b=t("views/friendships/my_friends-view"),s=t("views/friendships/friend-view"),h=t("views/friendships/invites-view"),k=t("views/friendships/my_invites-view"),w=t("models/friendships/my_friends"),f=t("models/friendships/invitations"),x=t("models/friendships/my_invitations"),q=t("models/users/users"),j=t("views/users/users-view"),i=t("models/conversation"),o=t("models/conversations"),l=t("views/home/home-conversation-view"),c=t("views/home/home-conversations-view"),_=t("models/message"),g=t("models/messages"),v=t("views/messages/message-view"),y=t("views/messages/messages-view"),n.exports=p=function(e){function t(){return z=t.__super__.constructor.apply(this,arguments)}return S(t,e),t.prototype.beforeAction=function(){return t.__super__.beforeAction.apply(this,arguments),this.compose("menu",m,{region:"menu"}),$(".left_menu li").removeClass("active"),P.user?console.log("login"):O.redirectTo({url:"/login"})},t.prototype.index=function(){return this.view=new u({region:"main"})},t.prototype.friends=function(){var e,t,n;return e=new w,t=new f,n=new x,this.view=new a({region:"main"}),this.compose("my_friends",b,{region:"my_friends",collection:e}),this.compose("invites",h,{region:"invites",collection:t}),this.compose("my_invites",k,{region:"my_invites",collection:n})},t.prototype.show=function(e){return console.log(e.id)},t.prototype.users=function(){var e;return e=new q,this.view=new j({region:"main",collection:e})},t.prototype.conversations=function(){var e;return e=new o,this.view=new c({region:"main",collection:e}),e.fetch()},t.prototype.conversation=function(e){var t;return t=new g({id:e.id}),this.view=new y({region:"main",collection:t})},t.prototype.settings=function(){return $(".menu_settings").addClass("active")},t}(r)}),require.register("controllers/login_reg-controller",function(e,t,n){var r,i,o,s,a={}.hasOwnProperty,p=function(e,t){function n(){this.constructor=e}for(var r in t)a.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("controllers/base/controller"),o=t("views/login-view"),n.exports=i=function(e){function t(){return s=t.__super__.constructor.apply(this,arguments)}return p(t,e),t.prototype.login=function(){return this.view=new o},t.prototype.registration=function(){},t}(r)}),require.register("controllers/settings-controller",function(e,t,n){var r,i,o,s,a,p=function(e,t){return function(){return e.apply(t,arguments)}},l={}.hasOwnProperty,c=function(e,t){function n(){this.constructor=e}for(var r in t)l.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("controllers/base/controller"),o=t("views/settings-page-view"),s=t("mediator"),n.exports=i=function(e){function t(){return this._show=p(this._show,this),a=t.__super__.constructor.apply(this,arguments)}return c(t,e),t.prototype._show=function(){return this.view=new o({model:s.user})},t.prototype.show=function(){return null!=s.user?this._show():this.subscribeEvent("login",this._show)},t}(r)}),require.register("initialize",function(e,t){var n,r;n=t("application"),r=t("routes"),$(function(){return new n({title:"Chat",controllerSuffix:"-controller",routes:r})})}),require.register("lib/utils",function(e,t,n){var r;r=Chaplin.utils.beget(Chaplin.utils),"function"==typeof Object.seal&&Object.seal(r),n.exports=r}),require.register("lib/view-helper",function(e,t){var n,r,i,o=[].slice;i=t("./utils"),n=t("mediator"),r=function(e,t){return Handlebars.registerHelper(e,t)},Handlebars.registerHelper("ifLoggedIn",function(e){var t;return(t=n.user?e.fn:e.inverse)(this)}),Handlebars.registerHelper("user_name",function(){return n.user.get("username")}),r("with",function(e,t){return!e||Handlebars.Utils.isEmpty(e)?t.inverse(this):t.fn(e)}),r("without",function(e,t){var n;return n=t.inverse,t.inverse=t.fn,t.fn=n,Handlebars.helpers["with"].call(this,e,t)}),r("url",function(){var e,t,n,r;return n=arguments[0],t=3<=arguments.length?o.call(arguments,1,r=arguments.length-1):(r=1,[]),e=arguments[r++],i.reverse(n,t)})}),require.register("mediator",function(e,t,n){var r,i,o;i=n.exports=Chaplin.mediator,r=t("models/users/current-user"),o=t("lib/utils"),i.createUser=function(){return console.log("register new user")},i.logout=function(){return console.log("logout"),i.user.dispose(),i.user=null,i.receiver_id=null,i.conversation_id=null,$.removeCookie("id"),$.removeCookie("username"),$.removeCookie("friend_id"),$.removeCookie("conversation_id"),i.publish("logout"),o.redirectTo({url:"/login"})},i.login=function(e){return i.user=new r({id:e.id,username:e.username}),$.cookie("id",e.id,{expires:1}),$.cookie("username",e.username,{expires:1}),o.redirectTo({url:"/"})},i.receiver=function(e){return i.receiver_id=e,$.cookie("receiver_id",e,{expires:1})},i.conversation=function(e){return i.conversation_id=e,$.cookie("conversation_id",e,{expires:1})}}),require.register("models/base/collection",function(e,t,n){var r,i,o,s={}.hasOwnProperty,a=function(e,t){function n(){this.constructor=e}for(var r in t)s.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("./model"),n.exports=r=function(e){function t(){return o=t.__super__.constructor.apply(this,arguments)}return a(t,e),t.prototype.model=i,t}(Chaplin.Collection)}),require.register("models/base/model",function(e,t,n){var r,i,o={}.hasOwnProperty,s=function(e,t){function n(){this.constructor=e}for(var r in t)o.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};n.exports=r=function(e){function t(){return i=t.__super__.constructor.apply(this,arguments)}return s(t,e),t}(Chaplin.Model)}),require.register("models/conversation",function(e,t,n){var r,i,o,s={}.hasOwnProperty,a=function(e,t){function n(){this.constructor=e}for(var r in t)s.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("./base/model"),n.exports=r=function(e){function t(){return o=t.__super__.constructor.apply(this,arguments)}return a(t,e),t.prototype.urlRoot="http://localhost:3000/conversations/:id.json",t}(i)}),require.register("models/conversations",function(e,t,n){var r,i,o,s,a,p={}.hasOwnProperty,l=function(e,t){function n(){this.constructor=e}for(var r in t)p.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("./base/collection"),o=t("./conversation"),s=t("mediator"),n.exports=i=function(e){function t(){return a=t.__super__.constructor.apply(this,arguments)}return l(t,e),t.prototype.url="http://alexxxxone-backend.herokuapp.com/conversations.json?user_id="+s.user.id,t}(r)}),require.register("models/friendships/friend",function(e,t,n){var r,i,o,s={}.hasOwnProperty,a=function(e,t){function n(){this.constructor=e}for(var r in t)s.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("models/base/model"),n.exports=r=function(e){function t(){return o=t.__super__.constructor.apply(this,arguments)}return a(t,e),t.prototype.urlRoot="http://alexxxxone-backend.herokuapp.com/friendships",t}(i)}),require.register("models/friendships/friends",function(e,t,n){var r,i,o,s,a,p={}.hasOwnProperty,l=function(e,t){function n(){this.constructor=e}for(var r in t)p.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("models/base/collection"),o=t("./friend"),s=t("mediator"),n.exports=i=function(e){function t(){return a=t.__super__.constructor.apply(this,arguments)}return l(t,e),t.prototype.url="http://alexxxxone-backend.herokuapp.com/friends.json?user_id="+s.user.id,t}(r)}),require.register("models/friendships/invitations",function(e,t,n){var r,i,o,s,a,p={}.hasOwnProperty,l=function(e,t){function n(){this.constructor=e}for(var r in t)p.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("models/base/collection"),s=t("models/users/user"),o=t("mediator"),n.exports=i=function(e){function t(){return a=t.__super__.constructor.apply(this,arguments)}return l(t,e),t.prototype.url="http://alexxxxone-backend.herokuapp.com/invites.json?user_id="+o.user.id,t.prototype.model=s,t}(r)}),require.register("models/friendships/invites",function(e,t,n){var r,i,o,s={}.hasOwnProperty,a=function(e,t){function n(){this.constructor=e}for(var r in t)s.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("models/base/model"),n.exports=r=function(e){function t(){return o=t.__super__.constructor.apply(this,arguments)}return a(t,e),t.prototype.urlRoot="http://alexxxxone-backend.herokuapp.com/invites/",t}(i)}),require.register("models/friendships/my_friends",function(e,t,n){var r,i,o,s,a,p={}.hasOwnProperty,l=function(e,t){function n(){this.constructor=e}for(var r in t)p.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("models/base/collection"),s=t("models/users/user"),o=t("mediator"),n.exports=i=function(e){function t(){return a=t.__super__.constructor.apply(this,arguments)}return l(t,e),t.prototype.url="http://alexxxxone-backend.herokuapp.com/friendships.json?user_id="+o.user.id,t.prototype.model=s,t}(r)}),require.register("models/friendships/my_invitations",function(e,t,n){var r,i,o,s,a,p={}.hasOwnProperty,l=function(e,t){function n(){this.constructor=e}for(var r in t)p.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("models/base/collection"),s=t("models/users/user"),o=t("mediator"),n.exports=i=function(e){function t(){return a=t.__super__.constructor.apply(this,arguments)}return l(t,e),t.prototype.url="http://alexxxxone-backend.herokuapp.com/my_invites/"+o.user.id+".json",t.prototype.model=s,t}(r)}),require.register("models/init",function(e,t,n){var r,i,o,s,a={}.hasOwnProperty,p=function(e,t){function n(){this.constructor=e}for(var r in t)a.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("./base/model"),o=t("mediator"),n.exports=r=function(e){function t(){return s=t.__super__.constructor.apply(this,arguments)}return p(t,e),t.prototype.initialize=function(){return o.user?this.url="http://alexxxxone-backend.herokuapp.com/init.json?user_id="+o.user.id:void 0},t.prototype.url=function(){},t.prototype.url="http://alexxxxone-backend.herokuapp.com/init.json?user_id="+o.user.id,t}(i)}),require.register("models/message",function(e,t,n){var r,i,o,s={}.hasOwnProperty,a=function(e,t){function n(){this.constructor=e}for(var r in t)s.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("./base/model"),n.exports=r=function(e){function t(){return o=t.__super__.constructor.apply(this,arguments)}return a(t,e),t.prototype.urlRoot="http://alexxxxone-backend.herokuapp.com/messages/",t}(i)}),require.register("models/messages",function(e,t,n){var r,i,o,s,a,p={}.hasOwnProperty,l=function(e,t){function n(){this.constructor=e}for(var r in t)p.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("./base/collection"),o=t("./message"),s=t("mediator"),n.exports=i=function(e){function t(){return a=t.__super__.constructor.apply(this,arguments)}return l(t,e),t.prototype.url="http://alexxxxone-backend.herokuapp.com/messages.json",t.prototype.initialize=function(e){return this.url="http://alexxxxone-backend.herokuapp.com/messages.json?id="+e.id+"&user_id="+s.user.id,t.__super__.initialize.apply(this,arguments)},t.prototype.model=o,t}(r)}),require.register("models/users/current-user",function(e,t,n){var r,i,o,s={}.hasOwnProperty,a=function(e,t){function n(){this.constructor=e}for(var r in t)s.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("models/users/user"),n.exports=r=function(e){function t(){return o=t.__super__.constructor.apply(this,arguments)}return a(t,e),t.prototype.urlKey="",t.prototype.urlPath=function(){return"/users/me"},t}(i)}),require.register("models/users/user",function(e,t,n){var r,i,o,s={}.hasOwnProperty,a=function(e,t){function n(){this.constructor=e}for(var r in t)s.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("models/base/model"),n.exports=i=function(e){function t(){return o=t.__super__.constructor.apply(this,arguments)}return a(t,e),t.prototype.urlRoot="/",t}(r)}),require.register("models/users/users",function(e,t,n){var r,i,o,s,a={}.hasOwnProperty,p=function(e,t){function n(){this.constructor=e}for(var r in t)a.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("models/base/collection"),i=t("./user"),n.exports=o=function(e){function t(){return s=t.__super__.constructor.apply(this,arguments)}return p(t,e),t.prototype.url="http://alexxxxone-backend.herokuapp.com/users.json",t}(r)}),require.register("routes",function(e,t,n){n.exports=function(e){return e("","home#index"),e("friends","home#friends"),e("friends/:id","home#show"),e("users","home#users"),e("settings","home#settings"),e("conversations","home#conversations"),e("conversation/:id","home#conversation"),e("login","login_reg#login"),e("logout","login_reg#logout"),e("register","login_reg#registration"),{urlPath:function(){return"friends/"+this.get("id")+"    /friends/    /users/    /settings/    /conversations/    /conversation/:id/    /messages/destroy/:id/    //"}}}}),require.register("views/base/collection-view",function(e,t,n){var r,i,o,s={}.hasOwnProperty,a=function(e,t){function n(){this.constructor=e}for(var r in t)s.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("./view"),n.exports=r=function(e){function t(){return o=t.__super__.constructor.apply(this,arguments)}return a(t,e),t.prototype.getTemplateFunction=i.prototype.getTemplateFunction,t}(Chaplin.CollectionView)}),require.register("views/base/view",function(e,t,n){var r,i,o={}.hasOwnProperty,s=function(e,t){function n(){this.constructor=e}for(var r in t)o.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};t("lib/view-helper"),n.exports=r=function(e){function t(){return i=t.__super__.constructor.apply(this,arguments)}return s(t,e),t.prototype.optionNames=Chaplin.View.prototype.optionNames.concat(["template"]),t.prototype.getTemplateFunction=function(){return this.template},t}(Chaplin.View)}),require.register("views/chat-view",function(e,t,n){var r,i,o,s,a={}.hasOwnProperty,p=function(e,t){function n(){this.constructor=e}for(var r in t)a.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};o=t("views/base/view"),i=t("models/conversation"),n.exports=r=function(e){function n(){return s=n.__super__.constructor.apply(this,arguments)}return p(n,e),n.prototype.container=".main_chat",n.prototype.autoRender=!1,n.prototype.template=t("./templates/chat"),n.prototype.initialize=function(){return this.render(),$(".chat_container").containerize(),this.delegate("click",".send_message",this.send_message)},n.prototype.send_message=function(){},n}(o)}),require.register("views/friendships/friend-view",function(e,t,n){var r,i,o,s,a,p,l,c,u={}.hasOwnProperty,d=function(e,t){function n(){this.constructor=e}for(var r in t)u.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};s=t("views/base/view"),r=t("views/chat-view"),l=t("./templates/friend"),a=t("views/templates/chat"),p=t("mediator"),o=t("models/friendships/friend"),n.exports=i=function(e){function t(){return c=t.__super__.constructor.apply(this,arguments)}return d(t,e),t.prototype.autoRender=!0,t.prototype.template=l,t.prototype.chat=a,t.prototype.user=p.user,t.prototype.initialize=function(){return t.__super__.initialize.apply(this,arguments),this.delegate("click",".start_chat",this.start_chat),this.delegate("click",".remove_friend",this.destroy_friendship),this.delegate("click",".friend_image",this.info)},t.prototype.start_chat=function(){return new r({model:this.model})},t.prototype.info=function(){return console.log(this.model.get("email"))},t.prototype.destroy_friendship=function(){var e;return console.log("destroy_friendship"),e=new o({firend_id:this.model.id,user_id:this.user.id}),e.url="http://alexxxxone-backend.herokuapp.com/friendships/"+this.model.id+"?user_id="+this.user.id,e.fetch({method:"delete"}),this.model.destroy({wait:!0}),this.publishEvent("delete_friend")},t}(s)}),require.register("views/friendships/friends-view",function(e,t,n){var r,i,o,s,a={}.hasOwnProperty,p=function(e,t){function n(){this.constructor=e}for(var r in t)a.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("views/base/view"),o=t("./templates/friends"),n.exports=r=function(e){function t(){return s=t.__super__.constructor.apply(this,arguments)}return p(t,e),t.prototype.container="#container",t.prototype.autoRender=!0,t.prototype.autoAttach=!0,t.prototype.containerMethod="html",t.prototype.className="friends-page",t.prototype.template=o,t.prototype.regions={my_friends:"#my_friends",invites:"#invites",my_invites:"#my_invites"},t.prototype.initialize=function(){return t.__super__.initialize.apply(this,arguments),$(".menu_friends").addClass("active")},t}(i)}),require.register("views/friendships/invite-view",function(e,t,n){var r,i,o,s,a,p,l={}.hasOwnProperty,c=function(e,t){function n(){this.constructor=e}for(var r in t)l.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};o=t("views/base/view"),s=t("mediator"),a=t("./templates/invites"),i=t("models/friendships/friend"),n.exports=r=function(e){function t(){return p=t.__super__.constructor.apply(this,arguments)}return c(t,e),t.prototype.autoRender=!0,t.prototype.template=a,t.prototype.user=s.user,t.prototype.initialize=function(){return t.__super__.initialize.apply(this,arguments),console.log("invite-view"),this.delegate("click",".accept_friend",this.accept_friend),this.delegate("click",".friend_image",this.info),this.delegate("click",".decline_friendship",this.decline_friendship)},t.prototype.info=function(){return console.log(this.model.get("email"))},t.prototype.accept_friend=function(){var e;return e=new i({user_id:s.user.id,friend_id:this.model.id}),e.save({wait:!0}),this.model.destroy({wait:!0}),this.publishEvent("new_friend")},t.prototype.decline_friendship=function(){return console.log("decline_friendship -> send"),this.model.url="http://alexxxxone-backend.herokuapp.com/destroy_invitation/"+this.model.id+"/"+this.user.id,this.model.destroy({wait:!0}),this.publishEvent("decline_friendship")},t}(o)}),require.register("views/friendships/invites-view",function(e,t,n){var r,i,o,s,a,p={}.hasOwnProperty,l=function(e,t){function n(){this.constructor=e}for(var r in t)p.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("views/base/collection-view"),o=t("./invite-view"),s=t("./templates/inv"),n.exports=i=function(e){function t(){return a=t.__super__.constructor.apply(this,arguments)}return l(t,e),t.prototype.itemView=o,t.prototype.container="#invites",t.prototype.containerMethod="html",t.prototype.template=s,t.prototype.listSelector=".invites",t.prototype.initialize=function(){var e;return t.__super__.initialize.apply(this,arguments),e=this,this.collection.fetch({success:function(t){return e.badges(t.length)}}),this.listenTo(this.collection,"reset",this.render),this.subscribeEvent("delete_friend",this.restrat),this.subscribeEvent("new_friend",this.restrat),this.subscribeEvent("decline_friendship",this.restrat)},t.prototype.restrat=function(){return console.log("decline_friendship -> receiv"),this.initialize()},t.prototype.badges=function(e){return 0===e?$(".new_friend_badge, .invites_count_badge").empty():$(".new_friend_badge, .invites_count_badge").text(e)},t}(r)}),require.register("views/friendships/my_friends-view",function(e,t,n){var r,i,o,s,a,p={}.hasOwnProperty,l=function(e,t){function n(){this.constructor=e}for(var r in t)p.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("views/base/collection-view"),o=t("./friend-view"),s=t("./templates/my"),n.exports=i=function(e){function t(){return a=t.__super__.constructor.apply(this,arguments)}return l(t,e),t.prototype.itemView=o,t.prototype.container="#my_friends",t.prototype.containerMethod="html",t.prototype.template=s,t.prototype.listSelector=".my_friends",t.prototype.initialize=function(){return t.__super__.initialize.apply(this,arguments),this.collection.fetch(),this.listenTo(this.collection,"reset",this.render),this.subscribeEvent("new_friend",this.restrat),this.subscribeEvent("delete_friend",this.restrat)},t.prototype.restrat=function(){return this.initialize()},t}(r)}),require.register("views/friendships/my_invite-view",function(e,t,n){var r,i,o,s,a,p,l={}.hasOwnProperty,c=function(e,t){function n(){this.constructor=e}for(var r in t)l.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};o=t("views/base/view"),s=t("mediator"),a=t("./templates/my_invites"),i=t("models/friendships/friend"),n.exports=r=function(e){function t(){return p=t.__super__.constructor.apply(this,arguments)}return c(t,e),t.prototype.autoRender=!0,t.prototype.template=a,t.prototype.user=s.user,t.prototype.initialize=function(){return t.__super__.initialize.apply(this,arguments),this.delegate("click",".decline_request",this.decline_request),this.delegate("click",".friend_image",this.info)},t.prototype.info=function(){return console.log(this.model.get("email"))},t.prototype.decline_request=function(){var e;return e=new i({firend_id:this.model.id,user_id:this.user.id}),e.url="http://alexxxxone-backend.herokuapp.com/friendships/"+this.model.id+"?user_id="+this.user.id,e.fetch({method:"delete"}),this.model.destroy({wait:!0})},t}(o)}),require.register("views/friendships/my_invites-view",function(e,t,n){var r,i,o,s,a,p={}.hasOwnProperty,l=function(e,t){function n(){this.constructor=e}for(var r in t)p.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("views/base/collection-view"),o=t("./my_invite-view"),s=t("./templates/my_inv"),n.exports=i=function(e){function t(){return a=t.__super__.constructor.apply(this,arguments)}return l(t,e),t.prototype.itemView=o,t.prototype.container="#my_invites",t.prototype.containerMethod="html",t.prototype.template=s,t.prototype.listSelector=".my_invites",t.prototype.initialize=function(){return t.__super__.initialize.apply(this,arguments),this.collection.fetch({success:function(e){return 0!==e.length?$(".my_invites_count_badge").text(e.length):$(".my_invites_count_badge").empty()}}),this.listenTo(this.collection,"reset",this.render)},t}(r)}),require.register("views/friendships/templates/friend",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{};var o,s="",a="function",p=this.escapeExpression;return s+='<li class="each_friend_in_list">\n    <div class="friend_image">\n        <img src="images/deactivated_100.gif" alt="image"/>\n    </div>\n    <div class="friend_info">\n        <p> ',(o=n.username)?o=o.call(t,{hash:{},data:i}):(o=t&&t.username,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+"</p>\n        <p> ",(o=n.email)?o=o.call(t,{hash:{},data:i}):(o=t&&t.email,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+'</p>\n    </div>\n    <div class="friend_actions">\n        <p><a href="javascript:;" class="remove_friend">Remove from friends</a></p>\n        <p><a href="javascript:;" class="start_chat">Start Chat</a></p>\n    </div>\n</li>\n\n\n\n<script type="text/x-handlebars-template" id="user_info_panel">\n   <div class="panel panel-default">\n       <div class="panel-body">\n           ',(o=n.email)?o=o.call(t,{hash:{},data:i}):(o=t&&t.email,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+"\n       </div>\n   </div>\n</script>"});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/friendships/templates/friends",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){return this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{},'<h4>You have <span class="friends_count_badge"></span> friend(\'s)</h4>\n\n<ul class="nav nav-pills">\n    <li class="active"><a href="#my_friends" data-toggle="tab">My friends</a></li>\n    <li><a href="#invites" data-toggle="tab">Invitations<span class="badge pull-right invites_count_badge"></span></a></li>\n    <li><a href="#my_invites" data-toggle="tab">My Request\'s<span class="badge pull-right my_invites_count_badge"></span></a></li>\n</ul>\n\n<!-- Tab panes -->\n\n<div class="tab-content">\n\n    <div class="tab-pane active" id="my_friends">\n    </div>\n    <div class="tab-pane" id="invites">\n    </div>\n    <div class="tab-pane" id="my_invites">\n    </div>\n\n</div>\n\n\n'});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/friendships/templates/inv",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){return this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{},"<ul id='index_content'  class=\"friends_list invites\">\n\n</ul>"});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/friendships/templates/invites",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{};var o,s="",a="function",p=this.escapeExpression;return s+='<li class="each_friend_in_list">\n    <div class="friend_image">\n        <img src="images/deactivated_100.gif" alt="image"/>\n    </div>\n    <div class="friend_info">\n        <p> ',(o=n.username)?o=o.call(t,{hash:{},data:i}):(o=t&&t.username,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+"</p>\n        <p> ",(o=n.email)?o=o.call(t,{hash:{},data:i}):(o=t&&t.email,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+'</p>\n    </div>\n    <div class="friend_actions">\n        <p><a href="javascript:;" class="accept_friend">Add to friends</a></p>\n        <p><a href="javascript:;" class="decline_friendship">Decline friendship</a></p>\n        <p><a href="javascript:;" class="start_chat">Start Chat</a></p>\n    </div>\n</li>\n\n'});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/friendships/templates/my",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){return this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{},"<ul id='index_content'  class=\"friends_list my_friends\">\n\n</ul>\n"});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/friendships/templates/my_inv",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){return this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{},"<ul id='index_content'  class=\"friends_list my_invites\">\n\n</ul>"});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/friendships/templates/my_invites",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{};var o,s="",a="function",p=this.escapeExpression;return s+='<li class="each_friend_in_list">\n    <div class="friend_image">\n        <img src="images/deactivated_100.gif" alt="image"/>\n    </div>\n    <div class="friend_info">\n        <p> ',(o=n.username)?o=o.call(t,{hash:{},data:i}):(o=t&&t.username,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+"</p>\n        <p> ",(o=n.email)?o=o.call(t,{hash:{},data:i}):(o=t&&t.email,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+'</p>\n    </div>\n    <div class="friend_actions">\n        <p><a href="javascript:;" class="decline_request">Decline request</a></p>\n        <p><a href="javascript:;" class="start_chat">Start Chat</a></p>\n    </div>\n</li>\n\n'});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/home/home-conversation-view",function(e,t,n){var r,i,o,s,a,p,l={}.hasOwnProperty,c=function(e,t){function n(){this.constructor=e}for(var r in t)l.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};o=t("views/base/view"),r=t("views/chat-view"),a=t("lib/utils"),s=t("mediator"),n.exports=i=function(e){function n(){return p=n.__super__.constructor.apply(this,arguments)}return c(n,e),n.prototype.autoRender=!0,n.prototype.template=t("./templates/conversation"),n.prototype.initialize=function(){return n.__super__.initialize.apply(this,arguments),this.model.set({created_at:moment(this.model.get("created_at")).fromNow()}),this.delegate("click",".start_chat",this.start_chat),this.delegate("click",".each_friend_in_list",this.open_conversation)
-},n.prototype.start_chat=function(){return new r({params:this.model.get("user").id})},n.prototype.open_conversation=function(){return s.conversation(this.model.get("id")),s.user.id===this.model.get("friend_id")?s.receiver(this.model.get("user_id")):s.receiver(this.model.get("friend_id")),a.redirectTo({url:"/conversation/"+this.model.get("id")})},n}(o)}),require.register("views/home/home-conversations-view",function(e,t,n){var r,i,o,s,a,p={}.hasOwnProperty,l=function(e,t){function n(){this.constructor=e}for(var r in t)p.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("views/base/collection-view"),o=t("views/home/home-conversation-view"),s=t("./templates/conversations"),n.exports=i=function(e){function t(){return a=t.__super__.constructor.apply(this,arguments)}return l(t,e),t.prototype.itemView=o,t.prototype.container="#container",t.prototype.autoRender=!0,t.prototype.className="messages-page",t.prototype.containerMethod="html",t.prototype.template=s,t.prototype.listSelector="#messages_content",t.prototype.initialize=function(){return t.__super__.initialize.apply(this,arguments),console.log("home-conversation-view"),$(".menu_conversations").addClass("active")},t}(r)}),require.register("views/home/home-page-view",function(e,t,n){var r,i,o,s={}.hasOwnProperty,a=function(e,t){function n(){this.constructor=e}for(var r in t)s.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("views/base/view"),n.exports=r=function(e){function n(){return o=n.__super__.constructor.apply(this,arguments)}return a(n,e),n.prototype.autoRender=!0,n.prototype.className="home-page",n.prototype.template=t("./templates/home"),n.prototype.initialize=function(){return $(".menu_main_page").addClass("active")},n}(i)}),require.register("views/home/menu-view",function(e,t,n){var r,i,o,s={}.hasOwnProperty,a=function(e,t){function n(){this.constructor=e}for(var r in t)s.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("views/base/view"),n.exports=r=function(e){function n(){return o=n.__super__.constructor.apply(this,arguments)}return a(n,e),n.prototype.autoRender=!0,n.prototype.template=t("./templates/menu"),n}(i)}),require.register("views/home/templates/conversation",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){function o(){return'\n    <li class="each_friend_in_list">\n'}function s(){return'\n    <li class="each_friend_in_list not_readed">\n'}this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{};var a,p,l="",c=this,u="function",d=this.escapeExpression;return p=n["if"].call(t,(a=t&&t.last_message,null==a||a===!1?a:a.readed),{hash:{},inverse:c.program(3,s,i),fn:c.program(1,o,i),data:i}),(p||0===p)&&(l+=p),l+='\n    <div class="messages_image" >\n        <img src="images/deactivated_100.gif" alt="image"/>\n    </div>\n    <div class="friend_info" >\n        <blockquote >\n            <p>',(p=n.body)?p=p.call(t,{hash:{},data:i}):(p=t&&t.body,p=typeof p===u?p.call(t,{hash:{},data:i}):p),l+=d(p)+'</p>\n            <small class="created_at">',(p=n.created_at)?p=p.call(t,{hash:{},data:i}):(p=t&&t.created_at,p=typeof p===u?p.call(t,{hash:{},data:i}):p),l+=d(p)+", By "+d((a=t&&t.last_message,a=null==a||a===!1?a:a.user,a=null==a||a===!1?a:a.username,typeof a===u?a.apply(t):a))+'</small>\n            <small><cite title="Source Title">'+d((a=t&&t.last_message,a=null==a||a===!1?a:a.body,typeof a===u?a.apply(t):a))+'</cite></small>\n        </blockquote>\n    </div>\n    <div class="friend_actions">\n        <p><a href="javascript:;" class="start_chat">Start Chat</a></p>\n    </div>\n</li>\n\n\n'});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/home/templates/conversations",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){return this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{},"<h4>Conversations</h4>\n<ul id='messages_content'  class=\"friends_list\">\n</ul>\n\n"});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/home/templates/header",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{};var o="";return o});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/home/templates/home",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){return this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{},'<img src="images/user.png" alt="image"/>\n<h1>WALL</h1>\n\n<div class="wall_scroll" style="color:black;">\n    <div class="wall_message">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n    <div class="wall_message">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n    <div class="wall_message">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n</div>\n<table class="table table-hover table-striped">\n    <thead>\n    <tr>\n        <th></th>\n        <th></th>\n        <th></th>\n    </tr>\n    </thead>\n    <tbody class="message_list">\n\n    </tbody>\n</table>\n\n<div class="row">\n    <div class="col-xs-12 col-md-8">\n        <form class="form-inline" role="form">\n            <div class="form-group">\n                <input type="text" class="form-control input_message" id="" placeholder="Type your message here">\n            </div>\n            <button type="button" class="btn btn-info send_message">Send</button>\n        </form>\n    </div>\n</div>\n\n<script type="text/javascript">\n    $(".wall_scroll").slimScroll({\n    height: "450px",\n    color: \'#008cba\'\n    })\n\n//        var socket = io.connect(window.location.toString());\n//        $(\'.send_message\').click(function(){\n//            input =  $(\'.input_message\');\n//            message =  input.val();\n//            if (message.length >=2){\n//                input.val(\'\');\n//                socket.emit(\'messages\', { message: message, name: name });\n//                append_message(message,\'Me\');\n//            }\n//            return false;\n//        });\n//\n//        socket.on(\'new\', function (data) {\n//            console.log(\'custom online\');\n//            $(\'body\').append(\'<p class="text-primary new_user_connected" style="position: absolute; top:0;left:40%;">\'+data.message+\'</p>\');\n//\n//            $( ".new_user_connected" ).animate({\n//                top: \'+=160px\'\n//            }, {\n//                duration: 600,\n//                specialEasing: {\n//                    width: "linear"\n//                },\n//                complete: function() {\n//                    $(this).delay(600).animate({\n//                        opacity: 0,\n//                        left: \'-=500px\'\n//                    }, 500,function(){\n//                        $(this).remove();\n//                    } )\n//                }\n//            });\n//        });\n//\n//        socket.on(\'news\', function(data) {\n//            console.log(data.body);\n//            append_message(data.body, data.name);\n//    //        newExcitingAlerts(data.name);\n//        });\n//\n//    function append_message(message,sender_name){\n//        message_box = \'<tr><td>\'+sender_name+\'</td><td>\'+message+\'</td><td><button type="button" class="close delete_message" >&times;</button></td></tr>\'\n//        $(\'.message_list\').append(message_box);\n//    }\n</script>'});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/home/templates/menu",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{};var o,s="",a="function",p=this.escapeExpression;return s+='<!--<div class=\'col-md-3\'>-->\n    <!--<ul class="nav nav-pills nav-stacked left_menu">-->\n        <!--<li class="menu_main_page"><a href="javascript:;"><i class="fa fa-home fa-fw"></i> My page</a></li>-->\n        <!--<li class="menu_friends"><a href="javascript:;"><i class="fa fa-user fa-fw"></i> Fiends<span class="badge pull-right new_friend_badge">',(o=n.invitations)?o=o.call(t,{hash:{},data:i}):(o=t&&t.invitations,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+'</span></a></li>-->\n        <!--<li class="menu_messages"><a href="javascript:;"><i class="fa fa-envelope-o fa-fw"></i>Messages<span class="badge pull-right new_messages_badge">',(o=n.messages)?o=o.call(t,{hash:{},data:i}):(o=t&&t.messages,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+'</span></a>-->\n        <!--<li class="menu_users"><a href="javascript:;"><i class="fa fa-user fa-fw"></i> All People</a></li></li>-->\n        <!--<li class="menu_settings"><a href="javascript:;"><i class="fa fa-cogs fa-fw"></i> Settings</a></li>-->\n    <!--</ul>-->\n<!--</div>-->\n\n\n<!--<script type="text/javascript">-->\n    <!--var elem = $(\'.left_menu\');-->\n    <!--var elem_heigth = elem.offset().top+ elem.height() ;-->\n    <!--var arrow = $(".arrow_up");-->\n    <!--$(document).on(\'scroll\', function(){-->\n        <!--if(window.pageYOffset > elem_heigth ){-->\n            <!--if(arrow.is( ":hidden" )){-->\n                <!--arrow.clearQueue();-->\n                <!--arrow.stop();-->\n                <!--arrow.css(\'display\',\'block\');-->\n                <!--arrow.css(\'left\',\'0\');-->\n                <!--arrow.animate({-->\n                    <!--opacity: 1,-->\n                    <!--left: "+=50"-->\n                <!--}, 200);-->\n            <!--}-->\n        <!--}else{-->\n            <!--if(arrow.is( ":visible" )){-->\n                <!--arrow.clearQueue();-->\n                <!--arrow.stop();-->\n                <!--arrow.css(\'left\',\'0\');-->\n                <!--arrow.animate({-->\n                    <!--opacity: 0.25,-->\n                    <!--left: "-=50"-->\n\n                <!--}, 200,function(){-->\n                    <!--arrow.css(\'display\',\'none\');-->\n                <!--});-->\n            <!--}-->\n        <!--}-->\n    <!--})-->\n\n<!--</script>-->'});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/login-view",function(e,t,n){var r,i,o,s,a,p,l,c,u,d={}.hasOwnProperty,f=function(e,t){function n(){this.constructor=e}for(var r in t)d.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};a=t("views/base/view"),i=t("models/conversation"),l=t("./templates/login"),p=t("mediator"),c=t("lib/utils"),s=t("models/users/user"),r=t("models/base/collection"),n.exports=o=function(e){function t(){return u=t.__super__.constructor.apply(this,arguments)}return f(t,e),t.prototype.container="body",t.prototype.autoRender=!0,t.prototype.template=l,t.prototype.containerMethod="html",t.prototype.initialize=function(){return this.delegate("click",".send",this.login),this.delegate("click",".cancel",this.cancel),this.delegate("click",".help",this.fill)},t.prototype.fill=function(){return $("#inputEmail").val("b0@maial.ru"),$("#inputPassword").val("12345678")},t.prototype.login=function(){var e,t;return e=$("#inputEmail").val(),t=$("#inputPassword").val(),$.ajax({crossDomain:!0,type:"POST",url:"http://alexxxxone-backend.herokuapp.com/login",data:{user:{email:e,password:t}}}).success(function(e){return p.login(e)}).complete(function(e){return 404===e.status?$(".form-group").addClass("has-error"):void 0})},t.prototype.cancel=function(){return c.redirectTo({url:"/"})},t}(a)}),require.register("views/messages/message-view",function(e,t,n){var r,i,o,s={}.hasOwnProperty,a=function(e,t){function n(){this.constructor=e}for(var r in t)s.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};i=t("views/base/view"),n.exports=r=function(e){function n(){return o=n.__super__.constructor.apply(this,arguments)}return a(n,e),n.prototype.autoRender=!0,n.prototype.template=t("./templates/message"),n.prototype.initialize=function(){return n.__super__.initialize.apply(this,arguments),this.model.set({created_at:moment(this.model.get("created_at")).fromNow()}),this.delegate("click",".start_chat",this.start_chat),this.delegate("click",".each_friend_in_list",this.mark_message),this.delegate("click",".remove_message",this.remove_message),this.scroll_to_bottom()},n.prototype.start_chat=function(){return new Chat({params:this.model.get("user").id})},n.prototype.mark_message=function(){return $(this.el).toggleClass("marked_message"),$(this.el).find(".remove_message").fadeToggle()},n.prototype.remove_message=function(){return this.model.destroy()},n.prototype.scroll_to_bottom=function(){var e;return e=$("#messages_content>div:first").height()*$("#messages_content > div").length+"px",$("#messages_content").slimScroll({scrollTo:e})},n}(i)}),require.register("views/messages/messages-view",function(e,t,n){var r,i,o,s,a,p,l,c={}.hasOwnProperty,u=function(e,t){function n(){this.constructor=e}for(var r in t)c.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("views/base/collection-view"),s=t("/views/messages/message-view"),p=t("./templates/messages"),a=t("mediator"),i=t("/models/message"),n.exports=o=function(e){function t(){return l=t.__super__.constructor.apply(this,arguments)}return u(t,e),t.prototype.itemView=s,t.prototype.container="#container",t.prototype.className="messages-page",t.prototype.containerMethod="html",t.prototype.template=p,t.prototype.listSelector="#messages_content",t.prototype.loadingSelector=".loading",t.prototype.receiver_id=a.receiver_id,t.prototype.conversation_id=a.conversation_id,t.prototype.user=a.user,t.prototype.initialize=function(){var e,n;return this.start_animation(),t.__super__.initialize.apply(this,arguments),e=this,this.collection.fetch({complete:function(){return e.stop_animation()}}),this.socket=io.connect(window.location.toString()),$(".menu_conversations").addClass("active"),this.delegate("click",".send_message",this.send_message),this.scroll_to_bottom(),this.listenTo(this.collection,"reset",this.render),n=this,this.socket.on("news"+this.conversation_id,function(e){return n.incoming_message(e)})},t.prototype.send_message=function(){var e,t;return e=$(this.el).find(".message_body"),e.val().length>2?(t=new i({user_id:this.user.id,message:{body:e.val(),receiver_id:this.receiver_id,conversation_id:this.conversation_id}}),t.save(),console.log(t),this.collection.push({sender_id:this.user.id,user:{username:this.user.get("username")},body:e.val(),receiver_id:this.receiver_id,conversation_id:this.conversation_id}),this.publish(e.val()),e.val(""),this.scroll_to_bottom()):void 0},t.prototype.scroll_to_bottom=function(){var e;return e=$("#messages_content").prop("scrollHeight")+"px",$("#messages_content").slimScroll({scrollTo:e})},t.prototype.publish=function(e){return this.socket.emit("messages",{sender_id:this.user.id,username:this.user.get("username"),receiver_id:this.receiver_id,body:e,conversation_id:this.conversation_id})},t.prototype.incoming_message=function(e){return this.collection.push({sender_id:e.sender_id,user:{username:e.username},body:e.body,receiver_id:e.receiver_id,conversation_id:e.conversation_id}),this.scroll_to_bottom()},t.prototype.start_animation=function(){return $(this.loadingSelector).fadeToggle("slow")},t.prototype.stop_animation=function(){return $(this.loadingSelector).fadeToggle("slow")},t}(r)}),require.register("views/messages/templates/message",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{};var o,s="",a="function",p=this.escapeExpression;return s+='<li class="each_friend_in_list">\n    <div class="messages_image" >\n        <img src="/images/deactivated_100.gif" alt="image" height="50" width="50"/>\n    </div>\n    <div class="friend_info" >\n\n            <p>',(o=n.body)?o=o.call(t,{hash:{},data:i}):(o=t&&t.body,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+'</p>\n            <small class="created_at text-muted">',(o=n.created_at)?o=o.call(t,{hash:{},data:i}):(o=t&&t.created_at,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+", By "+p((o=t&&t.user,o=null==o||o===!1?o:o.username,typeof o===a?o.apply(t):o))+'</small>\n            <small><cite title="Source Title">'+p((o=t&&t.messages,o=null==o||o===!1?o:o.body,typeof o===a?o.apply(t):o))+'</cite></small>\n\n    </div>\n    <div class="friend_actions">\n        <button type="button" class="close remove_message pull-right" aria-hidden="true">&times;</button>\n    </div>\n\n</li>\n\n\n'});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/messages/templates/messages",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){return this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{},'<h4>Messages</h4>\n<ul id=\'messages_content\'  class="friends_list">\n\n</ul>\n\n<div class="input-group">\n    <span class="input-group-addon">:)</span>\n    <input type="text" class="form-control message_body">\n    <span class="input-group-btn">\n      <button class="btn btn-primary send_message" type="button">Send</button>\n    </span>\n</div>\n\n\n\n\n<script type="text/javascript">\n    var cl = new CanvasLoader(\'canvasloader-container\');\n    cl.setColor(\'#008cba\'); // default is \'#000000\'\n    cl.setShape(\'spiral\'); // default is \'oval\'\n    cl.setDiameter(71); // default is 40\n    cl.setDensity(90); // default is 40\n    cl.setRange(0.8); // default is 1.3\n    cl.setFPS(51); // default is 24\n    cl.show(); // Hidden by default\n\n    // This bit is only for positioning - not necessary\n    var loaderObj = document.getElementById("canvasLoader");\n    loaderObj.style.position = "absolute";\n    loaderObj.style["top"] = cl.getDiameter() * -0.5 + "px";\n    loaderObj.style["left"] = cl.getDiameter() * -0.5 + "px";\n\n    $(\'#messages_content\').slimScroll({\n        width: \'auto\',\n        height: \'745px\',\n        size: \'10px\',\n        position: \'right\',\n        color: \'#008cba\',\n        wheelStep: 10,\n        allowPageScroll: false,\n        disableFadeOut: false\n    });\n</script>\n\n\n'});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/site-view",function(e,t,n){var r,i,o,s,a,p,l={}.hasOwnProperty,c=function(e,t){function n(){this.constructor=e}for(var r in t)l.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};o=t("views/base/view"),a=t("lib/utils"),s=t("mediator"),i=t("views/site-view"),r=t("models/init"),n.exports=i=function(e){function n(){return p=n.__super__.constructor.apply(this,arguments)}return c(n,e),n.prototype.container="body",n.prototype.id="site-container",n.prototype.autoRender=!0,n.prototype.regions={menu:"#menu-container",main:"#page-container"},n.prototype.template=t("./templates/site"),n.prototype.user=s.user?s.user:void 0,n.prototype.initialize=function(){var e;return this.model.fetch({success:function(e){return e.get("invitations")>0&&$(".new_friend_badge").text(e.get("invitations")),e.get("messages")>0?$(".new_messages_badge").text(e.get("messages")):void 0}}),this.socket=io.connect(window.location.toString()),this.delegate("click",".menu_main_page",this.home),this.delegate("click",".menu_friends",this.friends),this.delegate("click",".menu_users",this.users),this.delegate("click",".menu_settings",this.settings),this.delegate("click",".menu_conversations",this.conversations),this.delegate("click",".login_link",this.login),this.delegate("click",".logout_link",this.logout),e=this,this.socket.on("inbox"+this.user.id,function(t){return e.incoming_inbox(t),console.log(t)})},n.prototype.home=function(){return a.redirectTo({url:"/"})},n.prototype.friends=function(){return a.redirectTo({url:"/friends"})},n.prototype.users=function(){return a.redirectTo({url:"/users"})},n.prototype.settings=function(){return a.redirectTo({url:"/settings"})},n.prototype.conversations=function(){return a.redirectTo({url:"/conversations"})},n.prototype.login=function(){return a.redirectTo({url:"/login"})},n.prototype.logout=function(){return s.logout(),a.redirectTo({url:"/login"})},n.prototype.incoming_inbox=function(e){var t;return t=$(".new_messages_badge").text(),$(".new_messages_badge").text(parseInt(t)+1),$.gritter.add({title:e.body,text:e.username})},n}(o)}),require.register("views/templates/chat",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{};var o,s="",a="function",p=this.escapeExpression;return s+='<div id="cont2" class="chat_container mbc_container draggable resizable ui-draggable ui-resizable"\n     style="width:450px; height: auto; opacity: 1; position: absolute; visibility: visible; z-index: 92;"\n     data-centeronwindow="true" data-icon="/images/icons/header_chat.png" data-drag="true" data-resize="true"\n     data-collapsable="true" data-containment="document" data-resizegrid="100,100"\n     data-buttons="changecontent,dock,fullscreen,close" t="141" l="239.203125">\n    <div class="mbc_header">\n        <div class="mbc_title"><h2 style="padding-left: 45px;"><img src="images/icons/header_chat.png" class="icon">Container\n            2</h2></div>\n    </div>\n    <div class="mbc_content" style="height: 266px; margin-top: 64px;">\n\n\n        <br/>\n        <br/>\n        <br/>\n        <p>name - ',(o=n.username)?o=o.call(t,{hash:{},data:i}):(o=t&&t.username,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+"</p>\n        ",(o=n.email)?o=o.call(t,{hash:{},data:i}):(o=t&&t.email,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+"\n        ",(o=n.id)?o=o.call(t,{hash:{},data:i}):(o=t&&t.id,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+'\n\n        <table class="table table-hover table-striped">\n            <thead>\n            <tr>\n                <th>asd</th>\n                <th>asd</th>\n                <th>asd</th>\n            </tr>\n            </thead>\n            <tbody class="message_list">\n            <tr>\n                <td>asdasd</td>\n                <td>asdasd</td>\n                <td>asdasd</td>\n            </tr>\n            </tbody>\n        </table>\n        <div class="col-lg-12 ">\n            <div class="input-group">\n                <input type="text" class="form-control message_text">\n                    <span class="input-group-btn">\n                      <button class="btn btn-info send_message" type="button">Send</button>\n                    </span>\n            </div>\n        </div>\n\n\n    </div>\n</div>'});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/templates/login",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){return this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{},'<div class="container login"\n    <div class="row">\n        <div class="col-lg-6 col-md-offset-2">\n            <div class="well">\n                <form class="bs-example form-horizontal" >\n                    <fieldset>\n                        <legend>Login</legend>\n\n                        <div class="form-group">\n                            <label for="inputEmail" class="col-lg-2 control-label">Email</label>\n                            <div class="col-lg-10">\n                                <input type="email" name="user[email]" class="form-control" id="inputEmail" placeholder="Email">\n                            </div>\n                        </div>\n                        <div class="form-group">\n                            <label for="inputPassword" class="col-lg-2 control-label">Password</label>\n                            <div class="col-lg-10">\n                                <input type="password" name="user[password]" class="form-control" id="inputPassword" placeholder="Password">\n                            </div>\n                        </div>\n                        <div class="form-group">\n                            <div class="col-lg-10 col-lg-offset-2">\n                                <button  type="button" class="btn btn-default cancel">Cancel</button>\n                                <button type="button" class="btn btn-primary send">Submit</button>\n                                <button type="button" class="btn btn-warning help">Fill</button>\n                            </div>\n                        </div>\n                    </fieldset>\n                </form>\n            </div>\n        </div>\n\n    </div>\n</div>'});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/templates/site",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){function o(e,t){var r,i="";return i+='\n                <li><a href="javascript:;">',(r=n.user_name)?r=r.call(e,{hash:{},data:t}):(r=e&&e.user_name,r=typeof r===c?r.call(e,{hash:{},data:t}):r),i+=u(r)+'</a></li>\n                <li><a href="javascript:;" class="logout_link">Logout</a></li>\n            '}function s(){return'\n                <li><a href="javascript:;">Welcome Guest!</a></li>\n                <li><a href="javascript:;" class="login_link">Login</a></li>\n            '}this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{};var a,p,l="",c="function",u=this.escapeExpression,d=this,f=n.blockHelperMissing;return l+='<div class="navbar navbar-default navbar-fixed-top navbar-collapse collapse navbar-inverse-collapse">\n    <div class="container">\n        <div class="navbar-header">\n            <a href="../" class="navbar-brand">Bootswatch</a>\n            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">\n                <span class="icon-bar"></span>\n                <span class="icon-bar"></span>\n                <span class="icon-bar"></span>\n            </button>\n        </div>\n        <div class="navbar-collapse collapse" id="navbar-main">\n            <ul class="nav navbar-nav">\n                <li class="dropdown">\n                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>\n                    <ul class="dropdown-menu" aria-labelledby="themes">\n                        <li><a tabindex="-1" href="../default/">Default</a></li>\n                        <li class="divider"></li>\n                        <li><a tabindex="-1" href="../amelia/">Amelia</a></li>\n                        <li><a tabindex="-1" href="../cerulean/">Cerulean</a></li>\n                        <li><a tabindex="-1" href="../cosmo/">Cosmo</a></li>\n                        <li><a tabindex="-1" href="../cyborg/">Cyborg</a></li>\n                        <li><a tabindex="-1" href="../flatly/">Flatly</a></li>\n                        <li><a tabindex="-1" href="../journal/">Journal</a></li>\n                        <li><a tabindex="-1" href="../readable/">Readable</a></li>\n                        <li><a tabindex="-1" href="../simplex/">Simplex</a></li>\n                        <li><a tabindex="-1" href="../slate/">Slate</a></li>\n                        <li><a tabindex="-1" href="../spacelab/">Spacelab</a></li>\n                        <li><a tabindex="-1" href="../united/">United</a></li>\n                        <li><a tabindex="-1" href="../yeti/">Yeti</a></li>\n                    </ul>\n                </li>\n                <li>\n                    <a href="../help/">Help</a>\n                </li>\n                <li>\n                    <a href="http://news.bootswatch.com">Blog</a>\n                </li>\n                <li class="dropdown">\n                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Download <span class="caret"></span></a>\n                    <ul class="dropdown-menu" aria-labelledby="download">\n                        <li><a tabindex="-1" href="./bootstrap.min.css">bootstrap.min.css</a></li>\n                        <li><a tabindex="-1" href="./bootstrap.css">bootstrap.css</a></li>\n                        <li class="divider"></li>\n                        <li><a tabindex="-1" href="./variables.less">variables.less</a></li>\n                        <li><a tabindex="-1" href="./bootswatch.less">bootswatch.less</a></li>\n                    </ul>\n                </li>\n            </ul>\n\n            <ul class="nav navbar-nav navbar-right">\n            ',p={hash:{},inverse:d.program(3,s,i),fn:d.program(1,o,i),data:i},(a=n.ifLoggedIn)?a=a.call(t,p):(a=t&&t.ifLoggedIn,a=typeof a===c?a.call(t,p):a),n.ifLoggedIn||(a=f.call(t,a,p)),(a||0===a)&&(l+=a),l+='\n            </ul>\n\n        </div>\n    </div>\n</div>\n\n<div class="main_site">\n    <div class="header-container" id="menu-container"></div>\n    <div class="main_chat"></div>\n    <div class="row">\n        <div class=\'col-md-3\'>\n                <ul class="nav nav-pills nav-stacked left_menu">\n                    <li class="menu_main_page"><a href="javascript:;"><i class="fa fa-home fa-fw"></i> My page</a></li>\n                    <li class="menu_friends"><a href="javascript:;"><i class="fa fa-user fa-fw"></i> Fiends<span class="badge pull-right new_friend_badge">',(a=n.invitations)?a=a.call(t,{hash:{},data:i}):(a=t&&t.invitations,a=typeof a===c?a.call(t,{hash:{},data:i}):a),l+=u(a)+'</span></a></li>\n                    <li class="menu_conversations"><a href="javascript:;"><i class="fa fa-envelope-o fa-fw"></i>Messages<span class="badge pull-right new_messages_badge">',(a=n.messages)?a=a.call(t,{hash:{},data:i}):(a=t&&t.messages,a=typeof a===c?a.call(t,{hash:{},data:i}):a),l+=u(a)+'</span></a>\n                    <li class="menu_users"><a href="javascript:;"><i class="fa fa-user fa-fw"></i> All People</a></li></li>\n                    <li class="menu_settings"><a href="javascript:;"><i class="fa fa-cogs fa-fw"></i> Settings</a></li>\n                </ul>\n        </div>\n\n        <div class="" >\n            <div class="loading"><div id="canvasloader-container" class="wrapper"></div></div>\n            <div class=\'col-md-6\'  id="page-container">\n\n            </div>\n        </div>\n        <div class="col-md-2">\n\n            <div class="panel panel-primary">\n                <div class="panel-heading">News</div>\n                <div class="panel-body">\n                    <img src="http://asset2.cbsistatic.com/cnwk.1d/i/tim/2010/09/28/0927LazaridisPlayBook_270x203.jpg" alt="news" class="img-thumbnail" >\n                    Mike Lazaridis, a BlackBerry co-founder and former co-CEO, has officially ditched his plans to acquire the company through a joint bid with a fellow co-founder.\n                    In dissolving the plan, Lazaridis\' stake in the sagging company is now 4.99 percent.\n                    Lazaridis made his decision public in a Securities and Exchange Commission filing on Tuesday. Under the now-defunct plan, which was announced in October, Lazaridis and fellow co-founder Douglas Fregin had combined stakes to reach 8 percent total ownership and said they were considering a purchase of the company. Last month, however, BlackBerry took itself off the market, and new management is trying to turn the company around.\n                </div>\n            </div>\n            <div class="panel panel-default">\n                <div class="panel-body">\n                    Panel content\n                </div>\n                <div class="panel-footer">Panel footer</div>\n            </div>\n        </div>\n        <a href="#top" class="arrow_up"><i class="fa fa-chevron-up fa-3x"></i></a>\n    </div>\n</div>\n\n<script type="text/javascript">\n    var elem = $(\'.left_menu\');\n    var elem_heigth = elem.offset().top+ elem.height() ;\n    var arrow = $(".arrow_up");\n    $(document).on(\'scroll\', function(){\n       if(window.pageYOffset > elem_heigth ){\n           if(arrow.is( ":hidden" )){\n             arrow.clearQueue();\n             arrow.stop();\n             arrow.css(\'display\',\'block\');\n             arrow.css(\'left\',\'0\');\n             arrow.animate({\n                   opacity: 1,\n                   left: "+=50"\n               }, 200);\n           }\n       }else{\n           if(arrow.is( ":visible" )){\n               arrow.clearQueue();\n               arrow.stop();\n               arrow.css(\'left\',\'0\');\n               arrow.animate({\n                   opacity: 0.25,\n                   left: "-=50"\n\n               }, 200,function(){\n                   arrow.css(\'display\',\'none\');\n               });\n           }\n       }\n    })\n\n</script>'
-});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/users/templates/user",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{};var o,s="",a="function",p=this.escapeExpression;return s+='<li class="each_friend_in_list">\n    <div class="friend_image">\n        <img src="images/deactivated_100.gif" alt="image"/>\n    </div>\n    <div class="friend_info">\n        <p> ',(o=n.username)?o=o.call(t,{hash:{},data:i}):(o=t&&t.username,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+"</p>\n        <p> ",(o=n.email)?o=o.call(t,{hash:{},data:i}):(o=t&&t.email,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+'</p>\n    </div>\n    <div class="friend_actions">\n        <p><a href="javascript:;" class="accept_friend">Add to friends</a></p>\n        <p><a href="javascript:;" class="start_chat">Start Chat</a></p>\n    </div>\n</li>\n\n\n\n<script type="text/x-handlebars-template" id="user_info_panel">\n   <div class="panel panel-default">\n       <div class="panel-body">\n           ',(o=n.email)?o=o.call(t,{hash:{},data:i}):(o=t&&t.email,o=typeof o===a?o.call(t,{hash:{},data:i}):o),s+=p(o)+"\n       </div>\n   </div>\n</script>"});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/users/templates/users",function(e,t,n){var r=Handlebars.template(function(e,t,n,r,i){return this.compilerInfo=[4,">= 1.0.0"],n=this.merge(n,e.helpers),i=i||{},'<h4>Users toal registered <span class="users_count"></span></h4>\n\n\n   <ul id=\'all_users\'  class="friends_list">\n\n   </ul>\n\n\n\n'});"function"==typeof define&&define.amd?define([],function(){return r}):"object"==typeof n&&n&&n.exports&&(n.exports=r)}),require.register("views/users/user-view",function(e,t,n){var r,i,o,s,a,p,l,c,u={}.hasOwnProperty,d=function(e,t){function n(){this.constructor=e}for(var r in t)u.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};s=t("views/base/view"),r=t("views/chat-view"),l=t("./templates/user"),a=t("views/templates/chat"),p=t("mediator"),i=t("models/friendships/friend"),n.exports=o=function(e){function t(){return c=t.__super__.constructor.apply(this,arguments)}return d(t,e),t.prototype.autoRender=!0,t.prototype.template=l,t.prototype.chat=a,t.prototype.user=p.user,t.prototype.initialize=function(){return t.__super__.initialize.apply(this,arguments),console.log("user-view"),this.delegate("click",".accept_friend",this.accept_friend),this.delegate("click",".friend_image",this.info)},t.prototype.info=function(){return console.log(this.model.get("email"))},t.prototype.accept_friend=function(){var e;return e=new i({user_id:p.user.id,friend_id:this.model.id}),e.save(),console.log(e)},t}(s)}),require.register("views/users/users-view",function(e,t,n){var r,i,o,s,a,p={}.hasOwnProperty,l=function(e,t){function n(){this.constructor=e}for(var r in t)p.call(t,r)&&(e[r]=t[r]);return n.prototype=t.prototype,e.prototype=new n,e.__super__=t.prototype,e};r=t("views/base/collection-view"),o=t("./user-view"),s=t("./templates/users"),n.exports=i=function(e){function t(){return a=t.__super__.constructor.apply(this,arguments)}return l(t,e),t.prototype.itemView=o,t.prototype.container="#page-container",t.prototype.containerMethod="html",t.prototype.listSelector="#all_users",t.prototype.template=s,t.prototype.initialize=function(){return t.__super__.initialize.apply(this,arguments),this.collection.fetch({success:function(){return console.log}}),$(".menu_users").addClass("active")},t}(r)});
+(function(/*! Brunch !*/) {
+  'use strict';
+
+  var globals = typeof window !== 'undefined' ? window : global;
+  if (typeof globals.require === 'function') return;
+
+  var modules = {};
+  var cache = {};
+
+  var has = function(object, name) {
+    return ({}).hasOwnProperty.call(object, name);
+  };
+
+  var expand = function(root, name) {
+    var results = [], parts, part;
+    if (/^\.\.?(\/|$)/.test(name)) {
+      parts = [root, name].join('/').split('/');
+    } else {
+      parts = name.split('/');
+    }
+    for (var i = 0, length = parts.length; i < length; i++) {
+      part = parts[i];
+      if (part === '..') {
+        results.pop();
+      } else if (part !== '.' && part !== '') {
+        results.push(part);
+      }
+    }
+    return results.join('/');
+  };
+
+  var dirname = function(path) {
+    return path.split('/').slice(0, -1).join('/');
+  };
+
+  var localRequire = function(path) {
+    return function(name) {
+      var dir = dirname(path);
+      var absolute = expand(dir, name);
+      return globals.require(absolute, path);
+    };
+  };
+
+  var initModule = function(name, definition) {
+    var module = {id: name, exports: {}};
+    cache[name] = module;
+    definition(module.exports, localRequire(name), module);
+    return module.exports;
+  };
+
+  var require = function(name, loaderPath) {
+    var path = expand(name, '.');
+    if (loaderPath == null) loaderPath = '/';
+
+    if (has(cache, path)) return cache[path].exports;
+    if (has(modules, path)) return initModule(path, modules[path]);
+
+    var dirIndex = expand(path, './index');
+    if (has(cache, dirIndex)) return cache[dirIndex].exports;
+    if (has(modules, dirIndex)) return initModule(dirIndex, modules[dirIndex]);
+
+    throw new Error('Cannot find module "' + name + '" from '+ '"' + loaderPath + '"');
+  };
+
+  var define = function(bundle, fn) {
+    if (typeof bundle === 'object') {
+      for (var key in bundle) {
+        if (has(bundle, key)) {
+          modules[key] = bundle[key];
+        }
+      }
+    } else {
+      modules[bundle] = fn;
+    }
+  };
+
+  var list = function() {
+    var result = [];
+    for (var item in modules) {
+      if (has(modules, item)) {
+        result.push(item);
+      }
+    }
+    return result;
+  };
+
+  globals.require = require;
+  globals.require.define = define;
+  globals.require.register = define;
+  globals.require.list = list;
+  globals.require.brunch = true;
+})();
+require.register("application", function(exports, require, module) {
+var Application, mediator, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+mediator = require('mediator');
+
+module.exports = Application = (function(_super) {
+  __extends(Application, _super);
+
+  function Application() {
+    _ref = Application.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Application.prototype.initMediator = function() {
+    if ($.cookie('id') !== void 0) {
+      mediator.login({
+        id: $.cookie('id'),
+        username: $.cookie('username')
+      });
+    } else {
+      mediator.login({
+        id: 0,
+        username: 'New'
+      });
+    }
+    if ($.cookie('receiver_id') !== void 0) {
+      mediator.receiver($.cookie('receiver_id'));
+      mediator.conversation($.cookie('conversation_id'));
+    }
+    return Application.__super__.initMediator.apply(this, arguments);
+  };
+
+  return Application;
+
+})(Chaplin.Application);
+});
+
+;require.register("controllers/base/controller", function(exports, require, module) {
+var Controller, Init, SiteView, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+SiteView = require('views/site-view');
+
+Init = require('models/init');
+
+module.exports = Controller = (function(_super) {
+  __extends(Controller, _super);
+
+  function Controller() {
+    _ref = Controller.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Controller.prototype.beforeAction = function() {
+    this.model = new Init;
+    return this.compose('site', SiteView, {
+      model: this.model
+    });
+  };
+
+  return Controller;
+
+})(Chaplin.Controller);
+});
+
+;require.register("controllers/home-controller", function(exports, require, module) {
+var Controller, Conversation, Conversations, FriendView, FriendsView, HomeController, HomeConversationView, HomeConversationsView, HomePageView, Init, Invitation, InvitesView, MenuView, Message, MessageView, Messages, MessagesView, MyFriends, MyFriendsView, MyInvitation, MyInvitesView, Users, UsersView, mediator, utils, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+mediator = require('mediator');
+
+utils = require('lib/utils');
+
+Controller = require('controllers/base/controller');
+
+MenuView = require('views/home/menu-view');
+
+Init = require('models/init');
+
+HomePageView = require('views/home/home-page-view');
+
+FriendsView = require('views/friendships/friends-view');
+
+MyFriendsView = require('views/friendships/my_friends-view');
+
+FriendView = require('views/friendships/friend-view');
+
+InvitesView = require('views/friendships/invites-view');
+
+MyInvitesView = require('views/friendships/my_invites-view');
+
+MyFriends = require('models/friendships/my_friends');
+
+Invitation = require('models/friendships/invitations');
+
+MyInvitation = require('models/friendships/my_invitations');
+
+Users = require('models/users/users');
+
+UsersView = require('views/users/users-view');
+
+Conversation = require('models/conversation');
+
+Conversations = require('models/conversations');
+
+HomeConversationView = require('views/home/home-conversation-view');
+
+HomeConversationsView = require('views/home/home-conversations-view');
+
+Message = require('models/message');
+
+Messages = require('models/messages');
+
+MessageView = require('views/messages/message-view');
+
+MessagesView = require('views/messages/messages-view');
+
+module.exports = HomeController = (function(_super) {
+  __extends(HomeController, _super);
+
+  function HomeController() {
+    _ref = HomeController.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  HomeController.prototype.beforeAction = function() {
+    HomeController.__super__.beforeAction.apply(this, arguments);
+    this.compose('menu', MenuView, {
+      region: 'menu'
+    });
+    $('.left_menu li').removeClass('active');
+    if (mediator.user) {
+      return console.log('login');
+    } else {
+      return utils.redirectTo({
+        url: '/login'
+      });
+    }
+  };
+
+  HomeController.prototype.index = function() {
+    return this.view = new HomePageView({
+      region: 'main'
+    });
+  };
+
+  HomeController.prototype.friends = function() {
+    var friends, invitations, my_invitations;
+    friends = new MyFriends;
+    invitations = new Invitation;
+    my_invitations = new MyInvitation;
+    this.view = new FriendsView({
+      region: 'main'
+    });
+    this.compose('my_friends', MyFriendsView, {
+      region: 'my_friends',
+      collection: friends
+    });
+    this.compose('invites', InvitesView, {
+      region: 'invites',
+      collection: invitations
+    });
+    return this.compose('my_invites', MyInvitesView, {
+      region: 'my_invites',
+      collection: my_invitations
+    });
+  };
+
+  HomeController.prototype.show = function(params) {
+    return console.log(params.id);
+  };
+
+  HomeController.prototype.users = function() {
+    var users;
+    users = new Users;
+    return this.view = new UsersView({
+      region: 'main',
+      collection: users
+    });
+  };
+
+  HomeController.prototype.conversations = function() {
+    var conversations;
+    conversations = new Conversations;
+    this.view = new HomeConversationsView({
+      region: 'main',
+      collection: conversations
+    });
+    return conversations.fetch();
+  };
+
+  HomeController.prototype.conversation = function(params) {
+    var messages;
+    messages = new Messages({
+      id: params.id
+    });
+    return this.view = new MessagesView({
+      region: 'main',
+      collection: messages
+    });
+  };
+
+  HomeController.prototype.settings = function() {
+    return $('.menu_settings').addClass('active');
+  };
+
+  return HomeController;
+
+})(Controller);
+});
+
+;require.register("controllers/login_reg-controller", function(exports, require, module) {
+var Controller, LoginRegController, LoginView, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Controller = require('controllers/base/controller');
+
+LoginView = require('views/login-view');
+
+module.exports = LoginRegController = (function(_super) {
+  __extends(LoginRegController, _super);
+
+  function LoginRegController() {
+    _ref = LoginRegController.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  LoginRegController.prototype.login = function() {
+    return this.view = new LoginView;
+  };
+
+  LoginRegController.prototype.registration = function() {};
+
+  return LoginRegController;
+
+})(Controller);
+});
+
+;require.register("controllers/settings-controller", function(exports, require, module) {
+var Controller, SettingsController, SettingsPageView, mediator, _ref,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Controller = require('controllers/base/controller');
+
+SettingsPageView = require('views/settings-page-view');
+
+mediator = require('mediator');
+
+module.exports = SettingsController = (function(_super) {
+  __extends(SettingsController, _super);
+
+  function SettingsController() {
+    this._show = __bind(this._show, this);
+    _ref = SettingsController.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  SettingsController.prototype._show = function() {
+    return this.view = new SettingsPageView({
+      model: mediator.user
+    });
+  };
+
+  SettingsController.prototype.show = function() {
+    if (mediator.user != null) {
+      return this._show();
+    } else {
+      return this.subscribeEvent('login', this._show);
+    }
+  };
+
+  return SettingsController;
+
+})(Controller);
+});
+
+;require.register("initialize", function(exports, require, module) {
+var Application, routes;
+
+Application = require('application');
+
+routes = require('routes');
+
+$(function() {
+  return new Application({
+    title: 'Chat',
+    controllerSuffix: '-controller',
+    routes: routes
+  });
+});
+});
+
+;require.register("lib/utils", function(exports, require, module) {
+var utils;
+
+utils = Chaplin.utils.beget(Chaplin.utils);
+
+if (typeof Object.seal === "function") {
+  Object.seal(utils);
+}
+
+module.exports = utils;
+});
+
+;require.register("lib/view-helper", function(exports, require, module) {
+var mediator, register, utils,
+  __slice = [].slice;
+
+utils = require('./utils');
+
+mediator = require('mediator');
+
+register = function(name, fn) {
+  return Handlebars.registerHelper(name, fn);
+};
+
+Handlebars.registerHelper('ifLoggedIn', function(options) {
+  var method;
+  method = mediator.user ? options.fn : options.inverse;
+  return method(this);
+});
+
+Handlebars.registerHelper('user_name', function(options) {
+  return mediator.user.get('username');
+});
+
+register('with', function(context, options) {
+  if (!context || Handlebars.Utils.isEmpty(context)) {
+    return options.inverse(this);
+  } else {
+    return options.fn(context);
+  }
+});
+
+register('without', function(context, options) {
+  var inverse;
+  inverse = options.inverse;
+  options.inverse = options.fn;
+  options.fn = inverse;
+  return Handlebars.helpers["with"].call(this, context, options);
+});
+
+register('url', function() {
+  var options, params, routeName, _i;
+  routeName = arguments[0], params = 3 <= arguments.length ? __slice.call(arguments, 1, _i = arguments.length - 1) : (_i = 1, []), options = arguments[_i++];
+  return utils.reverse(routeName, params);
+});
+});
+
+;require.register("mediator", function(exports, require, module) {
+var CurrentUser, mediator, utils;
+
+mediator = module.exports = Chaplin.mediator;
+
+CurrentUser = require('models/users/current-user');
+
+utils = require('lib/utils');
+
+mediator.createUser = function(params) {
+  return console.log('register new user');
+};
+
+mediator.logout = function() {
+  console.log('logout');
+  mediator.user.dispose();
+  mediator.user = null;
+  mediator.receiver_id = null;
+  mediator.conversation_id = null;
+  $.removeCookie('id');
+  $.removeCookie('username');
+  $.removeCookie('friend_id');
+  $.removeCookie('conversation_id');
+  mediator.publish('logout');
+  return utils.redirectTo({
+    url: '/login'
+  });
+};
+
+mediator.login = function(params) {
+  mediator.user = new CurrentUser({
+    id: params.id,
+    username: params.username
+  });
+  $.cookie('id', params.id, {
+    expires: 1
+  });
+  $.cookie('username', params.username, {
+    expires: 1
+  });
+  return utils.redirectTo({
+    url: '/'
+  });
+};
+
+mediator.receiver = function(receiver_id) {
+  mediator.receiver_id = receiver_id;
+  return $.cookie('receiver_id', receiver_id, {
+    expires: 1
+  });
+};
+
+mediator.conversation = function(conversation_id) {
+  mediator.conversation_id = conversation_id;
+  return $.cookie('conversation_id', conversation_id, {
+    expires: 1
+  });
+};
+});
+
+;require.register("models/base/collection", function(exports, require, module) {
+var Collection, Model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('./model');
+
+module.exports = Collection = (function(_super) {
+  __extends(Collection, _super);
+
+  function Collection() {
+    _ref = Collection.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Collection.prototype.model = Model;
+
+  return Collection;
+
+})(Chaplin.Collection);
+});
+
+;require.register("models/base/model", function(exports, require, module) {
+var Model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+module.exports = Model = (function(_super) {
+  __extends(Model, _super);
+
+  function Model() {
+    _ref = Model.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  return Model;
+
+})(Chaplin.Model);
+});
+
+;require.register("models/conversation", function(exports, require, module) {
+var Conversation, Model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('./base/model');
+
+module.exports = Conversation = (function(_super) {
+  __extends(Conversation, _super);
+
+  function Conversation() {
+    _ref = Conversation.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Conversation.prototype.urlRoot = "http://localhost:3000/conversations/:id.json";
+
+  return Conversation;
+
+})(Model);
+});
+
+;require.register("models/conversations", function(exports, require, module) {
+var Collection, Conversations, Model, mediator, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Collection = require('./base/collection');
+
+Model = require('./conversation');
+
+mediator = require('mediator');
+
+module.exports = Conversations = (function(_super) {
+  __extends(Conversations, _super);
+
+  function Conversations() {
+    _ref = Conversations.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Conversations.prototype.url = "http://alexxxxone-backend.herokuapp.com/conversations.json?user_id=" + mediator.user.id;
+
+  return Conversations;
+
+})(Collection);
+});
+
+;require.register("models/friendships/friend", function(exports, require, module) {
+var Friend, Model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('models/base/model');
+
+module.exports = Friend = (function(_super) {
+  __extends(Friend, _super);
+
+  function Friend() {
+    _ref = Friend.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Friend.prototype.urlRoot = "http://alexxxxone-backend.herokuapp.com/friendships";
+
+  return Friend;
+
+})(Model);
+});
+
+;require.register("models/friendships/friends", function(exports, require, module) {
+var Collection, Friends, Model, mediator, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Collection = require('models/base/collection');
+
+Model = require('./friend');
+
+mediator = require('mediator');
+
+module.exports = Friends = (function(_super) {
+  __extends(Friends, _super);
+
+  function Friends() {
+    _ref = Friends.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Friends.prototype.url = "http://alexxxxone-backend.herokuapp.com/friends.json?user_id=" + mediator.user.id;
+
+  return Friends;
+
+})(Collection);
+});
+
+;require.register("models/friendships/invitations", function(exports, require, module) {
+var Collection, Invitations, mediator, model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Collection = require('models/base/collection');
+
+model = require('models/users/user');
+
+mediator = require('mediator');
+
+module.exports = Invitations = (function(_super) {
+  __extends(Invitations, _super);
+
+  function Invitations() {
+    _ref = Invitations.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Invitations.prototype.url = "http://alexxxxone-backend.herokuapp.com/invites.json?user_id=" + mediator.user.id;
+
+  Invitations.prototype.model = model;
+
+  return Invitations;
+
+})(Collection);
+});
+
+;require.register("models/friendships/invites", function(exports, require, module) {
+var Invites, Model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('models/base/model');
+
+module.exports = Invites = (function(_super) {
+  __extends(Invites, _super);
+
+  function Invites() {
+    _ref = Invites.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Invites.prototype.urlRoot = "http://alexxxxone-backend.herokuapp.com/invites/";
+
+  return Invites;
+
+})(Model);
+});
+
+;require.register("models/friendships/my_friends", function(exports, require, module) {
+var Collection, MyFriends, mediator, model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Collection = require('models/base/collection');
+
+model = require('models/users/user');
+
+mediator = require('mediator');
+
+module.exports = MyFriends = (function(_super) {
+  __extends(MyFriends, _super);
+
+  function MyFriends() {
+    _ref = MyFriends.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MyFriends.prototype.url = "http://alexxxxone-backend.herokuapp.com/friendships.json?user_id=" + mediator.user.id;
+
+  MyFriends.prototype.model = model;
+
+  return MyFriends;
+
+})(Collection);
+});
+
+;require.register("models/friendships/my_invitations", function(exports, require, module) {
+var Collection, Invitations, mediator, model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Collection = require('models/base/collection');
+
+model = require('models/users/user');
+
+mediator = require('mediator');
+
+module.exports = Invitations = (function(_super) {
+  __extends(Invitations, _super);
+
+  function Invitations() {
+    _ref = Invitations.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Invitations.prototype.url = "http://alexxxxone-backend.herokuapp.com/my_invites/" + mediator.user.id + ".json";
+
+  Invitations.prototype.model = model;
+
+  return Invitations;
+
+})(Collection);
+});
+
+;require.register("models/init", function(exports, require, module) {
+var Init, Model, mediator, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('./base/model');
+
+mediator = require('mediator');
+
+module.exports = Init = (function(_super) {
+  __extends(Init, _super);
+
+  function Init() {
+    _ref = Init.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Init.prototype.initialize = function() {
+    if (mediator.user) {
+      return this.url = "http://alexxxxone-backend.herokuapp.com/init.json?user_id=" + mediator.user.id;
+    }
+  };
+
+  Init.prototype.url = function() {};
+
+  Init.prototype.url = "http://alexxxxone-backend.herokuapp.com/init.json?user_id=" + mediator.user.id;
+
+  return Init;
+
+})(Model);
+});
+
+;require.register("models/message", function(exports, require, module) {
+var Message, Model, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('./base/model');
+
+module.exports = Message = (function(_super) {
+  __extends(Message, _super);
+
+  function Message() {
+    _ref = Message.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Message.prototype.urlRoot = "http://alexxxxone-backend.herokuapp.com/messages/";
+
+  return Message;
+
+})(Model);
+});
+
+;require.register("models/messages", function(exports, require, module) {
+var Collection, Messages, Model, mediator, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Collection = require('./base/collection');
+
+Model = require('./message');
+
+mediator = require('mediator');
+
+module.exports = Messages = (function(_super) {
+  __extends(Messages, _super);
+
+  function Messages() {
+    _ref = Messages.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Messages.prototype.url = "http://alexxxxone-backend.herokuapp.com/messages.json";
+
+  Messages.prototype.initialize = function(option) {
+    this.url = "http://alexxxxone-backend.herokuapp.com/messages.json?id=" + option.id + "&user_id=" + mediator.user.id;
+    return Messages.__super__.initialize.apply(this, arguments);
+  };
+
+  Messages.prototype.model = Model;
+
+  return Messages;
+
+})(Collection);
+});
+
+;require.register("models/users/current-user", function(exports, require, module) {
+var CurrentUser, User, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+User = require('models/users/user');
+
+module.exports = CurrentUser = (function(_super) {
+  __extends(CurrentUser, _super);
+
+  function CurrentUser() {
+    _ref = CurrentUser.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  CurrentUser.prototype.urlKey = '';
+
+  CurrentUser.prototype.urlPath = function() {
+    return '/users/me';
+  };
+
+  return CurrentUser;
+
+})(User);
+});
+
+;require.register("models/users/user", function(exports, require, module) {
+var Model, User, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Model = require('models/base/model');
+
+module.exports = User = (function(_super) {
+  __extends(User, _super);
+
+  function User() {
+    _ref = User.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  User.prototype.urlRoot = "/";
+
+  return User;
+
+})(Model);
+});
+
+;require.register("models/users/users", function(exports, require, module) {
+var Collection, Model, Users, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+Collection = require('models/base/collection');
+
+Model = require('./user');
+
+module.exports = Users = (function(_super) {
+  __extends(Users, _super);
+
+  function Users() {
+    _ref = Users.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  Users.prototype.url = "http://alexxxxone-backend.herokuapp.com/users.json";
+
+  return Users;
+
+})(Collection);
+});
+
+;require.register("routes", function(exports, require, module) {
+module.exports = function(match) {
+  match('', 'home#index');
+  match('friends', 'home#friends');
+  match('friends/:id', 'home#show');
+  match('users', 'home#users');
+  match('settings', 'home#settings');
+  match('conversations', 'home#conversations');
+  match('conversation/:id', 'home#conversation');
+  match('login', 'login_reg#login');
+  match('logout', 'login_reg#logout');
+  match('register', 'login_reg#registration');
+  return {
+    urlPath: function() {
+      return "friends/" + (this.get('id')) + "    /friends/    /users/    /settings/    /conversations/    /conversation/:id/    /messages/destroy/:id/    //";
+    }
+  };
+};
+});
+
+;require.register("views/base/collection-view", function(exports, require, module) {
+var CollectionView, View, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('./view');
+
+module.exports = CollectionView = (function(_super) {
+  __extends(CollectionView, _super);
+
+  function CollectionView() {
+    _ref = CollectionView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  CollectionView.prototype.getTemplateFunction = View.prototype.getTemplateFunction;
+
+  return CollectionView;
+
+})(Chaplin.CollectionView);
+});
+
+;require.register("views/base/view", function(exports, require, module) {
+var View, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+require('lib/view-helper');
+
+module.exports = View = (function(_super) {
+  __extends(View, _super);
+
+  function View() {
+    _ref = View.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  View.prototype.optionNames = Chaplin.View.prototype.optionNames.concat(['template']);
+
+  View.prototype.getTemplateFunction = function() {
+    return this.template;
+  };
+
+  return View;
+
+})(Chaplin.View);
+});
+
+;require.register("views/chat-view", function(exports, require, module) {
+var ChatView, Message, View, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+Message = require('models/conversation');
+
+module.exports = ChatView = (function(_super) {
+  __extends(ChatView, _super);
+
+  function ChatView() {
+    _ref = ChatView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  ChatView.prototype.container = '.main_chat';
+
+  ChatView.prototype.autoRender = false;
+
+  ChatView.prototype.template = require('./templates/chat');
+
+  ChatView.prototype.initialize = function() {
+    this.render();
+    $(".chat_container").containerize();
+    return this.delegate("click", ".send_message", this.send_message);
+  };
+
+  ChatView.prototype.send_message = function() {};
+
+  return ChatView;
+
+})(View);
+});
+
+;require.register("views/friendships/friend-view", function(exports, require, module) {
+var Chat, FriendView, Friendship, View, chat_template, mediator, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+Chat = require('views/chat-view');
+
+template = require('./templates/friend');
+
+chat_template = require('views/templates/chat');
+
+mediator = require('mediator');
+
+Friendship = require('models/friendships/friend');
+
+module.exports = FriendView = (function(_super) {
+  __extends(FriendView, _super);
+
+  function FriendView() {
+    _ref = FriendView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  FriendView.prototype.autoRender = true;
+
+  FriendView.prototype.template = template;
+
+  FriendView.prototype.chat = chat_template;
+
+  FriendView.prototype.user = mediator.user;
+
+  FriendView.prototype.initialize = function() {
+    FriendView.__super__.initialize.apply(this, arguments);
+    this.delegate("click", ".start_chat", this.start_chat);
+    this.delegate("click", ".remove_friend", this.destroy_friendship);
+    return this.delegate('click', '.friend_image', this.info);
+  };
+
+  FriendView.prototype.start_chat = function() {
+    return new Chat({
+      model: this.model
+    });
+  };
+
+  FriendView.prototype.info = function() {
+    return console.log(this.model.get('email'));
+  };
+
+  FriendView.prototype.destroy_friendship = function() {
+    var friendship;
+    console.log('destroy_friendship');
+    friendship = new Friendship({
+      firend_id: this.model.id,
+      user_id: this.user.id
+    });
+    friendship.url = 'http://alexxxxone-backend.herokuapp.com/friendships/' + this.model.id + '?user_id=' + this.user.id;
+    friendship.fetch({
+      method: 'delete'
+    });
+    this.model.destroy({
+      wait: true
+    });
+    return this.publishEvent('delete_friend');
+  };
+
+  return FriendView;
+
+})(View);
+});
+
+;require.register("views/friendships/friends-view", function(exports, require, module) {
+var FriendsView, View, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+template = require('./templates/friends');
+
+module.exports = FriendsView = (function(_super) {
+  __extends(FriendsView, _super);
+
+  function FriendsView() {
+    _ref = FriendsView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  FriendsView.prototype.container = '#container';
+
+  FriendsView.prototype.autoRender = true;
+
+  FriendsView.prototype.autoAttach = true;
+
+  FriendsView.prototype.containerMethod = 'html';
+
+  FriendsView.prototype.className = 'friends-page';
+
+  FriendsView.prototype.template = template;
+
+  FriendsView.prototype.regions = {
+    my_friends: '#my_friends',
+    invites: '#invites',
+    my_invites: '#my_invites'
+  };
+
+  FriendsView.prototype.initialize = function() {
+    FriendsView.__super__.initialize.apply(this, arguments);
+    return $('.menu_friends').addClass('active');
+  };
+
+  return FriendsView;
+
+})(View);
+});
+
+;require.register("views/friendships/invite-view", function(exports, require, module) {
+var FriendView, Friendship, View, mediator, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+mediator = require('mediator');
+
+template = require('./templates/invites');
+
+Friendship = require('models/friendships/friend');
+
+module.exports = FriendView = (function(_super) {
+  __extends(FriendView, _super);
+
+  function FriendView() {
+    _ref = FriendView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  FriendView.prototype.autoRender = true;
+
+  FriendView.prototype.template = template;
+
+  FriendView.prototype.user = mediator.user;
+
+  FriendView.prototype.initialize = function() {
+    FriendView.__super__.initialize.apply(this, arguments);
+    console.log('invite-view');
+    this.delegate("click", ".accept_friend", this.accept_friend);
+    this.delegate('click', '.friend_image', this.info);
+    return this.delegate('click', '.decline_friendship', this.decline_friendship);
+  };
+
+  FriendView.prototype.info = function() {
+    return console.log(this.model.get('email'));
+  };
+
+  FriendView.prototype.accept_friend = function() {
+    var friendship;
+    friendship = new Friendship({
+      user_id: mediator.user.id,
+      friend_id: this.model.id
+    });
+    friendship.save({
+      wait: true
+    });
+    this.model.destroy({
+      wait: true
+    });
+    return this.publishEvent('new_friend');
+  };
+
+  FriendView.prototype.decline_friendship = function() {
+    console.log('decline_friendship -> send');
+    this.model.url = "http://alexxxxone-backend.herokuapp.com/destroy_invitation/" + this.model.id + "/" + this.user.id;
+    this.model.destroy({
+      wait: true
+    });
+    return this.publishEvent('decline_friendship');
+  };
+
+  return FriendView;
+
+})(View);
+});
+
+;require.register("views/friendships/invites-view", function(exports, require, module) {
+var CollectionView, InvitesView, View, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CollectionView = require('views/base/collection-view');
+
+View = require('./invite-view');
+
+template = require('./templates/inv');
+
+module.exports = InvitesView = (function(_super) {
+  __extends(InvitesView, _super);
+
+  function InvitesView() {
+    _ref = InvitesView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  InvitesView.prototype.itemView = View;
+
+  InvitesView.prototype.container = '#invites';
+
+  InvitesView.prototype.containerMethod = 'html';
+
+  InvitesView.prototype.template = template;
+
+  InvitesView.prototype.listSelector = '.invites';
+
+  InvitesView.prototype.initialize = function() {
+    var self;
+    InvitesView.__super__.initialize.apply(this, arguments);
+    self = this;
+    this.collection.fetch({
+      success: function(response) {
+        return self.badges(response.length);
+      }
+    });
+    this.listenTo(this.collection, 'reset', this.render);
+    this.subscribeEvent('delete_friend', this.restrat);
+    this.subscribeEvent('new_friend', this.restrat);
+    return this.subscribeEvent('decline_friendship', this.restrat);
+  };
+
+  InvitesView.prototype.restrat = function() {
+    console.log('decline_friendship -> receiv');
+    return this.initialize();
+  };
+
+  InvitesView.prototype.badges = function(length) {
+    if (length === 0) {
+      return $('.new_friend_badge, .invites_count_badge').empty();
+    } else {
+      return $('.new_friend_badge, .invites_count_badge').text(length);
+    }
+  };
+
+  return InvitesView;
+
+})(CollectionView);
+});
+
+;require.register("views/friendships/my_friends-view", function(exports, require, module) {
+var CollectionView, MyFriendsView, View, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CollectionView = require('views/base/collection-view');
+
+View = require('./friend-view');
+
+template = require('./templates/my');
+
+module.exports = MyFriendsView = (function(_super) {
+  __extends(MyFriendsView, _super);
+
+  function MyFriendsView() {
+    _ref = MyFriendsView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MyFriendsView.prototype.itemView = View;
+
+  MyFriendsView.prototype.container = '#my_friends';
+
+  MyFriendsView.prototype.containerMethod = 'html';
+
+  MyFriendsView.prototype.template = template;
+
+  MyFriendsView.prototype.listSelector = '.my_friends';
+
+  MyFriendsView.prototype.initialize = function() {
+    MyFriendsView.__super__.initialize.apply(this, arguments);
+    this.collection.fetch();
+    this.listenTo(this.collection, 'reset', this.render);
+    this.subscribeEvent('new_friend', this.restrat);
+    return this.subscribeEvent('delete_friend', this.restrat);
+  };
+
+  MyFriendsView.prototype.restrat = function() {
+    return this.initialize();
+  };
+
+  return MyFriendsView;
+
+})(CollectionView);
+});
+
+;require.register("views/friendships/my_invite-view", function(exports, require, module) {
+var FriendView, Friendship, View, mediator, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+mediator = require('mediator');
+
+template = require('./templates/my_invites');
+
+Friendship = require('models/friendships/friend');
+
+module.exports = FriendView = (function(_super) {
+  __extends(FriendView, _super);
+
+  function FriendView() {
+    _ref = FriendView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  FriendView.prototype.autoRender = true;
+
+  FriendView.prototype.template = template;
+
+  FriendView.prototype.user = mediator.user;
+
+  FriendView.prototype.initialize = function() {
+    FriendView.__super__.initialize.apply(this, arguments);
+    this.delegate("click", ".decline_request", this.decline_request);
+    return this.delegate('click', '.friend_image', this.info);
+  };
+
+  FriendView.prototype.info = function() {
+    return console.log(this.model.get('email'));
+  };
+
+  FriendView.prototype.decline_request = function() {
+    var friendship;
+    friendship = new Friendship({
+      firend_id: this.model.id,
+      user_id: this.user.id
+    });
+    friendship.url = 'http://alexxxxone-backend.herokuapp.com/friendships/' + this.model.id + '?user_id=' + this.user.id;
+    friendship.fetch({
+      method: 'delete'
+    });
+    return this.model.destroy({
+      wait: true
+    });
+  };
+
+  return FriendView;
+
+})(View);
+});
+
+;require.register("views/friendships/my_invites-view", function(exports, require, module) {
+var CollectionView, MyInvitesView, View, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CollectionView = require('views/base/collection-view');
+
+View = require('./my_invite-view');
+
+template = require('./templates/my_inv');
+
+module.exports = MyInvitesView = (function(_super) {
+  __extends(MyInvitesView, _super);
+
+  function MyInvitesView() {
+    _ref = MyInvitesView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MyInvitesView.prototype.itemView = View;
+
+  MyInvitesView.prototype.container = '#my_invites';
+
+  MyInvitesView.prototype.containerMethod = 'html';
+
+  MyInvitesView.prototype.template = template;
+
+  MyInvitesView.prototype.listSelector = '.my_invites';
+
+  MyInvitesView.prototype.initialize = function() {
+    MyInvitesView.__super__.initialize.apply(this, arguments);
+    this.collection.fetch({
+      success: function(response) {
+        if (response.length !== 0) {
+          return $('.my_invites_count_badge').text(response.length);
+        } else {
+          return $('.my_invites_count_badge').empty();
+        }
+      }
+    });
+    return this.listenTo(this.collection, 'reset', this.render);
+  };
+
+  return MyInvitesView;
+
+})(CollectionView);
+});
+
+;require.register("views/friendships/templates/friend", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<li class=\"each_friend_in_list\">\n    <div class=\"friend_image\">\n        <img src=\"images/deactivated_100.gif\" alt=\"image\"/>\n    </div>\n    <div class=\"friend_info\">\n        <p> ";
+  if (stack1 = helpers.username) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.username); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n        <p> ";
+  if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n    </div>\n    <div class=\"friend_actions\">\n        <p><a href=\"javascript:;\" class=\"remove_friend\">Remove from friends</a></p>\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n    </div>\n</li>\n\n\n\n<script type=\"text/x-handlebars-template\" id=\"user_info_panel\">\n   <div class=\"panel panel-default\">\n       <div class=\"panel-body\">\n           ";
+  if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\n       </div>\n   </div>\n</script>";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/friendships/templates/friends", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<h4>You have <span class=\"friends_count_badge\"></span> friend('s)</h4>\n\n<ul class=\"nav nav-pills\">\n    <li class=\"active\"><a href=\"#my_friends\" data-toggle=\"tab\">My friends</a></li>\n    <li><a href=\"#invites\" data-toggle=\"tab\">Invitations<span class=\"badge pull-right invites_count_badge\"></span></a></li>\n    <li><a href=\"#my_invites\" data-toggle=\"tab\">My Request's<span class=\"badge pull-right my_invites_count_badge\"></span></a></li>\n</ul>\n\n<!-- Tab panes -->\n\n<div class=\"tab-content\">\n\n    <div class=\"tab-pane active\" id=\"my_friends\">\n    </div>\n    <div class=\"tab-pane\" id=\"invites\">\n    </div>\n    <div class=\"tab-pane\" id=\"my_invites\">\n    </div>\n\n</div>\n\n\n";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/friendships/templates/inv", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<ul id='index_content'  class=\"friends_list invites\">\n\n</ul>";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/friendships/templates/invites", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<li class=\"each_friend_in_list\">\n    <div class=\"friend_image\">\n        <img src=\"images/deactivated_100.gif\" alt=\"image\"/>\n    </div>\n    <div class=\"friend_info\">\n        <p> ";
+  if (stack1 = helpers.username) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.username); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n        <p> ";
+  if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n    </div>\n    <div class=\"friend_actions\">\n        <p><a href=\"javascript:;\" class=\"accept_friend\">Add to friends</a></p>\n        <p><a href=\"javascript:;\" class=\"decline_friendship\">Decline friendship</a></p>\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n    </div>\n</li>\n\n";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/friendships/templates/my", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<ul id='index_content'  class=\"friends_list my_friends\">\n\n</ul>\n";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/friendships/templates/my_inv", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<ul id='index_content'  class=\"friends_list my_invites\">\n\n</ul>";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/friendships/templates/my_invites", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<li class=\"each_friend_in_list\">\n    <div class=\"friend_image\">\n        <img src=\"images/deactivated_100.gif\" alt=\"image\"/>\n    </div>\n    <div class=\"friend_info\">\n        <p> ";
+  if (stack1 = helpers.username) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.username); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n        <p> ";
+  if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n    </div>\n    <div class=\"friend_actions\">\n        <p><a href=\"javascript:;\" class=\"decline_request\">Decline request</a></p>\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n    </div>\n</li>\n\n";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/home/home-conversation-view", function(exports, require, module) {
+var Chat, CoversationView, View, mediator, utils, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+Chat = require('views/chat-view');
+
+utils = require('lib/utils');
+
+mediator = require('mediator');
+
+module.exports = CoversationView = (function(_super) {
+  __extends(CoversationView, _super);
+
+  function CoversationView() {
+    _ref = CoversationView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  CoversationView.prototype.autoRender = true;
+
+  CoversationView.prototype.template = require('./templates/conversation');
+
+  CoversationView.prototype.initialize = function() {
+    CoversationView.__super__.initialize.apply(this, arguments);
+    this.model.set({
+      created_at: moment(this.model.get('created_at')).fromNow()
+    });
+    this.delegate('click', '.start_chat', this.start_chat);
+    return this.delegate('click', '.each_friend_in_list', this.open_conversation);
+  };
+
+  CoversationView.prototype.start_chat = function() {
+    return new Chat({
+      params: this.model.get('user').id
+    });
+  };
+
+  CoversationView.prototype.open_conversation = function() {
+    mediator.conversation(this.model.get('id'));
+    if (mediator.user.id === this.model.get('friend_id')) {
+      mediator.receiver(this.model.get('user_id'));
+    } else {
+      mediator.receiver(this.model.get('friend_id'));
+    }
+    return utils.redirectTo({
+      url: '/conversation/' + this.model.get('id')
+    });
+  };
+
+  return CoversationView;
+
+})(View);
+});
+
+;require.register("views/home/home-conversations-view", function(exports, require, module) {
+var CollectionView, HomeConversationsView, View, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CollectionView = require('views/base/collection-view');
+
+View = require('views/home/home-conversation-view');
+
+template = require('./templates/conversations');
+
+module.exports = HomeConversationsView = (function(_super) {
+  __extends(HomeConversationsView, _super);
+
+  function HomeConversationsView() {
+    _ref = HomeConversationsView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  HomeConversationsView.prototype.itemView = View;
+
+  HomeConversationsView.prototype.container = '#container';
+
+  HomeConversationsView.prototype.autoRender = true;
+
+  HomeConversationsView.prototype.className = 'messages-page';
+
+  HomeConversationsView.prototype.containerMethod = 'html';
+
+  HomeConversationsView.prototype.template = template;
+
+  HomeConversationsView.prototype.listSelector = '#messages_content';
+
+  HomeConversationsView.prototype.initialize = function() {
+    HomeConversationsView.__super__.initialize.apply(this, arguments);
+    console.log('home-conversation-view');
+    return $('.menu_conversations').addClass('active');
+  };
+
+  return HomeConversationsView;
+
+})(CollectionView);
+});
+
+;require.register("views/home/home-page-view", function(exports, require, module) {
+var HomePageView, View, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+module.exports = HomePageView = (function(_super) {
+  __extends(HomePageView, _super);
+
+  function HomePageView() {
+    _ref = HomePageView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  HomePageView.prototype.autoRender = true;
+
+  HomePageView.prototype.className = 'home-page';
+
+  HomePageView.prototype.template = require('./templates/home');
+
+  HomePageView.prototype.initialize = function() {
+    return $('.menu_main_page').addClass('active');
+  };
+
+  return HomePageView;
+
+})(View);
+});
+
+;require.register("views/home/menu-view", function(exports, require, module) {
+var MenuView, View, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+module.exports = MenuView = (function(_super) {
+  __extends(MenuView, _super);
+
+  function MenuView() {
+    _ref = MenuView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MenuView.prototype.autoRender = true;
+
+  MenuView.prototype.template = require('./templates/menu');
+
+  return MenuView;
+
+})(View);
+});
+
+;require.register("views/home/templates/conversation", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, stack2, self=this, functionType="function", escapeExpression=this.escapeExpression;
+
+function program1(depth0,data) {
+  
+  
+  return "\n    <li class=\"each_friend_in_list\">\n";
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n    <li class=\"each_friend_in_list not_readed\">\n";
+  }
+
+  stack2 = helpers['if'].call(depth0, ((stack1 = (depth0 && depth0.last_message)),stack1 == null || stack1 === false ? stack1 : stack1.readed), {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data});
+  if(stack2 || stack2 === 0) { buffer += stack2; }
+  buffer += "\n    <div class=\"messages_image\" >\n        <img src=\"images/deactivated_100.gif\" alt=\"image\"/>\n    </div>\n    <div class=\"friend_info\" >\n        <blockquote >\n            <p>";
+  if (stack2 = helpers.body) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = (depth0 && depth0.body); stack2 = typeof stack2 === functionType ? stack2.call(depth0, {hash:{},data:data}) : stack2; }
+  buffer += escapeExpression(stack2)
+    + "</p>\n            <small class=\"created_at\">";
+  if (stack2 = helpers.created_at) { stack2 = stack2.call(depth0, {hash:{},data:data}); }
+  else { stack2 = (depth0 && depth0.created_at); stack2 = typeof stack2 === functionType ? stack2.call(depth0, {hash:{},data:data}) : stack2; }
+  buffer += escapeExpression(stack2)
+    + ", By "
+    + escapeExpression(((stack1 = ((stack1 = ((stack1 = (depth0 && depth0.last_message)),stack1 == null || stack1 === false ? stack1 : stack1.user)),stack1 == null || stack1 === false ? stack1 : stack1.username)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</small>\n            <small><cite title=\"Source Title\">"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.last_message)),stack1 == null || stack1 === false ? stack1 : stack1.body)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</cite></small>\n        </blockquote>\n    </div>\n    <div class=\"friend_actions\">\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n    </div>\n</li>\n\n\n";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/home/templates/conversations", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<h4>Conversations</h4>\n<ul id='messages_content'  class=\"friends_list\">\n</ul>\n\n";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/home/templates/header", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "";
+
+
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/home/templates/home", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<img src=\"images/user.png\" alt=\"image\"/>\n<h1>WALL</h1>\n\n<div class=\"wall_scroll\" style=\"color:black;\">\n    <div class=\"wall_message\">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n    <div class=\"wall_message\">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n    <div class=\"wall_message\">\n        <p>Big news</p>\n        <p>oifdgodihsfoigsdfoigdknfgodn\n            odfmphgdf\n            psmdfgpod\n            oifdgodihsfoigsdfoig\n        </p>\n    </div>\n</div>\n<table class=\"table table-hover table-striped\">\n    <thead>\n    <tr>\n        <th></th>\n        <th></th>\n        <th></th>\n    </tr>\n    </thead>\n    <tbody class=\"message_list\">\n\n    </tbody>\n</table>\n\n<div class=\"row\">\n    <div class=\"col-xs-12 col-md-8\">\n        <form class=\"form-inline\" role=\"form\">\n            <div class=\"form-group\">\n                <input type=\"text\" class=\"form-control input_message\" id=\"\" placeholder=\"Type your message here\">\n            </div>\n            <button type=\"button\" class=\"btn btn-info send_message\">Send</button>\n        </form>\n    </div>\n</div>\n\n<script type=\"text/javascript\">\n    $(\".wall_scroll\").slimScroll({\n    height: \"450px\",\n    color: '#008cba'\n    })\n\n//        var socket = io.connect(window.location.toString());\n//        $('.send_message').click(function(){\n//            input =  $('.input_message');\n//            message =  input.val();\n//            if (message.length >=2){\n//                input.val('');\n//                socket.emit('messages', { message: message, name: name });\n//                append_message(message,'Me');\n//            }\n//            return false;\n//        });\n//\n//        socket.on('new', function (data) {\n//            console.log('custom online');\n//            $('body').append('<p class=\"text-primary new_user_connected\" style=\"position: absolute; top:0;left:40%;\">'+data.message+'</p>');\n//\n//            $( \".new_user_connected\" ).animate({\n//                top: '+=160px'\n//            }, {\n//                duration: 600,\n//                specialEasing: {\n//                    width: \"linear\"\n//                },\n//                complete: function() {\n//                    $(this).delay(600).animate({\n//                        opacity: 0,\n//                        left: '-=500px'\n//                    }, 500,function(){\n//                        $(this).remove();\n//                    } )\n//                }\n//            });\n//        });\n//\n//        socket.on('news', function(data) {\n//            console.log(data.body);\n//            append_message(data.body, data.name);\n//    //        newExcitingAlerts(data.name);\n//        });\n//\n//    function append_message(message,sender_name){\n//        message_box = '<tr><td>'+sender_name+'</td><td>'+message+'</td><td><button type=\"button\" class=\"close delete_message\" >&times;</button></td></tr>'\n//        $('.message_list').append(message_box);\n//    }\n</script>";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/home/templates/menu", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<!--<div class='col-md-3'>-->\n    <!--<ul class=\"nav nav-pills nav-stacked left_menu\">-->\n        <!--<li class=\"menu_main_page\"><a href=\"javascript:;\"><i class=\"fa fa-home fa-fw\"></i> My page</a></li>-->\n        <!--<li class=\"menu_friends\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> Fiends<span class=\"badge pull-right new_friend_badge\">";
+  if (stack1 = helpers.invitations) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.invitations); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span></a></li>-->\n        <!--<li class=\"menu_messages\"><a href=\"javascript:;\"><i class=\"fa fa-envelope-o fa-fw\"></i>Messages<span class=\"badge pull-right new_messages_badge\">";
+  if (stack1 = helpers.messages) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.messages); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span></a>-->\n        <!--<li class=\"menu_users\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> All People</a></li></li>-->\n        <!--<li class=\"menu_settings\"><a href=\"javascript:;\"><i class=\"fa fa-cogs fa-fw\"></i> Settings</a></li>-->\n    <!--</ul>-->\n<!--</div>-->\n\n\n<!--<script type=\"text/javascript\">-->\n    <!--var elem = $('.left_menu');-->\n    <!--var elem_heigth = elem.offset().top+ elem.height() ;-->\n    <!--var arrow = $(\".arrow_up\");-->\n    <!--$(document).on('scroll', function(){-->\n        <!--if(window.pageYOffset > elem_heigth ){-->\n            <!--if(arrow.is( \":hidden\" )){-->\n                <!--arrow.clearQueue();-->\n                <!--arrow.stop();-->\n                <!--arrow.css('display','block');-->\n                <!--arrow.css('left','0');-->\n                <!--arrow.animate({-->\n                    <!--opacity: 1,-->\n                    <!--left: \"+=50\"-->\n                <!--}, 200);-->\n            <!--}-->\n        <!--}else{-->\n            <!--if(arrow.is( \":visible\" )){-->\n                <!--arrow.clearQueue();-->\n                <!--arrow.stop();-->\n                <!--arrow.css('left','0');-->\n                <!--arrow.animate({-->\n                    <!--opacity: 0.25,-->\n                    <!--left: \"-=50\"-->\n\n                <!--}, 200,function(){-->\n                    <!--arrow.css('display','none');-->\n                <!--});-->\n            <!--}-->\n        <!--}-->\n    <!--})-->\n\n<!--</script>-->";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/login-view", function(exports, require, module) {
+var Collection, Login, LoginView, User, View, mediator, template, utils, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+Login = require('models/conversation');
+
+template = require('./templates/login');
+
+mediator = require('mediator');
+
+utils = require('lib/utils');
+
+User = require('models/users/user');
+
+Collection = require('models/base/collection');
+
+module.exports = LoginView = (function(_super) {
+  __extends(LoginView, _super);
+
+  function LoginView() {
+    _ref = LoginView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  LoginView.prototype.container = 'body';
+
+  LoginView.prototype.autoRender = true;
+
+  LoginView.prototype.template = template;
+
+  LoginView.prototype.containerMethod = 'html';
+
+  LoginView.prototype.initialize = function() {
+    this.delegate("click", ".send", this.login);
+    this.delegate("click", ".cancel", this.cancel);
+    return this.delegate("click", ".help", this.fill);
+  };
+
+  LoginView.prototype.fill = function() {
+    $('#inputEmail').val('b0@maial.ru');
+    return $('#inputPassword').val('12345678');
+  };
+
+  LoginView.prototype.login = function() {
+    var email, password;
+    email = $('#inputEmail').val();
+    password = $('#inputPassword').val();
+    return $.ajax({
+      crossDomain: true,
+      type: 'POST',
+      url: "http://alexxxxone-backend.herokuapp.com/login",
+      data: {
+        'user': {
+          'email': email,
+          'password': password
+        }
+      }
+    }).success(function(response) {
+      return mediator.login(response);
+    }).complete(function(response) {
+      if (response.status === 404) {
+        return $('.form-group').addClass('has-error');
+      }
+    });
+  };
+
+  LoginView.prototype.cancel = function() {
+    return utils.redirectTo({
+      url: '/'
+    });
+  };
+
+  return LoginView;
+
+})(View);
+});
+
+;require.register("views/messages/message-view", function(exports, require, module) {
+var MessageView, View, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+module.exports = MessageView = (function(_super) {
+  __extends(MessageView, _super);
+
+  function MessageView() {
+    _ref = MessageView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MessageView.prototype.autoRender = true;
+
+  MessageView.prototype.template = require('./templates/message');
+
+  MessageView.prototype.initialize = function() {
+    MessageView.__super__.initialize.apply(this, arguments);
+    this.model.set({
+      created_at: moment(this.model.get('created_at')).fromNow()
+    });
+    this.delegate('click', '.start_chat', this.start_chat);
+    this.delegate('click', '.each_friend_in_list', this.mark_message);
+    this.delegate('click', '.remove_message', this.remove_message);
+    return this.scroll_to_bottom();
+  };
+
+  MessageView.prototype.start_chat = function() {
+    return new Chat({
+      params: this.model.get('user').id
+    });
+  };
+
+  MessageView.prototype.mark_message = function() {
+    $(this.el).toggleClass('marked_message');
+    return $(this.el).find('.remove_message').fadeToggle();
+  };
+
+  MessageView.prototype.remove_message = function() {
+    return this.model.destroy();
+  };
+
+  MessageView.prototype.scroll_to_bottom = function() {
+    var scrollTo_val;
+    scrollTo_val = $('#messages_content>div:first').height() * $('#messages_content > div').length + 'px';
+    return $('#messages_content').slimScroll({
+      scrollTo: scrollTo_val
+    });
+  };
+
+  return MessageView;
+
+})(View);
+});
+
+;require.register("views/messages/messages-view", function(exports, require, module) {
+var CollectionView, Message, MessagesView, View, mediator, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CollectionView = require('views/base/collection-view');
+
+View = require('/views/messages/message-view');
+
+template = require('./templates/messages');
+
+mediator = require('mediator');
+
+Message = require('/models/message');
+
+module.exports = MessagesView = (function(_super) {
+  __extends(MessagesView, _super);
+
+  function MessagesView() {
+    _ref = MessagesView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  MessagesView.prototype.itemView = View;
+
+  MessagesView.prototype.container = '#container';
+
+  MessagesView.prototype.className = 'messages-page';
+
+  MessagesView.prototype.containerMethod = 'html';
+
+  MessagesView.prototype.template = template;
+
+  MessagesView.prototype.listSelector = '#messages_content';
+
+  MessagesView.prototype.loadingSelector = ".loading";
+
+  MessagesView.prototype.receiver_id = mediator.receiver_id;
+
+  MessagesView.prototype.conversation_id = mediator.conversation_id;
+
+  MessagesView.prototype.user = mediator.user;
+
+  MessagesView.prototype.initialize = function() {
+    var self, that;
+    this.start_animation();
+    MessagesView.__super__.initialize.apply(this, arguments);
+    self = this;
+    this.collection.fetch({
+      complete: function() {
+        return self.stop_animation();
+      }
+    });
+    this.socket = io.connect(window.location.toString());
+    $('.menu_conversations').addClass('active');
+    this.delegate('click', '.send_message', this.send_message);
+    this.scroll_to_bottom();
+    this.listenTo(this.collection, 'reset', this.render);
+    that = this;
+    return this.socket.on("news" + this.conversation_id, function(data) {
+      return that.incoming_message(data);
+    });
+  };
+
+  MessagesView.prototype.send_message = function() {
+    var input, message;
+    input = $(this.el).find('.message_body');
+    if (input.val().length > 2) {
+      message = new Message({
+        user_id: this.user.id,
+        message: {
+          body: input.val(),
+          receiver_id: this.receiver_id,
+          conversation_id: this.conversation_id
+        }
+      });
+      message.save();
+      console.log(message);
+      this.collection.push({
+        sender_id: this.user.id,
+        user: {
+          username: this.user.get('username')
+        },
+        body: input.val(),
+        receiver_id: this.receiver_id,
+        conversation_id: this.conversation_id
+      });
+      this.publish(input.val());
+      input.val('');
+      return this.scroll_to_bottom();
+    }
+  };
+
+  MessagesView.prototype.scroll_to_bottom = function() {
+    var scrollTo_val;
+    scrollTo_val = $('#messages_content').prop('scrollHeight') + 'px';
+    return $('#messages_content').slimScroll({
+      scrollTo: scrollTo_val
+    });
+  };
+
+  MessagesView.prototype.publish = function(body) {
+    return this.socket.emit("messages", {
+      sender_id: this.user.id,
+      username: this.user.get('username'),
+      receiver_id: this.receiver_id,
+      body: body,
+      conversation_id: this.conversation_id
+    });
+  };
+
+  MessagesView.prototype.incoming_message = function(data) {
+    this.collection.push({
+      sender_id: data.sender_id,
+      user: {
+        username: data.username
+      },
+      body: data.body,
+      receiver_id: data.receiver_id,
+      conversation_id: data.conversation_id
+    });
+    return this.scroll_to_bottom();
+  };
+
+  MessagesView.prototype.start_animation = function() {
+    return $(this.loadingSelector).fadeToggle('slow');
+  };
+
+  MessagesView.prototype.stop_animation = function() {
+    return $(this.loadingSelector).fadeToggle('slow');
+  };
+
+  return MessagesView;
+
+})(CollectionView);
+});
+
+;require.register("views/messages/templates/message", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<li class=\"each_friend_in_list\">\n    <div class=\"messages_image\" >\n        <img src=\"/images/deactivated_100.gif\" alt=\"image\" height=\"50\" width=\"50\"/>\n    </div>\n    <div class=\"friend_info\" >\n\n            <p>";
+  if (stack1 = helpers.body) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.body); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n            <small class=\"created_at text-muted\">";
+  if (stack1 = helpers.created_at) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.created_at); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + ", By "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.user)),stack1 == null || stack1 === false ? stack1 : stack1.username)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</small>\n            <small><cite title=\"Source Title\">"
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.messages)),stack1 == null || stack1 === false ? stack1 : stack1.body)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</cite></small>\n\n    </div>\n    <div class=\"friend_actions\">\n        <button type=\"button\" class=\"close remove_message pull-right\" aria-hidden=\"true\">&times;</button>\n    </div>\n\n</li>\n\n\n";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/messages/templates/messages", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<h4>Messages</h4>\n<ul id='messages_content'  class=\"friends_list\">\n\n</ul>\n\n<div class=\"input-group\">\n    <span class=\"input-group-addon\">:)</span>\n    <input type=\"text\" class=\"form-control message_body\">\n    <span class=\"input-group-btn\">\n      <button class=\"btn btn-primary send_message\" type=\"button\">Send</button>\n    </span>\n</div>\n\n\n\n\n<script type=\"text/javascript\">\n    var cl = new CanvasLoader('canvasloader-container');\n    cl.setColor('#008cba'); // default is '#000000'\n    cl.setShape('spiral'); // default is 'oval'\n    cl.setDiameter(71); // default is 40\n    cl.setDensity(90); // default is 40\n    cl.setRange(0.8); // default is 1.3\n    cl.setFPS(51); // default is 24\n    cl.show(); // Hidden by default\n\n    // This bit is only for positioning - not necessary\n    var loaderObj = document.getElementById(\"canvasLoader\");\n    loaderObj.style.position = \"absolute\";\n    loaderObj.style[\"top\"] = cl.getDiameter() * -0.5 + \"px\";\n    loaderObj.style[\"left\"] = cl.getDiameter() * -0.5 + \"px\";\n\n    $('#messages_content').slimScroll({\n        width: 'auto',\n        height: '745px',\n        size: '10px',\n        position: 'right',\n        color: '#008cba',\n        wheelStep: 10,\n        allowPageScroll: false,\n        disableFadeOut: false\n    });\n</script>\n\n\n";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/site-view", function(exports, require, module) {
+var Init, SiteView, View, mediator, utils, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+utils = require('lib/utils');
+
+mediator = require('mediator');
+
+SiteView = require('views/site-view');
+
+Init = require('models/init');
+
+module.exports = SiteView = (function(_super) {
+  __extends(SiteView, _super);
+
+  function SiteView() {
+    _ref = SiteView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  SiteView.prototype.container = 'body';
+
+  SiteView.prototype.id = 'site-container';
+
+  SiteView.prototype.autoRender = true;
+
+  SiteView.prototype.regions = {
+    menu: '#menu-container',
+    main: '#page-container'
+  };
+
+  SiteView.prototype.template = require('./templates/site');
+
+  SiteView.prototype.user = mediator.user ? mediator.user : void 0;
+
+  SiteView.prototype.initialize = function() {
+    var that;
+    this.model.fetch({
+      success: function(res) {
+        if (res.get('invitations') > 0) {
+          $('.new_friend_badge').text(res.get('invitations'));
+        }
+        if (res.get('messages') > 0) {
+          return $('.new_messages_badge').text(res.get('messages'));
+        }
+      }
+    });
+    this.socket = io.connect(window.location.toString());
+    this.delegate('click', '.menu_main_page', this.home);
+    this.delegate('click', '.menu_friends', this.friends);
+    this.delegate('click', '.menu_users', this.users);
+    this.delegate('click', '.menu_settings', this.settings);
+    this.delegate('click', '.menu_conversations', this.conversations);
+    this.delegate('click', '.login_link', this.login);
+    this.delegate('click', '.logout_link', this.logout);
+    that = this;
+    return this.socket.on("inbox" + this.user.id, function(data) {
+      that.incoming_inbox(data);
+      return console.log(data);
+    });
+  };
+
+  SiteView.prototype.home = function() {
+    return utils.redirectTo({
+      url: '/'
+    });
+  };
+
+  SiteView.prototype.friends = function() {
+    return utils.redirectTo({
+      url: '/friends'
+    });
+  };
+
+  SiteView.prototype.users = function() {
+    return utils.redirectTo({
+      url: '/users'
+    });
+  };
+
+  SiteView.prototype.settings = function() {
+    return utils.redirectTo({
+      url: '/settings'
+    });
+  };
+
+  SiteView.prototype.conversations = function() {
+    return utils.redirectTo({
+      url: '/conversations'
+    });
+  };
+
+  SiteView.prototype.login = function() {
+    return utils.redirectTo({
+      url: '/login'
+    });
+  };
+
+  SiteView.prototype.logout = function() {
+    mediator.logout();
+    return utils.redirectTo({
+      url: '/login'
+    });
+  };
+
+  SiteView.prototype.incoming_inbox = function(data) {
+    var badge;
+    badge = $('.new_messages_badge').text();
+    $('.new_messages_badge').text(parseInt(badge) + 1);
+    return $.gritter.add({
+      title: data.body,
+      text: data.username
+    });
+  };
+
+  return SiteView;
+
+})(View);
+});
+
+;require.register("views/templates/chat", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<div id=\"cont2\" class=\"chat_container mbc_container draggable resizable ui-draggable ui-resizable\"\n     style=\"width:450px; height: auto; opacity: 1; position: absolute; visibility: visible; z-index: 92;\"\n     data-centeronwindow=\"true\" data-icon=\"/images/icons/header_chat.png\" data-drag=\"true\" data-resize=\"true\"\n     data-collapsable=\"true\" data-containment=\"document\" data-resizegrid=\"100,100\"\n     data-buttons=\"changecontent,dock,fullscreen,close\" t=\"141\" l=\"239.203125\">\n    <div class=\"mbc_header\">\n        <div class=\"mbc_title\"><h2 style=\"padding-left: 45px;\"><img src=\"images/icons/header_chat.png\" class=\"icon\">Container\n            2</h2></div>\n    </div>\n    <div class=\"mbc_content\" style=\"height: 266px; margin-top: 64px;\">\n\n\n        <br/>\n        <br/>\n        <br/>\n        <p>name - ";
+  if (stack1 = helpers.username) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.username); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n        ";
+  if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\n        ";
+  if (stack1 = helpers.id) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.id); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\n\n        <table class=\"table table-hover table-striped\">\n            <thead>\n            <tr>\n                <th>asd</th>\n                <th>asd</th>\n                <th>asd</th>\n            </tr>\n            </thead>\n            <tbody class=\"message_list\">\n            <tr>\n                <td>asdasd</td>\n                <td>asdasd</td>\n                <td>asdasd</td>\n            </tr>\n            </tbody>\n        </table>\n        <div class=\"col-lg-12 \">\n            <div class=\"input-group\">\n                <input type=\"text\" class=\"form-control message_text\">\n                    <span class=\"input-group-btn\">\n                      <button class=\"btn btn-info send_message\" type=\"button\">Send</button>\n                    </span>\n            </div>\n        </div>\n\n\n    </div>\n</div>";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/templates/login", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<div class=\"container login\"\n    <div class=\"row\">\n        <div class=\"col-lg-6 col-md-offset-2\">\n            <div class=\"well\">\n                <form class=\"bs-example form-horizontal\" >\n                    <fieldset>\n                        <legend>Login</legend>\n\n                        <div class=\"form-group\">\n                            <label for=\"inputEmail\" class=\"col-lg-2 control-label\">Email</label>\n                            <div class=\"col-lg-10\">\n                                <input type=\"email\" name=\"user[email]\" class=\"form-control\" id=\"inputEmail\" placeholder=\"Email\">\n                            </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <label for=\"inputPassword\" class=\"col-lg-2 control-label\">Password</label>\n                            <div class=\"col-lg-10\">\n                                <input type=\"password\" name=\"user[password]\" class=\"form-control\" id=\"inputPassword\" placeholder=\"Password\">\n                            </div>\n                        </div>\n                        <div class=\"form-group\">\n                            <div class=\"col-lg-10 col-lg-offset-2\">\n                                <button  type=\"button\" class=\"btn btn-default cancel\">Cancel</button>\n                                <button type=\"button\" class=\"btn btn-primary send\">Submit</button>\n                                <button type=\"button\" class=\"btn btn-warning help\">Fill</button>\n                            </div>\n                        </div>\n                    </fieldset>\n                </form>\n            </div>\n        </div>\n\n    </div>\n</div>";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/templates/site", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, options, functionType="function", escapeExpression=this.escapeExpression, self=this, blockHelperMissing=helpers.blockHelperMissing;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n                <li><a href=\"javascript:;\">";
+  if (stack1 = helpers.user_name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.user_name); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</a></li>\n                <li><a href=\"javascript:;\" class=\"logout_link\">Logout</a></li>\n            ";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  
+  return "\n                <li><a href=\"javascript:;\">Welcome Guest!</a></li>\n                <li><a href=\"javascript:;\" class=\"login_link\">Login</a></li>\n            ";
+  }
+
+  buffer += "<div class=\"navbar navbar-default navbar-fixed-top navbar-collapse collapse navbar-inverse-collapse\">\n    <div class=\"container\">\n        <div class=\"navbar-header\">\n            <a href=\"../\" class=\"navbar-brand\">Bootswatch</a>\n            <button class=\"navbar-toggle\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbar-main\">\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n                <span class=\"icon-bar\"></span>\n            </button>\n        </div>\n        <div class=\"navbar-collapse collapse\" id=\"navbar-main\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"themes\">Themes <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"themes\">\n                        <li><a tabindex=\"-1\" href=\"../default/\">Default</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"../amelia/\">Amelia</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cerulean/\">Cerulean</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cosmo/\">Cosmo</a></li>\n                        <li><a tabindex=\"-1\" href=\"../cyborg/\">Cyborg</a></li>\n                        <li><a tabindex=\"-1\" href=\"../flatly/\">Flatly</a></li>\n                        <li><a tabindex=\"-1\" href=\"../journal/\">Journal</a></li>\n                        <li><a tabindex=\"-1\" href=\"../readable/\">Readable</a></li>\n                        <li><a tabindex=\"-1\" href=\"../simplex/\">Simplex</a></li>\n                        <li><a tabindex=\"-1\" href=\"../slate/\">Slate</a></li>\n                        <li><a tabindex=\"-1\" href=\"../spacelab/\">Spacelab</a></li>\n                        <li><a tabindex=\"-1\" href=\"../united/\">United</a></li>\n                        <li><a tabindex=\"-1\" href=\"../yeti/\">Yeti</a></li>\n                    </ul>\n                </li>\n                <li>\n                    <a href=\"../help/\">Help</a>\n                </li>\n                <li>\n                    <a href=\"http://news.bootswatch.com\">Blog</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" id=\"download\">Download <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" aria-labelledby=\"download\">\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.min.css\">bootstrap.min.css</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootstrap.css\">bootstrap.css</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a tabindex=\"-1\" href=\"./variables.less\">variables.less</a></li>\n                        <li><a tabindex=\"-1\" href=\"./bootswatch.less\">bootswatch.less</a></li>\n                    </ul>\n                </li>\n            </ul>\n\n            <ul class=\"nav navbar-nav navbar-right\">\n            ";
+  options = {hash:{},inverse:self.program(3, program3, data),fn:self.program(1, program1, data),data:data};
+  if (stack1 = helpers.ifLoggedIn) { stack1 = stack1.call(depth0, options); }
+  else { stack1 = (depth0 && depth0.ifLoggedIn); stack1 = typeof stack1 === functionType ? stack1.call(depth0, options) : stack1; }
+  if (!helpers.ifLoggedIn) { stack1 = blockHelperMissing.call(depth0, stack1, options); }
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n            </ul>\n\n        </div>\n    </div>\n</div>\n\n<div class=\"main_site\">\n    <div class=\"header-container\" id=\"menu-container\"></div>\n    <div class=\"main_chat\"></div>\n    <div class=\"row\">\n        <div class='col-md-3'>\n                <ul class=\"nav nav-pills nav-stacked left_menu\">\n                    <li class=\"menu_main_page\"><a href=\"javascript:;\"><i class=\"fa fa-home fa-fw\"></i> My page</a></li>\n                    <li class=\"menu_friends\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> Fiends<span class=\"badge pull-right new_friend_badge\">";
+  if (stack1 = helpers.invitations) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.invitations); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span></a></li>\n                    <li class=\"menu_conversations\"><a href=\"javascript:;\"><i class=\"fa fa-envelope-o fa-fw\"></i>Messages<span class=\"badge pull-right new_messages_badge\">";
+  if (stack1 = helpers.messages) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.messages); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</span></a>\n                    <li class=\"menu_users\"><a href=\"javascript:;\"><i class=\"fa fa-user fa-fw\"></i> All People</a></li></li>\n                    <li class=\"menu_settings\"><a href=\"javascript:;\"><i class=\"fa fa-cogs fa-fw\"></i> Settings</a></li>\n                </ul>\n        </div>\n\n        <div class=\"\" >\n            <div class=\"loading\"><div id=\"canvasloader-container\" class=\"wrapper\"></div></div>\n            <div class='col-md-6'  id=\"page-container\">\n\n            </div>\n        </div>\n        <div class=\"col-md-2\">\n\n            <div class=\"panel panel-primary\">\n                <div class=\"panel-heading\">News</div>\n                <div class=\"panel-body\">\n                    <img src=\"http://asset2.cbsistatic.com/cnwk.1d/i/tim/2010/09/28/0927LazaridisPlayBook_270x203.jpg\" alt=\"news\" class=\"img-thumbnail\" >\n                    Mike Lazaridis, a BlackBerry co-founder and former co-CEO, has officially ditched his plans to acquire the company through a joint bid with a fellow co-founder.\n                    In dissolving the plan, Lazaridis' stake in the sagging company is now 4.99 percent.\n                    Lazaridis made his decision public in a Securities and Exchange Commission filing on Tuesday. Under the now-defunct plan, which was announced in October, Lazaridis and fellow co-founder Douglas Fregin had combined stakes to reach 8 percent total ownership and said they were considering a purchase of the company. Last month, however, BlackBerry took itself off the market, and new management is trying to turn the company around.\n                </div>\n            </div>\n            <div class=\"panel panel-default\">\n                <div class=\"panel-body\">\n                    Panel content\n                </div>\n                <div class=\"panel-footer\">Panel footer</div>\n            </div>\n        </div>\n        <a href=\"#top\" class=\"arrow_up\"><i class=\"fa fa-chevron-up fa-3x\"></i></a>\n    </div>\n</div>\n\n<script type=\"text/javascript\">\n    var elem = $('.left_menu');\n    var elem_heigth = elem.offset().top+ elem.height() ;\n    var arrow = $(\".arrow_up\");\n    $(document).on('scroll', function(){\n       if(window.pageYOffset > elem_heigth ){\n           if(arrow.is( \":hidden\" )){\n             arrow.clearQueue();\n             arrow.stop();\n             arrow.css('display','block');\n             arrow.css('left','0');\n             arrow.animate({\n                   opacity: 1,\n                   left: \"+=50\"\n               }, 200);\n           }\n       }else{\n           if(arrow.is( \":visible\" )){\n               arrow.clearQueue();\n               arrow.stop();\n               arrow.css('left','0');\n               arrow.animate({\n                   opacity: 0.25,\n                   left: \"-=50\"\n\n               }, 200,function(){\n                   arrow.css('display','none');\n               });\n           }\n       }\n    })\n\n</script>";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/users/templates/user", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+
+
+  buffer += "<li class=\"each_friend_in_list\">\n    <div class=\"friend_image\">\n        <img src=\"images/deactivated_100.gif\" alt=\"image\"/>\n    </div>\n    <div class=\"friend_info\">\n        <p> ";
+  if (stack1 = helpers.username) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.username); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n        <p> ";
+  if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "</p>\n    </div>\n    <div class=\"friend_actions\">\n        <p><a href=\"javascript:;\" class=\"accept_friend\">Add to friends</a></p>\n        <p><a href=\"javascript:;\" class=\"start_chat\">Start Chat</a></p>\n    </div>\n</li>\n\n\n\n<script type=\"text/x-handlebars-template\" id=\"user_info_panel\">\n   <div class=\"panel panel-default\">\n       <div class=\"panel-body\">\n           ";
+  if (stack1 = helpers.email) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
+  else { stack1 = (depth0 && depth0.email); stack1 = typeof stack1 === functionType ? stack1.call(depth0, {hash:{},data:data}) : stack1; }
+  buffer += escapeExpression(stack1)
+    + "\n       </div>\n   </div>\n</script>";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/users/templates/users", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<h4>Users toal registered <span class=\"users_count\"></span></h4>\n\n\n   <ul id='all_users'  class=\"friends_list\">\n\n   </ul>\n\n\n\n";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/users/user-view", function(exports, require, module) {
+var Chat, Friendship, UserView, View, chat_template, mediator, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+View = require('views/base/view');
+
+Chat = require('views/chat-view');
+
+template = require('./templates/user');
+
+chat_template = require('views/templates/chat');
+
+mediator = require('mediator');
+
+Friendship = require('models/friendships/friend');
+
+module.exports = UserView = (function(_super) {
+  __extends(UserView, _super);
+
+  function UserView() {
+    _ref = UserView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  UserView.prototype.autoRender = true;
+
+  UserView.prototype.template = template;
+
+  UserView.prototype.chat = chat_template;
+
+  UserView.prototype.user = mediator.user;
+
+  UserView.prototype.initialize = function() {
+    UserView.__super__.initialize.apply(this, arguments);
+    console.log('user-view');
+    this.delegate("click", ".accept_friend", this.accept_friend);
+    return this.delegate('click', '.friend_image', this.info);
+  };
+
+  UserView.prototype.info = function() {
+    return console.log(this.model.get('email'));
+  };
+
+  UserView.prototype.accept_friend = function() {
+    var friendship;
+    friendship = new Friendship({
+      user_id: mediator.user.id,
+      friend_id: this.model.id
+    });
+    friendship.save();
+    return console.log(friendship);
+  };
+
+  return UserView;
+
+})(View);
+});
+
+;require.register("views/users/users-view", function(exports, require, module) {
+var CollectionView, UsersView, View, template, _ref,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+CollectionView = require('views/base/collection-view');
+
+View = require('./user-view');
+
+template = require('./templates/users');
+
+module.exports = UsersView = (function(_super) {
+  __extends(UsersView, _super);
+
+  function UsersView() {
+    _ref = UsersView.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  UsersView.prototype.itemView = View;
+
+  UsersView.prototype.container = '#page-container';
+
+  UsersView.prototype.containerMethod = 'html';
+
+  UsersView.prototype.listSelector = '#all_users';
+
+  UsersView.prototype.template = template;
+
+  UsersView.prototype.initialize = function() {
+    UsersView.__super__.initialize.apply(this, arguments);
+    this.collection.fetch({
+      success: function() {
+        return console.log;
+      }
+    });
+    return $('.menu_users').addClass('active');
+  };
+
+  return UsersView;
+
+})(CollectionView);
+});
+
+;
+//# sourceMappingURL=app.js.map
